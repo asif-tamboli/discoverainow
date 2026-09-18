@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Discover AI Now — discover trending AI prompts, tools, agents, workflows, tutorials and AI news." />
+  <title>Discover AI Now</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Discover AI Now home">
+      <span class="brand-mark">D</span>
+      <span>Discover <strong>AI</strong> Now</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#trending">Trending</a>
+      <a href="#prompts">Prompts</a>
+      <a href="#tools">AI Tools</a>
+      <a href="#agents">Agents</a>
+      <a href="#workflows">Workflows</a>
+      <a href="#news">News</a>
+    </nav>
+    <button id="themeToggle" class="icon-button" aria-label="Toggle dark mode">☾</button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-badge">Updated for the fast-moving AI world</div>
+      <h1>Discover what’s happening in <span>AI — now.</span></h1>
+      <p>Find useful AI prompts, tools, agents, workflows, tutorials and important AI updates in one clean place.</p>
+      <div class="search-shell">
+        <span class="search-icon">⌕</span>
+        <input id="globalSearch" type="search" placeholder="Search prompts, tools, agents, workflows, news…" aria-label="Search Discover AI Now" />
+        <kbd>⌘ K</kbd>
+      </div>
+      <div class="quick-tags">
+        <button data-filter="all" class="tag active">All</button>
+        <button data-filter="prompt" class="tag">Prompts</button>
+        <button data-filter="tool" class="tag">Tools</button>
+        <button data-filter="agent" class="tag">Agents</button>
+        <button data-filter="workflow" class="tag">Workflows</button>
+        <button data-filter="tutorial" class="tag">Tutorials</button>
+        <button data-filter="news" class="tag">News</button>
+      </div>
+    </section>
+
+    <section class="stats-wrap" aria-label="Site highlights">
+      <article><strong>100+</strong><span>Prompt ideas ready to expand</span></article>
+      <article><strong>7</strong><span>Content categories</span></article>
+      <article><strong>1</strong><span>Searchable AI destination</span></article>
+      <article><strong>Daily</strong><span>Designed for fresh updates</span></article>
+    </section>
+
+    <section id="trending" class="section">
+      <div class="section-heading">
+        <div><span class="eyebrow">TRENDING</span><h2>What people are exploring</h2></div>
+        <button class="text-button" data-filter="all">View everything →</button>
+      </div>
+      <div id="trendingGrid" class="card-grid"></div>
+    </section>
+
+    <section id="prompts" class="section alt-section">
+      <div class="section-heading">
+        <div><span class="eyebrow">PROMPTS</span><h2>Ready-to-use AI prompts</h2></div>
+        <div class="pill">Copy • Customize • Use</div>
+      </div>
+      <div id="promptGrid" class="prompt-grid"></div>
+    </section>
+
+    <section id="tools" class="section">
+      <div class="section-heading">
+        <div><span class="eyebrow">AI TOOLS</span><h2>Discover useful AI products</h2></div>
+        <span class="section-note">Organized by what they help you do</span>
+      </div>
+      <div id="toolGrid" class="card-grid"></div>
+    </section>
+
+    <section id="agents" class="section split-section">
+      <div>
+        <span class="eyebrow">AGENTS</span>
+        <h2>AI that can take action</h2>
+        <p class="section-copy">Explore agent patterns for research, coding, operations, customer support, personal productivity and more.</p>
+        <div id="agentList" class="stack-list"></div>
+      </div>
+      <aside class="feature-panel">
+        <span class="panel-kicker">COMING NEXT</span>
+        <h3>Agent Finder</h3>
+        <p>Describe what you want done and Discover AI Now will recommend the right agent pattern, tool category and starting workflow.</p>
+        <div class="fake-input">“I need an AI agent to summarize customer feedback every morning…”</div>
+        <button class="primary-button">Find an agent</button>
+      </aside>
+    </section>
+
+    <section id="workflows" class="section alt-section">
+      <div class="section-heading">
+        <div><span class="eyebrow">WORKFLOWS</span><h2>Practical ways to use AI</h2></div>
+        <span class="section-note">From idea → outcome</span>
+      </div>
+      <div id="workflowGrid" class="workflow-grid"></div>
+    </section>
+
+    <section id="news" class="section">
+      <div class="section-heading">
+        <div><span class="eyebrow">AI NEWS</span><h2>Important updates without the noise</h2></div>
+        <span class="live-badge">● LIVE-FEED READY</span>
+      </div>
+      <div class="notice">This starter uses demo headlines. The included implementation notes show how to connect approved RSS/API sources so this section can update automatically.</div>
+      <div id="newsGrid" class="news-grid"></div>
+    </section>
+
+    <section class="newsletter">
+      <div>
+        <span class="eyebrow light">STAY CURRENT</span>
+        <h2>The useful side of AI, delivered.</h2>
+        <p>Top prompts, tools, workflows and important AI updates — curated into one digest.</p>
+      </div>
+      <form id="newsletterForm" class="newsletter-form">
+        <input type="email" required placeholder="you@example.com" aria-label="Email address" />
+        <button type="submit">Join free</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand"><span class="brand-mark">D</span><strong>Discover AI Now</strong></div>
+    <p>Prompts • Tools • Agents • Workflows • Tutorials • AI News</p>
+    <p class="fineprint">© 2026 DiscoverAINow.com. Starter site generated for your new domain.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
