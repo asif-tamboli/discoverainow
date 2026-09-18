@@ -154,3 +154,11 @@ body.dark .destination-icon{background:rgba(255,255,255,.06)}
   section.home-wrap,.split-discovery{padding-top:56px}.section-heading h2{font-size:28px}.section-heading{align-items:flex-start}
   .news-item{grid-template-columns:1fr}.news-source{justify-self:start}.newsletter-band{padding:26px 20px}.newsletter-band form{grid-template-columns:1fr}.newsletter-band button{min-height:44px}
 }
+
+body.search-active .resource-grid>.resource-card,
+body.search-active .prompt-grid>.prompt-card,
+body.search-active .prompt-grid>.live-prompt-collection,
+body.search-active .compact-grid>.resource-card,
+body.search-active .workflow-grid>.workflow-card,
+body.search-active .news-list>.news-item{display:block}
+body.search-active .news-list>.news-item{display:grid}
