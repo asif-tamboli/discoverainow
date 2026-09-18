@@ -117,15 +117,34 @@ function ResourceGrid(items){
     </a>`).join('');
 }
 
-el('workflowFeatureGrid').innerHTML=workflows.map(WorkflowCard).join('');
-el('promptSnippetGrid').innerHTML=prompts.map(PromptSnippet).join('');
+function mountCollection(sectionId,gridId,items,renderer){
+  const section=el(sectionId);
+  const grid=el(gridId);
+  if(!section||!grid)return;
+  if(!Array.isArray(items)||items.length===0){
+    section.remove();
+    return;
+  }
+  grid.innerHTML=items.map(renderer).join('');
+  if(!grid.children.length){
+    section.remove();
+    return;
+  }
+  section.hidden=false;
+}
+
+mountCollection('workflowHomeSection','workflowFeatureGrid',workflows,WorkflowCard);
+mountCollection('promptHomeSection','promptSnippetGrid',prompts,PromptSnippet);
 
 document.querySelectorAll('[data-prompt-copy]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const item=prompts[Number(btn.dataset.promptCopy)];
-    navigator.clipboard.writeText(item.text);
-    window.dainTrack?.('prompt_copy',{prompt:item.title,category:item.category});
-    toast('Prompt copied');
+    navigator.clipboard.writeText(item.text).then(()=>{
+      btn.textContent='Copied';
+      setTimeout(()=>btn.textContent='Copy',1200);
+      window.dainTrack?.('prompt_copy',{prompt:item.title,category:item.category});
+      toast('Prompt copied');
+    }).catch(()=>toast('Copy failed — select the prompt manually.'));
   });
 });
 
