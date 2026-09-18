@@ -1,6 +1,85 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Image Generation Prompts | Discover AI Now</title><meta name="description" content="Curated AI image prompts for photorealism, product photography, posters, wallpapers and cinematic scenes, with editable variables and usage notes."><link rel="canonical" href="https://discoverainow.com/prompts/image-generation/"><link rel="stylesheet" href="/content.css"></head><body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/tools/">Tools</a><a href="/prompts/">Prompts</a><a href="/workflows/jira-story-to-test-cases/">Workflows</a><a href="/comparisons/chatgpt-vs-claude-vs-gemini-qa/">Compare</a><a href="/guides/ai-for-qa-testing/">Guides</a></nav></header><main class="article-shell"><article class="article"><div class="breadcrumbs"><a href="/">Home</a> / <a href="/prompts/">Prompts</a> / Image generation</div><span class="eyebrow">Image prompt gallery</span><h1>Image prompts with structure you can actually reuse.</h1><p class="dek">These templates separate subject, composition, lighting, lens/style and exclusions so you can change the idea without rebuilding the entire prompt.</p>
-<div class="prompt-entry"><span class="eyebrow">Photorealistic portrait</span><h2>Editorial portrait with natural depth</h2><div class="prompt-meta"><span>Best for: photorealism</span><span>Variables: subject, setting, wardrobe</span><span>Aspect: portrait</span></div><div class="code">Create a photorealistic editorial portrait of [SUBJECT] in [SETTING]. Use soft directional window light, realistic skin texture, natural color separation, shallow depth of field, and subtle environmental context. Camera feel: full-frame photography, 85mm portrait lens, eye-level framing. Wardrobe: [WARDROBE]. Mood: [MOOD]. Keep facial proportions natural and avoid plastic skin, exaggerated sharpening, distorted hands, text, logos, or artificial beauty-filter effects.</div><details><summary>Why this prompt is structured this way</summary><p>It specifies lighting, lens feel and exclusions separately from the subject, which makes the visual treatment reusable across different people and settings.</p></details></div>
-<div class="prompt-entry"><span class="eyebrow">Product photography</span><h2>Premium studio product shot</h2><div class="prompt-meta"><span>Best for: ecommerce / ads</span><span>Variables: product, surface, accent</span></div><div class="code">Create a premium studio product photograph of [PRODUCT]. Place it on [SURFACE] with a clean background in [BACKGROUND TONE]. Use one soft key light from the upper-left, controlled rim lighting, realistic contact shadows, accurate materials, and crisp but natural detail. Composition should leave negative space on [LEFT/RIGHT] for optional copy. Accent prop: [OPTIONAL PROP]. No text, watermark, duplicate products, warped packaging, impossible reflections, or floating objects.</div><details><summary>Common failure mode</summary><p>Image models often distort packaging, labels and reflective surfaces. Treat this as a concept-generation prompt unless exact product fidelity has been verified.</p></details></div>
-<div class="prompt-entry"><span class="eyebrow">Cinematic scene</span><h2>Story-driven cinematic frame</h2><div class="prompt-meta"><span>Best for: posters / concepts</span><span>Variables: character, location, time</span></div><div class="code">Create a cinematic still of [CHARACTER OR SUBJECT] in [LOCATION] during [TIME / WEATHER]. Frame the scene as a [WIDE / MEDIUM / CLOSE] shot with a clear foreground, middle ground and background. Lighting should come naturally from [LIGHT SOURCE]. Use restrained cinematic contrast, atmospheric depth, believable scale and realistic environmental texture. Emotional tone: [TONE]. Avoid over-saturated teal/orange grading, excessive fog, floating particles, unreadable signage and impossible anatomy.</div></div>
-<div class="prompt-entry"><span class="eyebrow">Phone wallpaper</span><h2>Minimal premium vertical wallpaper</h2><div class="prompt-meta"><span>Best for: lock screens</span><span>Aspect: tall vertical</span></div><div class="code">Create a premium vertical smartphone wallpaper featuring [SUBJECT]. Keep the upper 25% visually calm for lock-screen clock readability. Position the main subject below center with strong depth, realistic materials and subtle atmospheric lighting. Use a clean edge-to-edge composition with no text, logos, borders or watermarks. Preserve important details away from the very top, bottom and side edges. Style: [PHOTOREALISTIC / MINIMAL / CINEMATIC / ILLUSTRATIVE].</div></div>
-</article><aside class="side"><div class="sidebox"><h3>How to adapt</h3><p>Change the bracketed variables first. Only change camera/style language when the visual result needs a different treatment.</p></div><div class="sidebox"><h3>Next</h3><p><a href="/prompts/coding/">Coding prompts</a></p><p><a href="/prompts/writing-productivity/">Writing prompts</a></p></div></aside></main><footer class="footer">© 2026 DiscoverAINow.com · Useful AI, tested and explained.</footer><script src="/analytics.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Image Generation Prompts | Discover AI Now</title>
+<meta name="description" content="Curated AI image prompts with before/after diagrams, editable variables, failure modes and official tutorials.">
+<link rel="canonical" href="https://discoverainow.com/prompts/image-generation/">
+<link rel="stylesheet" href="/content.css">
+</head>
+<body>
+<header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/tools/">Tools</a><a href="/prompts/">Prompts</a><a href="/workflows/research-to-brief/">Workflows</a><a href="/best/ai-image-generators/">Compare</a><a href="/tutorials/">Tutorials</a></nav></header>
+<main class="article-shell">
+<article class="article">
+<div class="breadcrumbs"><a href="/">Home</a> / <a href="/prompts/">Prompts</a> / Image generation</div>
+<span class="eyebrow">Image prompt gallery</span>
+<h1>See what a better image prompt changes.</h1>
+<p class="dek">Instead of showing prompt text alone, these examples show the difference between a vague request and a structured prompt with purpose, composition, lighting and constraints.</p>
+
+<div class="prompt-demo">
+  <div class="prompt-demo-head"><strong>Professional portrait</strong><span>Vague → structured</span></div>
+  <div class="prompt-demo-grid">
+    <div class="demo-pane"><div class="demo-label">Before</div><div class="demo-visual portrait"></div><div class="demo-copy"><strong>Weak prompt:</strong> “Make a professional headshot.”<br>Problem: no setting, light, framing or fidelity constraints.</div></div>
+    <div class="demo-arrow">→</div>
+    <div class="demo-pane"><div class="demo-label">After</div><div class="demo-visual after portrait"></div><div class="demo-copy"><strong>Better prompt:</strong> specifies natural window light, 85mm portrait framing, realistic skin texture, wardrobe, setting and what must stay natural.</div></div>
+  </div>
+</div>
+
+<div class="prompt-entry">
+<span class="eyebrow">Photorealistic portrait</span><h2>Editorial portrait with natural depth</h2>
+<div class="prompt-meta"><span>Best for: photorealism</span><span>Variables: subject, setting, wardrobe</span><span>Aspect: portrait</span></div>
+<div class="code">Create a photorealistic editorial portrait of [SUBJECT] in [SETTING]. Use soft directional window light, realistic skin texture, natural color separation, shallow depth of field, and subtle environmental context. Camera feel: full-frame photography, 85mm portrait lens, eye-level framing. Wardrobe: [WARDROBE]. Mood: [MOOD]. Keep facial proportions natural and avoid plastic skin, exaggerated sharpening, distorted hands, text, logos, or artificial beauty-filter effects.</div>
+<details><summary>Why this prompt is structured this way</summary><p>It separates subject, lighting, camera feel and exclusions so the visual treatment can be reused without rewriting the whole idea.</p></details>
+</div>
+
+<div class="prompt-demo">
+  <div class="prompt-demo-head"><strong>Product photography</strong><span>Generic → commercial-ready direction</span></div>
+  <div class="prompt-demo-grid">
+    <div class="demo-pane"><div class="demo-label">Before</div><div class="demo-visual product"></div><div class="demo-copy"><strong>Weak prompt:</strong> “Improve this product photo.”<br>Problem: “improve” does not define composition, surface, light, material fidelity or ad space.</div></div>
+    <div class="demo-arrow">→</div>
+    <div class="demo-pane"><div class="demo-label">After</div><div class="demo-visual after product"></div><div class="demo-copy"><strong>Better prompt:</strong> defines studio light, contact shadows, material accuracy, negative space for copy and packaging constraints.</div></div>
+  </div>
+</div>
+
+<div class="prompt-entry">
+<span class="eyebrow">Product photography</span><h2>Premium studio product shot</h2>
+<div class="prompt-meta"><span>Best for: ecommerce / ads</span><span>Variables: product, surface, accent</span></div>
+<div class="code">Create a premium studio product photograph of [PRODUCT]. Place it on [SURFACE] with a clean background in [BACKGROUND TONE]. Use one soft key light from the upper-left, controlled rim lighting, realistic contact shadows, accurate materials, and crisp but natural detail. Composition should leave negative space on [LEFT/RIGHT] for optional copy. Accent prop: [OPTIONAL PROP]. No text, watermark, duplicate products, warped packaging, impossible reflections, or floating objects.</div>
+<details><summary>Common failure mode</summary><p>Packaging, labels and reflections are still common failure points. Treat generated visuals as concepts unless exact product fidelity has been verified.</p></details>
+</div>
+
+<div class="prompt-demo">
+  <div class="prompt-demo-head"><strong>Cinematic landscape</strong><span>“Make it nicer” → visual direction</span></div>
+  <div class="prompt-demo-grid">
+    <div class="demo-pane"><div class="demo-label">Before</div><div class="demo-visual scene"></div><div class="demo-copy"><strong>Weak prompt:</strong> “Make this look cinematic.”<br>Problem: no camera, light, depth, environment or emotional direction.</div></div>
+    <div class="demo-arrow">→</div>
+    <div class="demo-pane"><div class="demo-label">After</div><div class="demo-visual after scene"></div><div class="demo-copy"><strong>Better prompt:</strong> describes shot size, foreground/midground/background, natural light source, atmosphere, scale and restrained grading.</div></div>
+  </div>
+</div>
+
+<div class="prompt-entry">
+<span class="eyebrow">Cinematic scene</span><h2>Story-driven cinematic frame</h2>
+<div class="prompt-meta"><span>Best for: posters / concepts</span><span>Variables: character, location, time</span></div>
+<div class="code">Create a cinematic still of [CHARACTER OR SUBJECT] in [LOCATION] during [TIME / WEATHER]. Frame the scene as a [WIDE / MEDIUM / CLOSE] shot with a clear foreground, middle ground and background. Lighting should come naturally from [LIGHT SOURCE]. Use restrained cinematic contrast, atmospheric depth, believable scale and realistic environmental texture. Emotional tone: [TONE]. Avoid over-saturated teal/orange grading, excessive fog, floating particles, unreadable signage and impossible anatomy.</div>
+</div>
+
+<div class="prompt-entry">
+<span class="eyebrow">Phone wallpaper</span><h2>Minimal premium vertical wallpaper</h2>
+<div class="prompt-meta"><span>Best for: lock screens</span><span>Aspect: tall vertical</span></div>
+<div class="code">Create a premium vertical smartphone wallpaper featuring [SUBJECT]. Keep the upper 25% visually calm for lock-screen clock readability. Position the main subject below center with strong depth, realistic materials and subtle atmospheric lighting. Use a clean edge-to-edge composition with no text, logos, borders or watermarks. Preserve important details away from the very top, bottom and side edges. Style: [PHOTOREALISTIC / MINIMAL / CINEMATIC / ILLUSTRATIVE].</div>
+</div>
+
+<h2>Learn the tools from official sources</h2>
+<div class="tutorial-grid">
+<a class="tutorial-card" href="https://openai.com/academy/image-generation/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://openai.com" alt="OpenAI icon"><div><span>OpenAI Academy</span><strong>Creating images with ChatGPT</strong><p>Purpose, subject, setting, style, constraints and iterative edits.</p><small>Official · Image generation</small></div><b>↗</b></a>
+<a class="tutorial-card" href="https://docs.midjourney.com/hc/en-us/articles/32023408776205-Prompt-Basics" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://midjourney.com" alt="Midjourney icon"><div><span>Midjourney</span><strong>Prompt basics</strong><p>Subject, medium, environment, lighting, color, mood and composition.</p><small>Official · Prompt guide</small></div><b>↗</b></a>
+<a class="tutorial-card" href="https://academy.runwayml.com/guides/prompting-guide" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://runwayml.com" alt="Runway icon"><div><span>Runway Academy</span><strong>Prompting for generative video</strong><p>Motion, camera direction and temporal progression for video prompts.</p><small>Official · Video prompting</small></div><b>↗</b></a>
+<a class="tutorial-card" href="https://firefly.adobe.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://adobe.com" alt="Adobe icon"><div><span>Adobe Firefly</span><strong>Generate and edit creative assets</strong><p>Explore Adobe’s current image and creative generation workflow.</p><small>Official · Creative suite</small></div><b>↗</b></a>
+</div>
+
+<div class="cta"><a class="button primary" href="/best/ai-image-generators/">Choose an image tool</a><a class="button" href="/prompts/">All prompt collections</a></div>
+</article>
+<aside class="side"><div class="sidebox"><h3>Prompt formula</h3><p><strong>Purpose</strong> + subject + environment + composition + lighting + style + constraints.</p></div><div class="sidebox"><h3>Best next step</h3><p>Use the same base prompt in two tools and compare instruction following, editing precision and cleanup required.</p></div></aside>
+</main>
+<footer class="footer">© 2026 DiscoverAINow.com · Useful AI, tested and explained.</footer><script src="/analytics.js"></script>
+</body></html>
