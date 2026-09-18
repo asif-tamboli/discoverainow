@@ -245,3 +245,199 @@ async function loadLiveAiNews() {
 }
 
 loadLiveAiNews();
+
+
+/* ===== Live directory feeds: Hugging Face, GitHub, DEV ===== */
+const DIRECTORY_CACHE_MS = 30 * 60 * 1000;
+
+function cacheGet(key, maxAge=DIRECTORY_CACHE_MS) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed.savedAt || Date.now() - parsed.savedAt > maxAge) return null;
+    return parsed.data;
+  } catch { return null; }
+}
+function cacheSet(key, data) {
+  try { localStorage.setItem(key, JSON.stringify({savedAt:Date.now(), data})); } catch {}
+}
+function esc(s='') {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function shortNumber(n=0) {
+  n=Number(n)||0;
+  if(n>=1000000) return (n/1000000).toFixed(1).replace('.0','')+'m';
+  if(n>=1000) return (n/1000).toFixed(1).replace('.0','')+'k';
+  return String(n);
+}
+function setSourceStatus(sectionId, text, state='ok') {
+  const section=document.getElementById(sectionId);
+  const row=section?.querySelector('.section-title-row');
+  if(!row) return;
+  let badge=row.querySelector('.source-status');
+  if(!badge){
+    badge=document.createElement('span');
+    badge.className='source-status';
+    row.appendChild(badge);
+  }
+  badge.dataset.state=state;
+  badge.textContent=text;
+}
+async function cachedFetch(key, loader, maxAge=DIRECTORY_CACHE_MS) {
+  const cached=cacheGet(key,maxAge);
+  if(cached) return {data:cached,cached:true};
+  const data=await loader();
+  if(data) cacheSet(key,data);
+  return {data,cached:false};
+}
+
+async function loadHuggingFaceTools() {
+  setSourceStatus('tools','Loading live Hugging Face tools…','loading');
+  try {
+    const {data:spaces,cached}=await cachedFetch('dain_hf_spaces_v1', async()=>{
+      const url='https://huggingface.co/api/spaces?sort=likes&direction=-1&limit=18&full=true';
+      const items=await fetchJson(url,9000);
+      return Array.isArray(items)?items:[];
+    },45*60*1000);
+    if(!spaces?.length) throw new Error('No spaces');
+    const useful=spaces.filter(x=>!x.private&&!x.disabled).slice(0,9);
+    el('toolGrid').innerHTML=useful.map(x=>{
+      const id=x.id||'';
+      const name=id.split('/').pop().replace(/[-_]/g,' ');
+      const tags=Array.isArray(x.tags)?x.tags.slice(0,3).join(' · '):'AI app';
+      return `<a class="resource-card searchable live-resource" data-type="tool" data-search="${esc((name+' '+tags+' '+id).toLowerCase())}" href="https://huggingface.co/spaces/${encodeURI(id)}" target="_blank" rel="noopener noreferrer">
+        <span class="resource-icon">◉</span>
+        <span class="source-label">Hugging Face Space</span>
+        <h3>${esc(name)}</h3>
+        <p>${esc(tags || 'Interactive AI application')}</p>
+        <footer>♥ ${shortNumber(x.likes)} likes · Open Space ↗</footer>
+      </a>`;
+    }).join('');
+    setSourceStatus('tools',(cached?'Cached':'Live')+' · Hugging Face');
+  } catch(e) {
+    console.warn('HF tools failed',e);
+    setSourceStatus('tools','Curated tools · live source unavailable','error');
+  }
+}
+
+async function githubSearch(query, perPage=12) {
+  const url='https://api.github.com/search/repositories?q='+encodeURIComponent(query)+'&sort=stars&order=desc&per_page='+perPage;
+  const r=await fetchJson(url,9000);
+  return Array.isArray(r.items)?r.items:[];
+}
+
+function renderGithubResources(targetId, items, type, icon, sourceText='GitHub') {
+  if(!items?.length) return false;
+  el(targetId).innerHTML=items.slice(0,9).map(x=>{
+    const topics=Array.isArray(x.topics)&&x.topics.length?x.topics.slice(0,3).join(' · '):(x.language||'Open source');
+    return `<a class="resource-card searchable live-resource" data-type="${type}" data-search="${esc(((x.name||'')+' '+(x.description||'')+' '+topics).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
+      <span class="resource-icon">${icon}</span>
+      <span class="source-label">${sourceText}</span>
+      <h3>${esc(x.name||'Open-source project')}</h3>
+      <p>${esc(x.description||'Open-source AI project')}</p>
+      <footer>★ ${shortNumber(x.stargazers_count)} · ${esc(topics)} · Open ↗</footer>
+    </a>`;
+  }).join('');
+  return true;
+}
+
+async function loadGithubAgents() {
+  setSourceStatus('agents','Loading open-source agents…','loading');
+  try {
+    const {data:items,cached}=await cachedFetch('dain_gh_agents_v1',()=>githubSearch('(topic:ai-agent OR topic:agentic-ai OR topic:llm-agent) stars:>50',15),45*60*1000);
+    if(!renderGithubResources('agentGrid',items,'agent','♙')) throw new Error('No agents');
+    setSourceStatus('agents',(cached?'Cached':'Live')+' · GitHub');
+  } catch(e) {
+    console.warn('GitHub agents failed',e);
+    setSourceStatus('agents','Curated agents · GitHub unavailable','error');
+  }
+}
+
+async function loadGithubWorkflows() {
+  setSourceStatus('workflows','Loading AI workflows…','loading');
+  try {
+    const {data:items,cached}=await cachedFetch('dain_gh_workflows_v1',()=>githubSearch('("ai workflow" OR "llm workflow" OR "agent workflow") stars:>20',12),45*60*1000);
+    if(!items?.length) throw new Error('No workflows');
+    el('workflowGrid').innerHTML=items.slice(0,8).map((x,i)=>`<a class="workflow-card searchable live-workflow" data-type="workflow" data-search="${esc(((x.name||'')+' '+(x.description||'')).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
+      <span class="workflow-step">${String(i+1).padStart(2,'0')}</span>
+      <span class="source-label">GitHub workflow</span>
+      <h3>${esc(x.name||'AI workflow')}</h3>
+      <p>${esc(x.description||'Open-source workflow for AI automation.')}</p>
+      <small>★ ${shortNumber(x.stargazers_count)} · Open ↗</small>
+    </a>`).join('');
+    setSourceStatus('workflows',(cached?'Cached':'Live')+' · GitHub');
+  } catch(e) {
+    console.warn('GitHub workflows failed',e);
+    setSourceStatus('workflows','Curated workflows · GitHub unavailable','error');
+  }
+}
+
+async function loadPromptCollections() {
+  try {
+    const {data:items}=await cachedFetch('dain_gh_prompts_v1',()=>githubSearch('("prompt engineering" OR "awesome prompts") stars:>200',8),60*60*1000);
+    if(!items?.length) return;
+    const live=items.slice(0,2).map(x=>`<a class="prompt-card searchable live-prompt-collection" data-type="prompt" data-search="${esc(((x.name||'')+' '+(x.description||'')).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
+      <div class="prompt-head"><div><span class="prompt-category">Community collection</span><h3>${esc(x.name||'Prompt collection')}</h3></div><span class="collection-stars">★ ${shortNumber(x.stargazers_count)}</span></div>
+      <div class="prompt-text">${esc(x.description||'Open public prompt collection on GitHub.')}</div>
+      <div class="collection-link">Browse on GitHub ↗</div>
+    </a>`).join('');
+    el('promptGrid').insertAdjacentHTML('beforeend',live);
+    setSourceStatus('prompts','Curated prompts + public GitHub collections');
+  } catch(e) {
+    console.warn('Prompt collections failed',e);
+  }
+}
+
+async function devArticles(tags, topDays=30, perPage=20) {
+  const url='https://dev.to/api/articles?tags='+encodeURIComponent(tags)+'&top='+topDays+'&per_page='+perPage;
+  const r=await fetchJson(url,9000);
+  return Array.isArray(r)?r:[];
+}
+
+function renderDevResources(targetId, items, type, icon) {
+  if(!items?.length) return false;
+  el(targetId).innerHTML=items.slice(0,9).map(x=>`<a class="resource-card searchable live-resource" data-type="${type}" data-search="${esc(((x.title||'')+' '+(x.description||'')+' '+(x.tag_list||[]).join(' ')).toLowerCase())}" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+    <span class="resource-icon">${icon}</span>
+    <span class="source-label">DEV Community</span>
+    <h3>${esc(x.title||'AI guide')}</h3>
+    <p>${esc(x.description||'Community-written AI article and tutorial.')}</p>
+    <footer>♡ ${shortNumber(x.public_reactions_count)} · ${x.reading_time_minutes||'—'} min read · Open ↗</footer>
+  </a>`).join('');
+  return true;
+}
+
+async function loadDevGuides() {
+  setSourceStatus('guides','Loading community guides…','loading');
+  try {
+    const {data:items,cached}=await cachedFetch('dain_dev_guides_v1',()=>devArticles('ai,machinelearning',30,24),60*60*1000);
+    const filtered=items.filter(x=>/guide|how|tutorial|learn|build|using|introduction/i.test((x.title||'')+' '+(x.description||'')));
+    if(!renderDevResources('guideGrid',filtered.length?filtered:items,'guide','▧')) throw new Error('No guides');
+    setSourceStatus('guides',(cached?'Cached':'Live')+' · DEV');
+  } catch(e) {
+    console.warn('DEV guides failed',e);
+    setSourceStatus('guides','Curated guides · DEV unavailable','error');
+  }
+}
+
+async function loadDevTutorials() {
+  setSourceStatus('tutorials','Loading AI tutorials…','loading');
+  try {
+    const {data:items,cached}=await cachedFetch('dain_dev_tutorials_v1',()=>devArticles('ai,programming',14,24),60*60*1000);
+    const filtered=items.filter(x=>/tutorial|build|create|step|how to|project|code/i.test((x.title||'')+' '+(x.description||'')));
+    if(!renderDevResources('tutorialGrid',filtered.length?filtered:items,'tutorial','◫')) throw new Error('No tutorials');
+    setSourceStatus('tutorials',(cached?'Cached':'Live')+' · DEV');
+  } catch(e) {
+    console.warn('DEV tutorials failed',e);
+    setSourceStatus('tutorials','Curated tutorials · DEV unavailable','error');
+  }
+}
+
+Promise.allSettled([
+  loadHuggingFaceTools(),
+  loadGithubAgents(),
+  loadGithubWorkflows(),
+  loadPromptCollections(),
+  loadDevGuides(),
+  loadDevTutorials()
+]);
