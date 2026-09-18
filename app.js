@@ -1,98 +1,192 @@
-const data={
-trending:[
-{type:'tool',visual:'visual-chat',label:'Tools',title:'ChatGPT’s new memory features — what’s actually new?',text:'A practical breakdown of what changed, how it works, and how to make it useful.',meta:'5 min read'},
-{type:'guide',visual:'visual-sail',label:'Guides',title:'Midjourney v6: Real-world tips for better results',text:'From prompt structure to style control, here’s what actually works.',meta:'7 min read'},
-{type:'agent',visual:'visual-bot',label:'Agents',title:'10 AI agents worth trying in 2026',text:'Practical use cases, setup tips, and real examples.',meta:'6 min read'},
-{type:'news',visual:'visual-wave',label:'News',title:'The AI model landscape keeps changing',text:'A closer look at what’s new and where the differences matter.',meta:'4 min read'}],
-tools:[
-['⌕','AI Search & Research','Search, synthesis, source discovery and research assistance.'],
-['⌨','AI Coding','Coding assistants, agents, testing, review and developer workflows.'],
-['◉','Image & Design','Image generation, editing, presentations and design assistance.'],
-['▶','Video AI','Video generation, editing, avatars and dubbing.'],
-['♪','Audio & Voice','Speech, transcription, music, podcasting and cleanup.'],
-['▦','Productivity','Writing, meetings, documents, email and knowledge work.']],
-prompts:[
-['Research','Deep Research Brief','Act as a senior research analyst. Investigate [TOPIC] for [AUDIENCE]. Separate verified facts, assumptions, disagreements, and open questions. End with an executive summary and the highest-value next questions.'],
-['Writing','Better Writing Editor','Rewrite the text below for clarity, flow and credibility while preserving my meaning and voice. Remove repetition, tighten weak sentences, and flag claims that need evidence.'],
-['Shopping','Product Comparison','Compare [PRODUCT A] and [PRODUCT B] for someone who cares most about [PRIORITIES]. Focus on meaningful tradeoffs and explain which type of user each option suits best.'],
-['Learning','Learn Anything Faster','Teach me [TOPIC] from beginner to practical competence. Start with the mental model, then the concepts that unlock most of the understanding. Include examples and an exercise.'],
-['Work','Meeting to Action Plan','Convert these notes into decisions, unresolved questions, action items, owners, risks, dependencies and the next checkpoint. Mark uncertain assignments instead of guessing.'],
-['Coding','Code Review Partner','Review the code for correctness, maintainability, security, performance and testability. Prioritize actual defects over style preferences and suggest concrete fixes.']],
-agents:[
-['🧭','Research Scout','Finds, compares and summarizes information around a goal.'],
-['🧪','QA Agent','Generates scenarios, test ideas, edge cases and defect hypotheses.'],
-['📣','Content Agent','Repurposes one source into multiple audience-ready assets.'],
-['📊','Ops Agent','Monitors inputs, detects changes and produces recurring summaries.'],
-['✉','Support Agent','Classifies requests, drafts responses and routes exceptions.'],
-['⌁','Knowledge Agent','Finds answers across internal documents and notes.']],
-workflows:[
-['01','Research','Collect credible sources and identify what actually matters.'],
-['02','Synthesize','Turn raw information into patterns, comparisons and decisions.'],
-['03','Create','Generate the output: brief, content, plan, code or prototype.'],
-['04','Verify','Check claims, quality, edge cases, risks and missing information.']],
-guides:[
-['▧','Prompting Fundamentals','A practical framework for giving AI context, constraints and a useful output format.'],
-['◫','Choosing the Right AI Tool','Start with the job-to-be-done and compare tools on the things that matter.'],
-['⌘','Building AI Workflows','Combine prompts, tools and human checks into a repeatable process.'],
-['◎','Evaluating AI Output','How to spot weak reasoning, unsupported claims and missing context.'],
-['↗','AI for Daily Work','Practical patterns for research, writing, meetings and planning.'],
-['⚙','Automation Basics','Where simple automation ends and agents begin.']],
-news:[
-['Today','Model releases & capability changes','Track major model launches, pricing changes, API updates and meaningful capability improvements.','Models'],
-['Today','AI products worth knowing','Useful new products and features, without every launch announcement.','Tools'],
-['This week','Policy, safety & industry shifts','Developments that affect how people and businesses can use AI.','Industry'],
-['This week','The agent ecosystem is expanding','New ways to connect AI to tools, data and multi-step work.','Agents']],
-tutorials:[
-['01','Write a better research prompt','Build a prompt that asks for sources, uncertainty, alternatives and a concise conclusion.'],
-['02','Compare AI tools properly','Use a repeatable evaluation rubric instead of relying on feature lists.'],
-['03','Build your first AI workflow','Move from one-off prompting to a simple research → draft → verify loop.'],
-['04','Create a reusable prompt template','Turn a good one-time prompt into something you can adapt quickly.']]};
-
 const el=(id)=>document.getElementById(id);
-const toast=(msg)=>{const t=el('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700)};
-const searchable=[];
 
-el('trendingGrid').innerHTML=data.trending.map((x,i)=>`<article class="article-card searchable" data-type="${x.type}" data-search="${(x.title+' '+x.text+' '+x.label).toLowerCase()}"><div class="article-thumb ${x.visual}"><span class="bookmark">♡</span></div><div class="article-body"><span class="article-type">${x.label}</span><h3>${x.title}</h3><p>${x.text}</p><div class="article-meta">Sep ${17-i}, 2026 &nbsp;•&nbsp; ${x.meta}</div></div></article>`).join('');
+const toast=(msg)=>{
+  const t=el('toast');
+  if(!t)return;
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1700);
+};
 
-const resourceCard=(x,type)=>`<article class="resource-card searchable" data-type="${type}" data-search="${x.join(' ').toLowerCase()}"><span class="resource-icon">${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><footer>Explore →</footer></article>`;
-el('toolGrid').innerHTML=data.tools.map(x=>resourceCard(x,'tool')).join('');
-el('agentGrid').innerHTML=data.agents.map(x=>resourceCard(x,'agent')).join('');
-el('guideGrid').innerHTML=data.guides.map(x=>resourceCard(x,'guide')).join('');
+/* ===== Reusable UI components ===== */
+const workflows=[
+  {
+    tag:'Research',
+    title:'Research a topic and build a sourced brief',
+    description:'Discovery → verification → synthesis → decision.',
+    href:'/workflows/research-to-brief/',
+    steps:['Discover','Verify','Synthesize','Brief']
+  },
+  {
+    tag:'Meetings',
+    title:'Turn meeting notes into decisions and actions',
+    description:'Extract decisions, owners, deadlines and open questions without guessing.',
+    href:'/workflows/meeting-notes-to-actions/',
+    steps:['Capture','Extract','Confirm','Act']
+  },
+  {
+    tag:'Presentations',
+    title:'Turn raw information into a decision-ready deck',
+    description:'Build the narrative before asking AI to build slides.',
+    href:'/guides/ai-presentations/',
+    steps:['Audience','Story','Evidence','Slides']
+  },
+  {
+    tag:'Images',
+    title:'Create better AI images with structured prompts',
+    description:'Move from vague requests to reusable visual direction.',
+    href:'/prompts/image-generation/',
+    steps:['Purpose','Compose','Generate','Refine']
+  },
+  {
+    tag:'Coding',
+    title:'Debug and review code with AI',
+    description:'Separate evidence from hypotheses before changing code.',
+    href:'/prompts/coding/',
+    steps:['Observe','Hypothesize','Fix','Verify']
+  },
+  {
+    tag:'QA',
+    title:'Turn a story into reviewed test coverage',
+    description:'Clarify requirements, map risk, generate cases, then automate.',
+    href:'/workflows/jira-story-to-test-cases/',
+    steps:['Clarify','Risk','Design','Automate']
+  }
+];
 
-el('promptGrid').innerHTML=data.prompts.map((x,i)=>`<article class="prompt-card searchable" data-type="prompt" data-search="${x.join(' ').toLowerCase()}"><div class="prompt-head"><div><span class="prompt-category">${x[0]}</span><h3>${x[1]}</h3></div><button class="copy-button" data-copy="${i}">Copy prompt</button></div><div class="prompt-text">${x[2]}</div></article>`).join('');
-el('workflowGrid').innerHTML=data.workflows.map(x=>`<article class="workflow-card searchable" data-type="workflow" data-search="${x.join(' ').toLowerCase()}"><span class="workflow-step">${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p></article>`).join('');
-el('newsGrid').innerHTML=data.news.map(x=>`<article class="news-item searchable" data-type="news" data-search="${x.join(' ').toLowerCase()}"><span class="news-date">${x[0]}</span><div><h3>${x[1]}</h3><p>${x[2]}</p></div><span class="news-source">${x[3]} →</span></article>`).join('');
+const prompts=[
+  {
+    category:'Research',
+    title:'Sourced research brief',
+    text:'Build a research brief from the sources below. Preserve source links next to factual claims, separate facts from interpretation, flag conflicts, and identify what is outdated or uncertain.',
+    href:'/prompts/research/'
+  },
+  {
+    category:'Coding',
+    title:'Evidence-first debugging',
+    text:'Separate verified observations, likely hypotheses, and missing evidence. Propose the smallest diagnostic steps before suggesting a fix. Do not invent runtime behavior.',
+    href:'/prompts/coding/'
+  },
+  {
+    category:'Images',
+    title:'Professional portrait',
+    text:'Create a photorealistic editorial portrait of [SUBJECT] in [SETTING] using soft directional light, natural skin texture, realistic proportions, and clear framing constraints.',
+    href:'/prompts/image-generation/'
+  },
+  {
+    category:'Work',
+    title:'Meeting notes → actions',
+    text:'Extract decisions, action items, owners, due dates, open questions and risks. Do not guess owners or deadlines; mark missing information explicitly.',
+    href:'/prompts/writing-productivity/'
+  }
+];
 
-const input=el('globalSearch'), select=el('categorySelect');
-function runSearch(query=input.value,type=select.value){
- const q=(query||'').trim().toLowerCase();
- const active=!!q||type!=='all';
- document.body.classList.toggle('search-active',active);
- let matches=0;
- document.querySelectorAll('.searchable').forEach(node=>{
-   const matchText=!q||(node.dataset.search||'').includes(q);
-   const matchType=type==='all'||node.dataset.type===type;
-   const show=matchText&&matchType;
-   node.classList.toggle('hidden-card',!show);
-   if(show) matches++;
- });
- if(q||type!=='all'){
-   window.dainTrack?.(matches?'search':'search_no_result',{query:q,category:type,matches});
-   document.querySelector('#content').scrollIntoView({behavior:'smooth',block:'start'});
- }
+function WorkflowCard(item,index){
+  return `
+    <a class="workflow-feature-card searchable" data-type="workflow" data-search="${esc((item.tag+' '+item.title+' '+item.description).toLowerCase())}" href="${item.href}">
+      <div class="workflow-feature-top"><span>${String(index+1).padStart(2,'0')}</span><b>${item.tag}</b></div>
+      <h3>${item.title}</h3>
+      <p>${item.description}</p>
+      <div class="workflow-mini-steps">${item.steps.map(step=>`<span>${step}</span>`).join('<i>→</i>')}</div>
+      <footer>Use workflow →</footer>
+    </a>`;
 }
-el('searchForm').addEventListener('submit',e=>{e.preventDefault();runSearch()});
-input.addEventListener('input',()=>{if(!input.value)runSearch('',select.value)});
-select.addEventListener('change',()=>runSearch());
-document.querySelectorAll('.topic-chip').forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.query;select.value='all';runSearch()}));
-document.querySelector('.topics-link').addEventListener('click',()=>{input.value='';select.value='all';runSearch('', 'all');el('globalSearch').focus()});
-document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>document.querySelector(btn.dataset.jump).scrollIntoView({behavior:'smooth'})));
-document.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',()=>{const i=Number(btn.dataset.copy);navigator.clipboard.writeText(data.prompts[i][2]);window.dainTrack?.('prompt_copy',{prompt:data.prompts[i][1],category:data.prompts[i][0]});toast('Prompt copied')}));
-document.querySelectorAll('[data-filter="all"]').forEach(btn=>btn.addEventListener('click',()=>{input.value='';select.value='all';runSearch('','all')}));
-el('headerSearch').addEventListener('click',()=>{input.focus();document.querySelector('.hero-search')?.scrollIntoView({behavior:'smooth',block:'center'})});
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();el('headerSearch').click()}});
-el('themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');el('themeToggle').textContent=document.body.classList.contains('dark')?'☀':'☾'});
-el('newsletterForm').addEventListener('submit',async e=>{
+
+function PromptSnippet(item,index){
+  return `
+    <article class="prompt-snippet searchable" data-type="prompt" data-search="${esc((item.category+' '+item.title+' '+item.text).toLowerCase())}">
+      <div class="prompt-snippet-head">
+        <div><span>${item.category}</span><h3>${item.title}</h3></div>
+        <button type="button" data-prompt-copy="${index}">Copy</button>
+      </div>
+      <p>${item.text}</p>
+      <a href="${item.href}">See full prompt & usage notes →</a>
+    </article>`;
+}
+
+function ResourceGrid(items){
+  return items.map((x,i)=>`
+    <a class="article-card searchable" data-type="news" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+      <div class="article-thumb ${['visual-wave','visual-chat','visual-bot','visual-sail'][i%4]}"><span class="bookmark">↗</span><span class="live-pill">RADAR</span></div>
+      <div class="article-body">
+        <span class="article-type">${signalLabel(x.title)}</span>
+        <h3>${esc(x.title)}</h3>
+        <p>${esc(getDomain(x.url))}</p>
+        <div class="article-meta">${relativeDate(x.published_at)} · external signal</div>
+      </div>
+    </a>`).join('');
+}
+
+el('workflowFeatureGrid').innerHTML=workflows.map(WorkflowCard).join('');
+el('promptSnippetGrid').innerHTML=prompts.map(PromptSnippet).join('');
+
+document.querySelectorAll('[data-prompt-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=prompts[Number(btn.dataset.promptCopy)];
+    navigator.clipboard.writeText(item.text);
+    window.dainTrack?.('prompt_copy',{prompt:item.title,category:item.category});
+    toast('Prompt copied');
+  });
+});
+
+/* ===== Search ===== */
+const input=el('globalSearch');
+const select=el('categorySelect');
+
+function runSearch(query=input?.value||'',type=select?.value||'all'){
+  const q=(query||'').trim().toLowerCase();
+  const cards=[...document.querySelectorAll('.searchable')];
+  let matches=0;
+
+  cards.forEach(node=>{
+    const matchText=!q||(node.dataset.search||'').includes(q);
+    const matchType=type==='all'||node.dataset.type===type;
+    const show=matchText&&matchType;
+    node.classList.toggle('hidden-card',!show);
+    if(show)matches++;
+  });
+
+  if(q||type!=='all'){
+    window.dainTrack?.(matches?'search':'search_no_result',{query:q,category:type,matches});
+    const target=matches?document.querySelector('.searchable:not(.hidden-card)'):null;
+    if(target)target.scrollIntoView({behavior:'smooth',block:'center'});
+    else toast('No matching content yet — we logged this search.');
+  }
+}
+
+el('searchForm')?.addEventListener('submit',e=>{e.preventDefault();runSearch()});
+input?.addEventListener('input',()=>{if(!input.value)runSearch('',select?.value||'all')});
+select?.addEventListener('change',()=>runSearch());
+document.querySelectorAll('.topic-chip').forEach(btn=>btn.addEventListener('click',()=>{
+  input.value=btn.dataset.query||'';
+  if(select)select.value='all';
+  runSearch();
+}));
+document.querySelector('.topics-link')?.addEventListener('click',()=>{
+  input.value='';
+  if(select)select.value='all';
+  runSearch('','all');
+  input.focus();
+});
+el('headerSearch')?.addEventListener('click',()=>{
+  input?.focus();
+  document.querySelector('.hero-search')?.scrollIntoView({behavior:'smooth',block:'center'});
+});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){
+    e.preventDefault();
+    el('headerSearch')?.click();
+  }
+});
+
+/* ===== Theme ===== */
+el('themeToggle')?.addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  el('themeToggle').textContent=document.body.classList.contains('dark')?'☀':'☾';
+});
+
+/* ===== Newsletter ===== */
+el('newsletterForm')?.addEventListener('submit',async e=>{
   e.preventDefault();
   const email=(el('newsletterEmail')?.value||'').trim();
   const button=e.currentTarget.querySelector('button');
@@ -106,34 +200,27 @@ el('newsletterForm').addEventListener('submit',async e=>{
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({email,source:'homepage'})
     });
-    if(!r.ok) throw new Error('signup_failed');
+    if(!r.ok)throw new Error('signup_failed');
     e.currentTarget.reset();
     toast('You’re subscribed.');
-    if(note) note.textContent='Subscribed. We’ll use this list for the DiscoverAINow weekly brief.';
+    if(note)note.textContent='Subscribed. Your weekly brief will focus on useful workflows, prompts and tools.';
     window.dainTrack?.('newsletter_signup',{source:'homepage'});
   }catch(err){
     console.warn(err);
     toast('Could not subscribe right now. Please try again.');
-    if(note) note.textContent='Signup failed temporarily. Your email was not saved.';
+    if(note)note.textContent='Signup failed temporarily. Your email was not saved.';
   }finally{
     button.disabled=false;
     button.textContent='Subscribe';
   }
 });
 
-/* ===== Supabase-backed live discovery feeds ===== */
-
+/* ===== Conditional live section: hidden unless real data exists ===== */
 const SUPABASE_URL='https://wtbaosegszmousraqfnw.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_pP9DgWk8vs4Bd2QuAtZWYA_1BeB7WOH';
 
 function esc(s=''){
   return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
-}
-function shortNumber(n=0){
-  n=Number(n)||0;
-  if(n>=1000000)return (n/1000000).toFixed(1).replace('.0','')+'m';
-  if(n>=1000)return (n/1000).toFixed(1).replace('.0','')+'k';
-  return String(n);
 }
 function getDomain(url){
   try{return new URL(url).hostname.replace(/^www\./,'')}catch{return''}
@@ -147,16 +234,6 @@ function relativeDate(iso){
   const days=Math.floor(hours/24);
   return days+' day'+(days===1?'':'s')+' ago';
 }
-function setSourceStatus(sectionId,text,state='ok'){
-  const section=document.getElementById(sectionId);
-  const row=section?.querySelector('.section-heading, .section-title-row');
-  if(!row)return;
-  let badge=row.querySelector('.source-status');
-  if(!badge){badge=document.createElement('span');badge.className='source-status';row.appendChild(badge)}
-  badge.dataset.state=state;
-  badge.textContent=text;
-}
-function liveVisual(index){return ['visual-wave','visual-chat','visual-bot','visual-sail'][index%4]}
 function signalLabel(title=''){
   const t=title.toLowerCase();
   if(/agent|agentic/.test(t))return'Agents';
@@ -166,92 +243,29 @@ function signalLabel(title=''){
   return'AI signal';
 }
 
-async function fetchSignals(){
-  const url=SUPABASE_URL+'/rest/v1/public_signals?select=source_name,title,url,summary,published_at,relevance_score,raw&order=published_at.desc.nullslast&limit=100';
-  const r=await fetch(url,{headers:{apikey:SUPABASE_PUBLISHABLE_KEY}});
-  if(!r.ok)throw new Error('signal_fetch_'+r.status);
-  return await r.json();
-}
+async function loadRadar(){
+  const section=el('radarSection');
+  const grid=el('trendingGrid');
+  if(!section||!grid)return;
 
-function renderSignals(items){
-  const by=(name)=>items.filter(x=>x.source_name===name);
-  const hn=by('Hacker News');
-  const hf=by('Hugging Face');
-  const gh=by('GitHub');
-  const dev=by('DEV Community');
-
-  if(hn.length){
-    el('trendingGrid').innerHTML=hn.slice(0,4).map((x,i)=>`
-      <a class="article-card searchable live-article" data-type="news" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
-        <div class="article-thumb ${liveVisual(i)}"><span class="bookmark">↗</span><span class="live-pill">RADAR</span></div>
-        <div class="article-body"><span class="article-type">${signalLabel(x.title)}</span><h3>${esc(x.title)}</h3>
-        <p>${esc(getDomain(x.url))} · ${shortNumber(x.raw?.score||0)} points · ${shortNumber(x.raw?.comments||0)} comments</p>
-        <div class="article-meta">${relativeDate(x.published_at)} &nbsp;•&nbsp; Hacker News signal</div></div>
-      </a>`).join('');
-    el('newsGrid').innerHTML=hn.slice(0,8).map(x=>`
-      <a class="news-item searchable live-news-item" data-type="news" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
-        <span class="news-date">${relativeDate(x.published_at)}</span><div><h3>${esc(x.title)}</h3><p>${esc(getDomain(x.url))} · ${shortNumber(x.raw?.score||0)} points</p></div><span class="news-source">Read ↗</span>
-      </a>`).join('');
-    setSourceStatus('news','Cached · Supabase');
-  }
-
-  if(hf.length){
-    el('toolGrid').innerHTML=hf.slice(0,9).map(x=>`
-      <a class="resource-card searchable live-resource" data-type="tool" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="tool_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
-        <span class="resource-icon">◉</span><span class="source-label">Hugging Face discovery</span><h3>${esc(x.title)}</h3>
-        <p>${esc(x.summary||'Public AI application discovered through the Hugging Face feed.')}</p>
-        <footer>♥ ${shortNumber(x.raw?.likes||0)} · Investigate ↗</footer>
-      </a>`).join('');
-    setSourceStatus('tools','Cached · Supabase');
-  }
-
-  if(gh.length){
-    el('agentGrid').innerHTML=gh.slice(0,9).map(x=>`
-      <a class="resource-card searchable live-resource" data-type="agent" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
-        <span class="resource-icon">♙</span><span class="source-label">GitHub discovery</span><h3>${esc(x.title)}</h3>
-        <p>${esc(x.summary||'Open-source AI project discovered through GitHub.')}</p>
-        <footer>★ ${shortNumber(x.raw?.stars||0)} · ${esc(x.raw?.language||'Open source')} · Inspect ↗</footer>
-      </a>`).join('');
-    el('workflowGrid').innerHTML=gh.slice(0,8).map((x,i)=>`
-      <a class="workflow-card searchable live-workflow" data-type="workflow" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="workflow_open" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
-        <span class="workflow-step">${String(i+1).padStart(2,'0')}</span><span class="source-label">GitHub discovery</span><h3>${esc(x.title)}</h3>
-        <p>${esc(x.summary||'Open-source AI workflow candidate.')}</p><small>★ ${shortNumber(x.raw?.stars||0)} · Inspect ↗</small>
-      </a>`).join('');
-    setSourceStatus('agents','Cached · Supabase');
-    setSourceStatus('workflows','Discovery feed · Supabase');
-  }
-
-  if(dev.length){
-    const guideItems=dev.filter(x=>/guide|how|learn|using|introduction|build/i.test((x.title||'')+' '+(x.summary||'')));
-    const renderDev=(target,arr,type,icon)=>{if(!arr.length)return;el(target).innerHTML=arr.slice(0,9).map(x=>`
-      <a class="resource-card searchable live-resource" data-type="${type}" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
-        <span class="resource-icon">${icon}</span><span class="source-label">DEV discovery</span><h3>${esc(x.title)}</h3>
-        <p>${esc(x.summary||'Community article surfaced for editorial review.')}</p>
-        <footer>♡ ${shortNumber(x.raw?.reactions||0)} · ${x.raw?.reading_time_minutes||'—'} min · Read ↗</footer>
-      </a>`).join('')};
-    renderDev('guideGrid',guideItems.length?guideItems:dev,'guide','▧');
-    setSourceStatus('guides','Discovery feed · Supabase');
-  }
-
-  setSourceStatus('prompts','Original curated prompts');
-  let radar=document.querySelector('.live-data-status');
-  if(!radar){
-    radar=document.createElement('div');radar.className='live-data-status';
-    document.querySelector('#content .section-heading, #content .section-title-row')?.appendChild(radar);
-  }
-  radar.textContent='Server-cached AI radar · '+items.length+' signals';
-}
-
-async function loadServerBackedDiscovery(){
   try{
-    const items=await fetchSignals();
-    if(!Array.isArray(items)||!items.length)throw new Error('no_signals');
-    renderSignals(items);
+    const url=SUPABASE_URL+'/rest/v1/public_signals?select=source_name,title,url,summary,published_at,relevance_score,raw&order=published_at.desc.nullslast&limit=30';
+    const r=await fetch(url,{headers:{apikey:SUPABASE_PUBLISHABLE_KEY}});
+    if(!r.ok)throw new Error('signal_fetch_'+r.status);
+    const items=await r.json();
+    const hn=Array.isArray(items)?items.filter(x=>x.source_name==='Hacker News').slice(0,4):[];
+
+    if(!hn.length){
+      section.remove();
+      return;
+    }
+
+    grid.innerHTML=ResourceGrid(hn);
+    section.hidden=false;
   }catch(err){
-    console.warn('Supabase signal feed failed',err);
-    const sections=['tools','agents','workflows','guides','news'];
-    sections.forEach(id=>setSourceStatus(id,'Curated fallback · feed temporarily unavailable','error'));
+    console.warn('Radar unavailable',err);
+    section.remove();
   }
 }
 
-loadServerBackedDiscovery();
+loadRadar();
