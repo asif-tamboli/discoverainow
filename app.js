@@ -85,7 +85,7 @@ document.querySelectorAll('[data-filter="all"]').forEach(btn=>btn.addEventListen
 el('headerSearch').addEventListener('click',()=>{input.focus();document.querySelector('.search-panel').scrollIntoView({behavior:'smooth',block:'center'})});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();el('headerSearch').click()}});
 el('themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');el('themeToggle').textContent=document.body.classList.contains('dark')?'☀':'☾'});
-el('newsletterForm').addEventListener('submit',e=>{e.preventDefault();e.currentTarget.reset();toast('Thanks — you’re subscribed.')});
+el('newsletterForm').addEventListener('submit',e=>{e.preventDefault();const email=(el('newsletterEmail')?.value||'').trim();if(!email)return;try{const list=JSON.parse(localStorage.getItem('dain_newsletter_waitlist')||'[]');if(!list.includes(email)){list.push(email);localStorage.setItem('dain_newsletter_waitlist',JSON.stringify(list));}window.dainTrack?.('newsletter_waitlist_join',{source:'homepage'});}catch{}e.currentTarget.reset();toast('You’re on the early-access list. Email delivery activates after backend connection.');const note=el('newsletterNote');if(note)note.textContent='Saved on this device for now. Production email capture will move to the subscriber database.';});
 
 /* ===== Live AI news: Hacker News API ===== */
 const HN_BASE = 'https://hacker-news.firebaseio.com/v0';
