@@ -287,3 +287,22 @@ body.dark .prompt-snippet>p{color:#b4bdc9}
 .finder-home-cta:hover{transform:translateY(-1px)}
 .finder-home-cta span{font-size:15px}
 @media(max-width:760px){.finder-home-inner{grid-template-columns:1fr}.finder-home-cta{justify-self:start}.finder-home h2{font-size:26px}}
+
+
+/* ===== Primary navigation dropdowns ===== */
+.main-nav{align-items:center}
+.nav-menu{position:relative}
+.nav-menu-trigger{display:inline-flex;align-items:center;gap:5px}
+.nav-menu-trigger span{font-size:11px;color:var(--muted)}
+.nav-dropdown{
+  position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%);
+  width:310px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow-sm);display:none;z-index:120
+}
+.nav-menu:hover .nav-dropdown,.nav-menu:focus-within .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:11px 12px;border-radius:10px;color:var(--text)}
+.nav-dropdown a:hover{background:var(--surface-2)}
+.nav-dropdown strong,.nav-dropdown small{display:block}
+.nav-dropdown strong{font-size:12px}
+.nav-dropdown small{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
+@media(max-width:860px){.main-nav .nav-menu{display:none}}
