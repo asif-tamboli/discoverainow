@@ -410,3 +410,24 @@ input,textarea,select,button{max-width:100%}
 .tool-logo img{width:27px;height:27px;object-fit:contain;display:block}
 [data-theme="dark"] .tool-logo{background:#f7f7f5}
 @media(max-width:560px){.tool-logo{width:40px;height:40px}.tool-logo img{width:26px;height:26px}}
+
+/* Task-first homepage decision layer */
+.decision-search{grid-template-columns:auto 1fr auto}
+.decision-result{margin-top:12px;max-width:780px;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow-sm)}
+.decision-result[hidden]{display:none}
+.decision-label{display:block;color:var(--blue);font-size:10px;font-weight:850;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.decision-result>strong{display:block;font-size:19px;letter-spacing:-.3px}
+.decision-result p{font-size:14px;line-height:1.5;margin:6px 0 13px;max-width:680px}
+.decision-actions{display:flex;gap:8px;flex-wrap:wrap}
+.decision-actions a{border:1px solid var(--line);border-radius:999px;padding:8px 11px;font-size:11px;font-weight:750;background:var(--bg)}
+.decision-actions a:first-child{background:var(--text);color:var(--bg);border-color:var(--text)}
+.proof-home-inner{display:grid;grid-template-columns:1.5fr .7fr;gap:22px;align-items:center;padding:28px;border:1px solid var(--line);border-radius:22px;background:var(--surface)}
+.proof-home-inner h2{font-size:27px;letter-spacing:-.8px;margin:5px 0 8px}
+.proof-home-inner p{color:var(--muted);font-size:14px;line-height:1.55;margin:0;max-width:650px}
+.proof-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2)}
+.proof-card strong,.proof-card small{display:block}.proof-card strong{font-size:15px}.proof-card small{color:var(--muted);font-size:11px;margin-top:5px}
+@media(max-width:760px){
+ .decision-search{grid-template-columns:auto minmax(0,1fr)}.decision-search button{grid-column:1/-1;width:100%}
+ .decision-result{padding:16px}.decision-actions{display:grid;grid-template-columns:1fr}.decision-actions a{text-align:center}
+ .proof-home-inner{grid-template-columns:1fr;padding:20px}.proof-home-inner h2{font-size:23px}
+}
