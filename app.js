@@ -148,55 +148,43 @@ document.querySelectorAll('[data-prompt-copy]').forEach(btn=>{
   });
 });
 
-/* ===== Search ===== */
+/* ===== Task-first decision engine ===== */
 const input=el('globalSearch');
-const select=el('categorySelect');
 
-function runSearch(query=input?.value||'',type=select?.value||'all'){
-  const q=(query||'').trim().toLowerCase();
-  const cards=[...document.querySelectorAll('.searchable')];
-  let matches=0;
+const decisionProfiles=[
+  {words:['pdf','document','documents','paper','report','sources'],title:'Work from your own documents',tool:'NotebookLM',toolUrl:'/tools/notebooklm/',why:'Best starting point when the answer should stay grounded in a source set you provide.',next:'/workflows/research-to-brief/',nextLabel:'Use the research workflow'},
+  {words:['research','current','web','sources','fact check','competitor'],title:'Research with sources',tool:'Perplexity',toolUrl:'/tools/perplexity/',why:'A strong starting point for current web discovery and source-oriented research.',next:'/workflows/research-to-brief/',nextLabel:'Use the research workflow'},
+  {words:['image','photo','thumbnail','poster','visual','product image'],title:'Create and refine an image',tool:'Midjourney + Prompt Lab',toolUrl:'/tools/midjourney/',why:'Start with an image-focused tool, then adapt the same intent across generators when needed.',next:'/prompt-lab/',nextLabel:'Build the cross-tool prompt'},
+  {words:['code','coding','debug','bug','repository','repo','software','test automation'],title:'Work inside a codebase',tool:'Cursor',toolUrl:'/tools/cursor/',why:'A practical starting point for AI-assisted editing, debugging and changes across real project files.',next:'/best/ai-coding-tools/',nextLabel:'Compare coding approaches'},
+  {words:['presentation','slides','deck','powerpoint'],title:'Turn an idea into a presentation',tool:'AI presentation workflow',toolUrl:'/guides/ai-presentations/',why:'Start with the narrative and evidence before choosing the tool that renders the deck.',next:'/guides/ai-presentations/',nextLabel:'Open the presentation workflow'},
+  {words:['meeting','transcript','minutes','action items'],title:'Turn a meeting into actions',tool:'Meeting workflow',toolUrl:'/workflows/meeting-notes-to-actions/',why:'Capture the source first, then structure decisions, owners and follow-ups.',next:'/workflows/meeting-notes-to-actions/',nextLabel:'Open the meeting workflow'},
+  {words:['automate','automation','workflow','webhook','repetitive'],title:'Automate a repeatable process',tool:'Automation tools',toolUrl:'/tools/',why:'Choose the automation layer based on integrations, control and how much custom logic you need.',next:'/use-cases/',nextLabel:'Explore automation use cases'},
+  {words:['write','writing','email','blog','proposal','resume','content'],title:'Create a structured first draft',tool:'Prompt Builder',toolUrl:'/prompt-builder/',why:'The biggest gain comes from defining context, output format and constraints before generating.',next:'/prompt-builder/',nextLabel:'Build the prompt'},
+  {words:['website','web app','landing page','app'],title:'Build a website or app',tool:'AI coding/building workflow',toolUrl:'/use-cases/build-website/',why:'Start from the outcome and acceptance criteria, then choose the build tool around your level of control.',next:'/use-cases/build-website/',nextLabel:'Open the build workflow'}
+];
 
-  cards.forEach(node=>{
-    const matchText=!q||(node.dataset.search||'').includes(q);
-    const matchType=type==='all'||node.dataset.type===type;
-    const show=matchText&&matchType;
-    node.classList.toggle('hidden-card',!show);
-    if(show)matches++;
-  });
-
-  if(q||type!=='all'){
-    window.dainTrack?.(matches?'search':'search_no_result',{query:q,category:type,matches});
-    const target=matches?document.querySelector('.searchable:not(.hidden-card)'):null;
-    if(target)target.scrollIntoView({behavior:'smooth',block:'center'});
-    else toast('No matching content yet — we logged this search.');
-  }
+function chooseDecision(q){
+  const t=q.toLowerCase();
+  const ranked=decisionProfiles.map(p=>({p,score:p.words.reduce((n,w)=>n+(t.includes(w)?(w.includes(' ')?3:2):0),0)})).sort((a,b)=>b.score-a.score);
+  return ranked[0]?.score?ranked[0].p:null;
 }
-
-el('searchForm')?.addEventListener('submit',e=>{e.preventDefault();runSearch()});
-input?.addEventListener('input',()=>{if(!input.value)runSearch('',select?.value||'all')});
-select?.addEventListener('change',()=>runSearch());
-document.querySelectorAll('.topic-chip').forEach(btn=>btn.addEventListener('click',()=>{
-  input.value=btn.dataset.query||'';
-  if(select)select.value='all';
-  runSearch();
-}));
-document.querySelector('.topics-link')?.addEventListener('click',()=>{
-  input.value='';
-  if(select)select.value='all';
-  runSearch('','all');
-  input.focus();
-});
-el('headerSearch')?.addEventListener('click',()=>{
-  input?.focus();
-  document.querySelector('.hero-search')?.scrollIntoView({behavior:'smooth',block:'center'});
-});
-document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){
-    e.preventDefault();
-    el('headerSearch')?.click();
+function showDecision(q){
+  const box=el('decisionResult');
+  if(!box)return;
+  const d=chooseDecision(q);
+  if(!d){
+    window.location.href='/tool-finder/?q='+encodeURIComponent(q);
+    return;
   }
-});
+  box.innerHTML='<span class="decision-label">Recommended starting point</span><strong>'+d.title+'</strong><p>'+d.why+'</p><div class="decision-actions"><a href="'+d.toolUrl+'">'+d.tool+'</a><a href="'+d.next+'">'+d.nextLabel+'</a><a href="/tool-finder/?q='+encodeURIComponent(q)+'">Refine recommendation</a></div>';
+  box.hidden=false;
+  window.dainTrack?.('search',{query:q.toLowerCase().slice(0,180),category:'decision',matches:1});
+}
+el('searchForm')?.addEventListener('submit',e=>{e.preventDefault();const q=(input?.value||'').trim();if(q.length<3){input?.focus();return;}showDecision(q);});
+document.querySelectorAll('.topic-chip').forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.query||'';showDecision(input.value);}));
+document.querySelector('.topics-link')?.addEventListener('click',()=>{input.value='';const box=el('decisionResult');if(box)box.hidden=true;input.focus();});
+el('headerSearch')?.addEventListener('click',()=>{input?.focus();document.querySelector('.hero-search')?.scrollIntoView({behavior:'smooth',block:'center'});});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();el('headerSearch')?.click();}});
 
 /* ===== Theme ===== */
 el('themeToggle')?.addEventListener('click',()=>{
