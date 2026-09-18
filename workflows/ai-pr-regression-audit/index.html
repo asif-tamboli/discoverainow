@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Audit AI-Generated Pull Requests for Silent Failures | Discover AI Now</title><meta name="description" content="A practical workflow for reviewing AI-generated code for silent fallbacks, concurrency bugs, query explosions, rollback gaps and production-scale regressions."><link rel="canonical" href="https://discoverainow.com/workflows/ai-pr-regression-audit/"><link rel="stylesheet" href="/content.css"></head><body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a class="active" href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav></header><main class="article-shell"><article class="article">
+<div class="breadcrumbs"><a href="/">Home</a> / <a href="/workflows/">Workflows</a> / AI PR regression audit</div><span class="eyebrow">Engineering workflow</span><h1>Audit AI-generated pull requests for what the code forgot to handle.</h1><p class="dek">Clean-looking code can still fail under real data, concurrency, retries, partial outages or scale. This workflow forces review toward omitted failure paths rather than style.</p>
+<div class="status-row"><span class="status-pill reviewed">Operational workflow</span><span class="status-pill discovery">Human verification required</span></div>
+
+<h2>The real problem</h2><p>AI coding assistants are good at producing plausible implementations quickly. The harder review problem is negative space: transaction boundaries that were never considered, silent fallbacks, N+1 access patterns, unbounded collections, retry storms, partial writes, connection-pool pressure and race conditions that may not appear in small local tests.</p>
+
+<h2>Best tool fit</h2><div class="tool-fit-grid"><a href="/tools/cursor/"><strong>Cursor</strong><span>Useful when the reviewer needs repository context, diff inspection and targeted code changes.</span></a><a href="/tools/claude-code/"><strong>Claude Code</strong><span>Useful for repo-wide reasoning, tracing call paths and proposing verification steps.</span></a><a href="/tools/github-copilot/"><strong>GitHub Copilot</strong><span>Useful inside GitHub/IDE workflows for PR-level review and implementation follow-up.</span></a><a href="/tools/chatgpt/"><strong>ChatGPT</strong><span>Useful for independent review when you provide the diff, logs, schema and performance evidence.</span></a></div>
+
+<h2>Workflow</h2><div class="workflow-steps">
+<div><span>01</span><strong>Supply the evidence</strong><p>PR diff, affected code paths, schema, expected load, transaction rules, relevant logs and existing tests.</p></div>
+<div><span>02</span><strong>Review negative space</strong><p>Ask specifically what failure paths, limits, retries, concurrent states and cleanup behavior are missing.</p></div>
+<div><span>03</span><strong>Attach runtime evidence</strong><p>Where available, include query plans, APM traces, flamegraphs, connection-pool metrics or realistic dataset sizes.</p></div>
+<div><span>04</span><strong>Generate adversarial tests</strong><p>Test exact boundaries, duplicate/retried requests, partial failures, concurrent updates and large data distributions.</p></div>
+<div><span>05</span><strong>Verify the smallest fix</strong><p>Prefer a targeted change that addresses a reproduced failure over broad AI-generated refactoring.</p></div>
+</div>
+
+<h2>Guardrail prompt</h2><div class="code" id="regressionPrompt">Act as a Negative Space Auditor for this pull request.
+
+INPUTS
+- PR diff: [PASTE]
+- Relevant code paths: [PASTE]
+- Data model / schema: [PASTE]
+- Expected load / concurrency: [DESCRIBE]
+- Logs, traces, query plans or metrics: [PASTE]
+- Existing tests: [PASTE]
+
+YOUR JOB
+Do not review naming or formatting first. Look for behavior the implementation fails to model.
+
+Check explicitly for:
+1. silent fallbacks that hide failure,
+2. missing rollback / partial-write handling,
+3. race conditions and non-atomic read-modify-write logic,
+4. retry duplication / idempotency gaps,
+5. N+1 queries or per-item network/database calls,
+6. unbounded loops, filters, pagination or memory growth,
+7. connection / thread / worker pool pressure,
+8. timeout and cancellation behavior,
+9. cache inconsistency,
+10. exact-boundary and empty-state behavior.
+
+For every concern:
+- cite the exact code path,
+- describe the production condition required to trigger it,
+- separate confirmed defect from hypothesis,
+- propose the smallest test that could prove or disprove it,
+- do not invent runtime behavior that is not supported by the supplied evidence.
+
+Finish with:
+A. highest-risk confirmed issues,
+B. hypotheses that need runtime evidence,
+C. tests to run before merge,
+D. metrics to watch after deployment.</div>
+<div class="cta"><button class="button primary" data-copy="#regressionPrompt">Copy guardrail prompt</button><a class="button" href="/prompt-evaluator/">Evaluate your adapted prompt</a></div>
+
+<h2>Verification before merge</h2><div class="visual-checklist">
+<div><strong>Concurrency</strong><span>Run simultaneous requests against shared records or stateful resources.</span></div>
+<div><strong>Rollback integrity</strong><span>Force failure midway and verify no partial state remains.</span></div>
+<div><strong>Query/load behavior</strong><span>Compare request/query counts using production-like dataset sizes.</span></div>
+<div><strong>Fallback visibility</strong><span>Verify errors are observable instead of silently converted into “success.”</span></div>
+<div><strong>Retry/idempotency</strong><span>Repeat identical requests and verify no duplicate side effects.</span></div>
+<div><strong>Regression scope</strong><span>Run targeted tests plus tests around adjacent behavior changed by the diff.</span></div>
+</div>
+
+<div data-feedback-widget data-context="ai-pr-regression-audit"></div>
+</article><aside class="side"><div class="sidebox"><h3>Use when</h3><p>A PR was heavily AI-assisted, touches database/stateful behavior, or looks correct locally but has meaningful production risk.</p></div><div class="sidebox"><h3>Do not substitute</h3><p>This workflow complements load tests, integration tests, observability and human engineering review. It does not replace them.</p></div></aside></main><footer class="footer">© 2026 DiscoverAINow.com · Useful AI, tested and explained.</footer><script src="/analytics.js"></script><script src="/feedback.js"></script><script src="/copy-blocks.js"></script></body></html>
