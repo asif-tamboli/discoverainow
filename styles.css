@@ -162,3 +162,41 @@ body.search-active .compact-grid>.resource-card,
 body.search-active .workflow-grid>.workflow-card,
 body.search-active .news-list>.news-item{display:block}
 body.search-active .news-list>.news-item{display:grid}
+
+
+/* ===== Remove generic pastel-card styling; use unified product theme ===== */
+.destination-card,
+.destination-card.pink,
+.destination-card.blue,
+.destination-card.green,
+.destination-card.amber{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  min-height:112px;
+  box-shadow:none;
+}
+.destination-card:hover{transform:translateY(-1px);border-color:#cfd5de;box-shadow:0 8px 22px rgba(16,24,40,.04)}
+.destination-icon{
+  width:44px;height:44px;border-radius:11px;
+  background:var(--surface-2);
+  color:var(--text);
+  border:1px solid var(--line);
+  font-size:18px
+}
+.destination-card strong{font-size:16px}
+.destination-card small{font-size:11.5px}
+.destination-card b{color:#8a93a3;font-weight:500}
+
+.feature-card{border-radius:18px;box-shadow:none}
+.feature-card:hover{transform:translateY(-1px);border-color:#cfd5de;box-shadow:0 8px 22px rgba(16,24,40,.04)}
+.feature-art{background:#f1f3f6}
+.orb,.grid-mark{display:none}
+.visual-feature .feature-art:after{
+  content:"IMAGE PROMPTS";
+  position:absolute;inset:0;display:grid;place-items:center;
+  color:#6f7682;font-size:11px;font-weight:850;letter-spacing:1.2px
+}
+.feature-badge.dark,.feature-badge.soft{
+  background:var(--surface-2);color:var(--text);border:1px solid var(--line)
+}
