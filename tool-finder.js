@@ -60,10 +60,24 @@
     }else if(ctx.privacy==='important' && privacyRank[t.privacy]>=2){score+=7;}
     return {key,score,reasons};
   }
-  function card(rec,label){
+  function fitLabel(rec){
+    if(rec.score>=108) return 'Strong fit';
+    if(rec.score>=92) return 'Moderate fit';
+    return 'Conditional fit';
+  }
+  function tradeoff(rec,top,ctx){
+    if(!top || rec.key===top.key) return '';
+    const t=tools[rec.key], leader=tools[top.key];
+    if(t.strengths.includes(ctx.priority) && !leader.strengths.includes(ctx.priority)) return 'Why consider it: stronger alignment with your '+ctx.priority+' priority.';
+    if(ctx.skill!=='any' && t.level.includes(ctx.skill) && !leader.level.includes(ctx.skill)) return 'Why consider it: closer fit to your stated technical level.';
+    if(ctx.privacy==='strict' && t.privacy==='strict' && leader.privacy!=='strict') return 'Why consider it: offers stronger control-oriented workflow options.';
+    return 'Why not primary: useful alternative, but the primary recommendation better matches the combined constraints you selected.';
+  }
+  function card(rec,label,top,ctx){
     const t=tools[rec.key], rel=t.external?' target="_blank" rel="noopener"':'';
     const reason=rec.reasons.length?'<small>'+rec.reasons.slice(0,2).join(' · ')+'</small>':'';
-    return '<a class="finder-tool-card" href="'+t.href+'"'+rel+'><div><span>'+label+' · '+t.tag+'</span><strong>'+t.name+'</strong><p>'+t.why+'</p>'+reason+'</div><b>'+(t.external?'↗':'→')+'</b></a>';
+    const trade=tradeoff(rec,top,ctx);
+    return '<a class="finder-tool-card" href="'+t.href+'"'+rel+'><div><span>'+label+' · '+t.tag+'</span><strong>'+t.name+'</strong><p>'+t.why+'</p><small class="finder-fit-label">'+fitLabel(rec)+'</small>'+reason+(trade?'<small class="finder-tradeoff">'+trade+'</small>':'')+'</div><b>'+(t.external?'↗':'→')+'</b></a>';
   }
   function recommend(text){
     let match=classify(text);
@@ -72,8 +86,8 @@
     const ranked=match.p.tools.map((k,i)=>scoreTool(k,ctx,i)).sort((a,b)=>b.score-a.score);
     const top=ranked[0], alts=ranked.slice(1,4);
     summary.innerHTML='<strong>Task:</strong> '+match.p.id.replace(/-/g,' ')+' <span>·</span> <strong>Priority:</strong> '+ctx.priority+' <span>·</span> <strong>Skill:</strong> '+ctx.skill+' <span>·</span> <strong>Privacy:</strong> '+ctx.privacy;
-    primary.innerHTML=card(top,'Primary recommendation');
-    alternatives.innerHTML='<h3>Strong alternatives</h3><div class="finder-alt-grid">'+alts.map((x,i)=>card(x,'Alternative '+(i+1))).join('')+'</div>';
+    primary.innerHTML=card(top,'Primary recommendation',top,ctx);
+    alternatives.innerHTML='<h3>Alternatives and tradeoffs</h3><div class="finder-alt-grid">'+alts.map((x,i)=>card(x,'Alternative '+(i+1),top,ctx)).join('')+'</div>';
     next.innerHTML='<span>Next best step</span><strong>'+match.p.nextText+'</strong><a href="'+match.p.next+'">Open workflow / guide →</a>';
     results.hidden=false; results.scrollIntoView({behavior:'smooth',block:'start'});
     window.dainTrack?.('tool_finder_result',{task:match.p.id,priority:ctx.priority,skill:ctx.skill,budget:ctx.budget,privacy:ctx.privacy,primary:top.key,query:text.toLowerCase().slice(0,180)});
