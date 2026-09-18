@@ -67,3 +67,8 @@ python3 -m http.server 8080
 ```
 
 Then open http://localhost:8080.
+
+
+## Deployment
+
+Cloudflare Workers is connected to the `main` branch. Every new push to `main` should trigger an automatic production deployment.
