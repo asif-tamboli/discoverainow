@@ -90,7 +90,7 @@ document.querySelector('.topics-link').addEventListener('click',()=>{input.value
 document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>document.querySelector(btn.dataset.jump).scrollIntoView({behavior:'smooth'})));
 document.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',()=>{const i=Number(btn.dataset.copy);navigator.clipboard.writeText(data.prompts[i][2]);window.dainTrack?.('prompt_copy',{prompt:data.prompts[i][1],category:data.prompts[i][0]});toast('Prompt copied')}));
 document.querySelectorAll('[data-filter="all"]').forEach(btn=>btn.addEventListener('click',()=>{input.value='';select.value='all';runSearch('','all')}));
-el('headerSearch').addEventListener('click',()=>{input.focus();document.querySelector('.search-panel').scrollIntoView({behavior:'smooth',block:'center'})});
+el('headerSearch').addEventListener('click',()=>{input.focus();document.querySelector('.hero-search')?.scrollIntoView({behavior:'smooth',block:'center'})});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();el('headerSearch').click()}});
 el('themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');el('themeToggle').textContent=document.body.classList.contains('dark')?'☀':'☾'});
 el('newsletterForm').addEventListener('submit',async e=>{
@@ -224,7 +224,6 @@ function renderSignals(items){
 
   if(dev.length){
     const guideItems=dev.filter(x=>/guide|how|learn|using|introduction|build/i.test((x.title||'')+' '+(x.summary||'')));
-    const tutorialItems=dev.filter(x=>/tutorial|build|create|step|code|project/i.test((x.title||'')+' '+(x.summary||'')));
     const renderDev=(target,arr,type,icon)=>{if(!arr.length)return;el(target).innerHTML=arr.slice(0,9).map(x=>`
       <a class="resource-card searchable live-resource" data-type="${type}" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
         <span class="resource-icon">${icon}</span><span class="source-label">DEV discovery</span><h3>${esc(x.title)}</h3>
@@ -232,9 +231,7 @@ function renderSignals(items){
         <footer>♡ ${shortNumber(x.raw?.reactions||0)} · ${x.raw?.reading_time_minutes||'—'} min · Read ↗</footer>
       </a>`).join('')};
     renderDev('guideGrid',guideItems.length?guideItems:dev,'guide','▧');
-    renderDev('tutorialGrid',tutorialItems.length?tutorialItems:dev,'tutorial','◫');
     setSourceStatus('guides','Discovery feed · Supabase');
-    setSourceStatus('tutorials','Discovery feed · Supabase');
   }
 
   setSourceStatus('prompts','Original curated prompts');
@@ -253,7 +250,7 @@ async function loadServerBackedDiscovery(){
     renderSignals(items);
   }catch(err){
     console.warn('Supabase signal feed failed',err);
-    const sections=['tools','agents','workflows','guides','tutorials','news'];
+    const sections=['tools','agents','workflows','guides','news'];
     sections.forEach(id=>setSourceStatus(id,'Curated fallback · feed temporarily unavailable','error'));
   }
 }
