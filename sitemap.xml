@@ -34,4 +34,5 @@
   <url><loc>https://discoverainow.com/tools/chatgpt/</loc><priority>0.8</priority></url>
   <url><loc>https://discoverainow.com/tools/claude/</loc><priority>0.8</priority></url>
   <url><loc>https://discoverainow.com/tools/gemini/</loc><priority>0.8</priority></url>
+  <url><loc>https://discoverainow.com/tool-finder/</loc><priority>0.95</priority></url>
 </urlset>
