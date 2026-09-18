@@ -67,12 +67,18 @@ el('newsGrid').innerHTML=data.news.map(x=>`<article class="news-item searchable"
 const input=el('globalSearch'), select=el('categorySelect');
 function runSearch(query=input.value,type=select.value){
  const q=(query||'').trim().toLowerCase();
+ let matches=0;
  document.querySelectorAll('.searchable').forEach(node=>{
    const matchText=!q||(node.dataset.search||'').includes(q);
    const matchType=type==='all'||node.dataset.type===type;
-   node.classList.toggle('hidden-card',!(matchText&&matchType));
+   const show=matchText&&matchType;
+   node.classList.toggle('hidden-card',!show);
+   if(show) matches++;
  });
- if(q||type!=='all') document.querySelector('#content').scrollIntoView({behavior:'smooth',block:'start'});
+ if(q||type!=='all'){
+   window.dainTrack?.(matches?'search':'search_no_result',{query:q,category:type,matches});
+   document.querySelector('#content').scrollIntoView({behavior:'smooth',block:'start'});
+ }
 }
 el('searchForm').addEventListener('submit',e=>{e.preventDefault();runSearch()});
 input.addEventListener('input',()=>{if(!input.value)runSearch('',select.value)});
@@ -80,7 +86,7 @@ select.addEventListener('change',()=>runSearch());
 document.querySelectorAll('.topic-chip').forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.query;select.value='all';runSearch()}));
 document.querySelector('.topics-link').addEventListener('click',()=>{input.value='';select.value='all';runSearch('', 'all');el('globalSearch').focus()});
 document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>document.querySelector(btn.dataset.jump).scrollIntoView({behavior:'smooth'})));
-document.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',()=>{navigator.clipboard.writeText(data.prompts[Number(btn.dataset.copy)][2]);toast('Prompt copied')}));
+document.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',()=>{const i=Number(btn.dataset.copy);navigator.clipboard.writeText(data.prompts[i][2]);window.dainTrack?.('prompt_copy',{prompt:data.prompts[i][1],category:data.prompts[i][0]});toast('Prompt copied')}));
 document.querySelectorAll('[data-filter="all"]').forEach(btn=>btn.addEventListener('click',()=>{input.value='';select.value='all';runSearch('','all')}));
 el('headerSearch').addEventListener('click',()=>{input.focus();document.querySelector('.search-panel').scrollIntoView({behavior:'smooth',block:'center'})});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();el('headerSearch').click()}});
