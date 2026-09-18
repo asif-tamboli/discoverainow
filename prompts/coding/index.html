@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Coding Prompts for Debugging, Review & Refactoring | Discover AI Now</title><meta name="description" content="Reusable AI coding prompts for debugging, code review, refactoring, implementation planning and test generation."><link rel="canonical" href="https://discoverainow.com/prompts/coding/"><link rel="stylesheet" href="/content.css"></head><body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/tools/">Tools</a><a href="/prompts/">Prompts</a><a href="/workflows/jira-story-to-test-cases/">Workflows</a><a href="/comparisons/chatgpt-vs-claude-vs-gemini-qa/">Compare</a><a href="/guides/ai-for-qa-testing/">Guides</a></nav></header><main class="article-shell"><article class="article"><div class="breadcrumbs"><a href="/">Home</a> / <a href="/prompts/">Prompts</a> / Coding</div><span class="eyebrow">Coding prompt gallery</span><h1>Prompts that ask AI to prove the change, not just write code.</h1><p class="dek">The strongest coding prompts separate diagnosis from implementation and require verification steps before declaring success.</p>
+<div class="prompt-entry"><span class="eyebrow">Debugging</span><h2>Evidence-first bug diagnosis</h2><div class="code">Act as a senior software engineer debugging the issue below.
+
+First separate:
+A. verified observations,
+B. likely hypotheses,
+C. evidence missing for each hypothesis.
+
+Then propose the smallest diagnostic steps that would distinguish between the top hypotheses.
+
+Only after that, suggest a fix. For the fix include:
+- files/areas likely affected,
+- regression risks,
+- how to verify the issue is actually resolved,
+- one test that should fail before the fix and pass after it.
+
+Do not invent logs, APIs, runtime behavior or business rules.
+
+ISSUE:
+[PASTE ISSUE, LOGS, CODE, STACK TRACE]</div></div>
+<div class="prompt-entry"><span class="eyebrow">Code review</span><h2>Review for defects before style</h2><div class="code">Review the code below for correctness, security, reliability, maintainability and testability.
+
+Prioritize:
+1. defects that can change behavior,
+2. race/state problems,
+3. unsafe input handling,
+4. error-handling gaps,
+5. performance risks that matter at realistic scale,
+6. missing tests.
+
+For each issue include severity, evidence from the code, failure scenario and a concrete fix.
+Put style/naming comments in a separate low-priority section.
+
+CODE:
+[PASTE CODE]</div></div>
+<div class="prompt-entry"><span class="eyebrow">Refactoring</span><h2>Refactor without changing behavior</h2><div class="code">Refactor the code below while preserving externally observable behavior.
+
+Before editing:
+- summarize current responsibilities,
+- identify duplicated or tightly coupled logic,
+- list behavior that must remain unchanged.
+
+Then propose the smallest refactor sequence.
+For every change, state how you would verify behavioral equivalence.
+Do not add abstractions unless they remove real duplication or reduce a concrete maintenance risk.
+
+CODE:
+[PASTE CODE]</div></div>
+<div class="prompt-entry"><span class="eyebrow">Implementation</span><h2>Plan before coding</h2><div class="code">You are implementing [FEATURE] in this codebase.
+
+Before writing code:
+1. identify the likely files/components involved,
+2. list assumptions that need confirmation,
+3. describe the data/control flow,
+4. identify edge cases and backward-compatibility risks,
+5. propose the smallest implementation plan,
+6. define tests that prove the feature works.
+
+Only then provide the implementation in reviewable steps.
+If repository context is missing, ask for it instead of guessing.</div></div>
+</article><aside class="side"><div class="sidebox"><h3>Useful rule</h3><p>Ask the model what would prove it wrong. That often produces better engineering than asking it to sound confident.</p></div><div class="sidebox"><h3>Related</h3><p><a href="/best/ai-coding-assistants-for-test-engineers/">AI coding assistants</a></p><p><a href="/tools/cursor/">Cursor</a></p><p><a href="/tools/github-copilot/">GitHub Copilot</a></p></div></aside></main><footer class="footer">© 2026 DiscoverAINow.com · Useful AI, tested and explained.</footer><script src="/analytics.js"></script></body></html>
