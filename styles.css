@@ -200,3 +200,15 @@ body.search-active .news-list>.news-item{display:grid}
 .feature-badge.dark,.feature-badge.soft{
   background:var(--surface-2);color:var(--text);border:1px solid var(--line)
 }
+
+
+/* ===== Utility-first homepage content ===== */
+.utility-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.utility-grid>a{min-height:112px;display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:center;padding:18px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:.15s}
+.utility-grid>a:hover{background:#fafbfc}.utility-grid>a>span{font-size:9px;color:var(--blue);font-weight:850}.utility-grid strong,.utility-grid small{display:block}.utility-grid strong{font-size:15px;line-height:1.35}.utility-grid small{font-size:10.5px;color:var(--muted);margin-top:5px}.utility-grid b{color:#8a93a3;font-weight:500}
+.tool-strip-section{padding-top:64px!important}.logo-strip{display:grid;grid-template-columns:repeat(8,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.logo-strip>a{min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:10.5px;color:var(--muted);transition:.15s}.logo-strip>a:hover{background:#fafbfc;color:var(--text)}.logo-strip img{width:30px;height:30px;border-radius:8px}
+.home-tutorial-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.home-tutorial-grid>a{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;min-height:92px;padding:15px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:.15s}.home-tutorial-grid>a:hover{background:#fafbfc}.home-tutorial-grid img{width:32px;height:32px;border-radius:8px}.home-tutorial-grid strong,.home-tutorial-grid small{display:block}.home-tutorial-grid strong{font-size:13px}.home-tutorial-grid small{font-size:9.5px;color:var(--muted);margin-top:3px}.home-tutorial-grid b{color:#8a93a3;font-weight:500}
+@media(max-width:900px){.logo-strip{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:620px){.utility-grid,.home-tutorial-grid{grid-template-columns:1fr}.logo-strip{grid-template-columns:repeat(2,1fr)}}
