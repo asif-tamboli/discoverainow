@@ -531,3 +531,67 @@ table th{font-size:12px}table td{font-size:14px;line-height:1.55}
   .utility-form input,.utility-form textarea,.utility-form select{font-size:16px}
   .dek{font-size:18px}
 }
+
+
+/* ===== Responsive content stabilization ===== */
+html,body{max-width:100%;overflow-x:clip}
+body *{min-width:0}
+img,svg,video,canvas{max-width:100%;height:auto}
+input,textarea,select,button,pre{max-width:100%}
+.directory-shell,.article-shell{max-width:100%}
+.utility-form,.utility-result,.prompt-lab-form,.prompt-lab-result{width:100%;max-width:100%}
+.utility-form textarea,.utility-form input,.utility-form select{min-width:0}
+.clean-card,.tool-chip,.tutorial-card,.utility-bridge,.prompt-tools-strip>a{min-width:0}
+
+/* Prompt Lab: readable cards instead of five compressed columns */
+.directory-shell.prompt-lab-page{width:min(1440px,calc(100% - 40px))}
+.prompt-lab-page .hub-hero{max-width:1080px}
+.prompt-lab-page .prompt-lab-form{max-width:1080px}
+.prompt-lab-page .prompt-lab-comparison{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  border:0
+}
+.prompt-lab-page .pl-tool-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px;
+  overflow:hidden
+}
+.prompt-lab-page .pl-profile-row{
+  grid-template-columns:minmax(112px,1fr) minmax(72px,110px) 42px
+}
+.prompt-lab-page .tool-prompt-card pre{overflow-wrap:anywhere;word-break:break-word}
+
+@media(max-width:1180px){
+  .prompt-lab-page .prompt-lab-comparison{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:860px){
+  .directory-shell,.directory-shell.prompt-lab-page{width:calc(100% - 24px)}
+  .hub-hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:-2px}
+  .prompt-lab-page .prompt-lab-grid{grid-template-columns:1fr}
+  .prompt-lab-page .prompt-lab-toggles{grid-template-columns:1fr}
+  .prompt-lab-page .prompt-lab-comparison{grid-template-columns:1fr}
+  .prompt-lab-page .prompt-lab-section-head{align-items:flex-start;flex-direction:column}
+  .prompt-lab-page .prompt-lab-winner{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:620px){
+  .directory-shell,.directory-shell.prompt-lab-page{width:calc(100% - 16px);padding-top:28px}
+  .hub-hero{padding-bottom:24px}
+  .hub-hero h1{font-size:clamp(36px,11vw,48px);line-height:1;letter-spacing:-1.8px}
+  .dek{font-size:17px}
+  .utility-shell{padding-top:26px}
+  .utility-form{padding:16px;border-radius:14px}
+  .prompt-lab-page .utility-form input,
+  .prompt-lab-page .utility-form textarea,
+  .prompt-lab-page .utility-form select{font-size:16px;padding:12px}
+  .prompt-lab-page .prompt-lab-toggles label{padding:13px}
+  .prompt-lab-page .prompt-lab-section-head strong{font-size:22px}
+  .prompt-lab-page .pl-tool-card{padding:18px}
+  .prompt-lab-page .pl-tool-card-head strong{font-size:19px}
+  .prompt-lab-page .pl-tool-card>p{font-size:13.5px}
+  .prompt-lab-page .pl-profile-row{grid-template-columns:minmax(104px,1fr) minmax(64px,90px) 38px}
+  .prompt-lab-page .tool-prompt-card pre{font-size:13px;line-height:1.65;padding:16px}
+  .pb-actions{display:flex;flex-direction:column;align-items:stretch}
+  .pb-actions>*{width:100%}
+}
