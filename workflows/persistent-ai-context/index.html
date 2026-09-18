@@ -1,0 +1,94 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Persistent AI Context Architecture | Discover AI Now</title><meta name="description" content="A practical blueprint for preserving project rules, architecture, constraints and decisions across Cursor, Claude Code and other AI tools."><link rel="canonical" href="https://discoverainow.com/workflows/persistent-ai-context/"><link rel="stylesheet" href="/content.css"></head><body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a class="active" href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav></header><main class="article-shell"><article class="article">
+<div class="breadcrumbs"><a href="/">Home</a> / <a href="/workflows/">Workflows</a> / Persistent AI context</div><span class="eyebrow">Context architecture</span><h1>Stop re-explaining the same project rules to every AI tool.</h1><p class="dek">Turn scattered requirements, architecture decisions and “never-do” rules into a small, versioned context layer that can travel across tools.</p>
+
+<h2>The real problem</h2><p>When work moves between research assistants, chat models and coding agents, project context fragments. Important constraints live in old chats, meeting notes and tribal knowledge. The result is repeated explanation, inconsistent output and accidental violations of project rules.</p>
+
+<h2>A portable context structure</h2><div class="code" id="contextTemplate"># PROJECT CONTEXT
+
+## 1. Mission
+What this system exists to do:
+[ONE PARAGRAPH]
+
+## 2. Architecture
+- Runtime:
+- Languages/frameworks:
+- Data stores:
+- External services:
+- Deployment:
+- Important boundaries:
+
+## 3. Non-negotiable rules
+- Never:
+- Always:
+- Requires human approval:
+- Security/privacy constraints:
+- Performance constraints:
+
+## 4. Domain rules
+- Key entities:
+- State transitions:
+- Important invariants:
+- Timezone/currency/locale rules:
+
+## 5. Engineering conventions
+- Testing:
+- Error handling:
+- Logging:
+- Dependency policy:
+- Naming / file conventions:
+
+## 6. Current work
+- Goal:
+- In scope:
+- Out of scope:
+- Relevant files/services:
+
+## 7. Decisions
+For each important decision:
+- Decision:
+- Why:
+- Alternatives rejected:
+- Date / owner:
+- Revisit trigger:
+
+## 8. Unknowns
+- Open questions:
+- Assumptions that must not be treated as facts:</div>
+<div class="cta"><button class="button primary" data-copy="#contextTemplate">Copy context template</button><a class="button" href="/workflow-generator/">Generate a project workflow</a></div>
+
+<h2>Workflow: messy inputs → stable context</h2><div class="workflow-steps">
+<div><span>01</span><strong>Collect</strong><p>Gather PRD, architecture notes, README, meeting transcript, coding conventions and known operational constraints.</p></div>
+<div><span>02</span><strong>Extract</strong><p>Separate durable rules from temporary task details. Durable rules belong in shared context; task details belong in the current request.</p></div>
+<div><span>03</span><strong>Resolve conflicts</strong><p>Do not let AI merge contradictory requirements. Flag them for a human decision.</p></div>
+<div><span>04</span><strong>Version</strong><p>Keep the context file in source control where appropriate so changes are reviewable.</p></div>
+<div><span>05</span><strong>Inject selectively</strong><p>Give each AI tool only the relevant context instead of dumping the entire organization into every session.</p></div>
+<div><span>06</span><strong>Refresh</strong><p>Remove stale rules after architecture or process changes rather than letting context accumulate forever.</p></div>
+</div>
+
+<h2>Prompt: convert raw documents into context</h2><div class="code" id="contextPrompt">Convert the supplied project material into a durable AI context file.
+
+RULES
+- Preserve explicit architecture and business constraints.
+- Separate durable project rules from temporary task details.
+- Do not infer a rule just because it appears once in a discussion.
+- If two sources conflict, show the conflict instead of choosing one.
+- Label assumptions and unresolved questions.
+- Do not invent framework versions, services, ownership or security requirements.
+
+OUTPUT
+1. Mission
+2. Architecture
+3. Non-negotiable rules
+4. Domain rules
+5. Engineering conventions
+6. Current work
+7. Decisions
+8. Unknowns
+
+SOURCE MATERIAL
+[PASTE PRD / README / MEETING NOTES / ARCHITECTURE NOTES]</div>
+<div class="cta"><button class="button primary" data-copy="#contextPrompt">Copy extraction prompt</button><a class="button" href="/prompt-evaluator/">Check prompt quality</a></div>
+
+<div class="callout"><strong>Important boundary</strong>Persistent context should reduce repetition, not become a secrets dump. Keep credentials, tokens, customer data and unnecessary sensitive information out of broadly shared context files.</div>
+<div data-feedback-widget data-context="persistent-ai-context"></div>
+</article><aside class="side"><div class="sidebox"><h3>Typical destinations</h3><p>Project instructions, repository guidance files, tool-specific rules files, README-adjacent context, or a small internal knowledge base.</p></div><div class="sidebox"><h3>Design principle</h3><p>Durable rules should be versioned. Temporary task context should remain temporary.</p></div></aside></main><footer class="footer">© 2026 DiscoverAINow.com · Useful AI, tested and explained.</footer><script src="/analytics.js"></script><script src="/feedback.js"></script><script src="/copy-blocks.js"></script></body></html>
