@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unsubscribe | Discover AI Now</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/content.css">
+</head>
+<body>
+<header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a></header>
+<main class="directory-shell">
+  <section class="hub-hero">
+    <div><span class="eyebrow">Newsletter</span><h1 id="title">Updating your subscription…</h1><p class="dek" id="message">Please wait while we process your request.</p><div class="cta"><a class="button" href="/">Back to Discover AI Now</a></div></div>
+  </section>
+</main>
+<footer class="footer">© 2026 DiscoverAINow.com</footer>
+<script>
+(async()=>{
+  const token=new URLSearchParams(location.search).get('token');
+  const title=document.getElementById('title'),message=document.getElementById('message');
+  if(!token){title.textContent='Invalid unsubscribe link';message.textContent='This link is missing the unsubscribe token.';return;}
+  try{
+    const r=await fetch('https://wtbaosegszmousraqfnw.supabase.co/functions/v1/newsletter-unsubscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token})});
+    const data=await r.json();
+    if(!r.ok)throw new Error(data.error||'unsubscribe_failed');
+    title.textContent='You’re unsubscribed.';
+    message.textContent='You will no longer receive Discover AI Now newsletter emails. You can subscribe again anytime from the site.';
+  }catch(e){
+    title.textContent='We could not update your subscription.';
+    message.textContent='Please try the link again later.';
+  }
+})();
+</script>
+</body></html>
