@@ -1,49 +1,44 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI Tool Finder — Tell Us What You Need | Discover AI Now</title>
-  <meta name="description" content="Describe what you want to accomplish and get transparent AI tool recommendations, alternatives, and the next workflow to follow.">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Tool Finder — Find the Right AI for Your Task | Discover AI Now</title>
+  <meta name="description" content="Describe what you need to accomplish, then refine by skill level, budget, privacy and priorities to get transparent AI tool recommendations.">
   <link rel="canonical" href="https://discoverainow.com/tool-finder/">
   <link rel="stylesheet" href="/content.css">
 </head>
 <body>
-<header class="sitebar">
-  <a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a>
-  <nav><a href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav>
-</header>
-
+<header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav></header>
 <main class="directory-shell">
   <section class="hub-hero">
-    <div>
-      <div class="breadcrumbs"><a href="/">Home</a> / Tool Finder</div>
-      <span class="eyebrow">AI Tool Finder</span>
-      <h1>Tell us what you need to accomplish.</h1>
-      <p class="dek">Describe the job in plain English. We’ll suggest the strongest-fit tools, explain why, and point you to a workflow or guide you can use next.</p>
-    </div>
+    <div><div class="breadcrumbs"><a href="/">Home</a> / Tool Finder</div><span class="eyebrow">AI Tool Finder</span><h1>Tell us the job. We’ll narrow the tools.</h1><p class="dek">Start with the outcome, then refine by experience, budget, privacy and what matters most. Recommendations show the reasoning instead of hiding it behind a score.</p></div>
   </section>
 
   <section class="finder-shell">
-    <form id="toolFinderForm" class="finder-form">
-      <label for="requirement">What are you trying to do?</label>
-      <textarea id="requirement" rows="6" maxlength="1200" placeholder="Example: I need to build a simple marketing website, create product images, summarize three PDFs, automate a weekly reporting workflow, or generate a short AI video…"></textarea>
-      <div class="finder-examples" aria-label="Examples">
-        <button type="button" data-example="Build a responsive marketing website from a brief and deploy it quickly.">Build a website</button>
-        <button type="button" data-example="Create a polished 30-second product video from product images and a short script.">Generate a video</button>
-        <button type="button" data-example="Summarize several PDF documents and preserve the source citations.">Summarize documents</button>
-        <button type="button" data-example="Automate a repetitive workflow that reads form submissions, summarizes them and sends a weekly report.">Create automation</button>
+    <form id="toolFinderForm" class="finder-form finder-v2">
+      <div class="finder-step"><span>01</span><div><label for="requirement">What are you trying to accomplish?</label><textarea id="requirement" rows="5" maxlength="1200" placeholder="Example: Build a marketing website, summarize several PDFs with citations, generate a product video, automate a weekly report, debug an API…"></textarea></div></div>
+      <div class="finder-examples">
+        <button type="button" data-example="Build a responsive marketing website from a brief and deploy it quickly.">Build website</button>
+        <button type="button" data-example="Create a polished 30-second product video from product images and a short script.">Generate video</button>
+        <button type="button" data-example="Summarize several PDF documents and preserve source citations.">Summarize PDFs</button>
+        <button type="button" data-example="Automate a repetitive workflow that reads form submissions, summarizes them and sends a weekly report.">Automate work</button>
         <button type="button" data-example="Research a company using current web sources and turn it into a sourced brief.">Research</button>
       </div>
+
+      <div class="finder-refine">
+        <div><label for="skill">Your level</label><select id="skill"><option value="any">Any</option><option value="beginner">No-code / beginner</option><option value="mixed">Some technical experience</option><option value="developer">Developer / technical</option></select></div>
+        <div><label for="budget">Budget</label><select id="budget"><option value="any">Any</option><option value="free">Prefer free</option><option value="low">Under $20/month</option><option value="mid">Under $50/month</option><option value="flexible">Flexible</option></select></div>
+        <div><label for="priority">Most important</label><select id="priority"><option value="quality">Output quality</option><option value="speed">Speed / easiest path</option><option value="control">Control / customization</option><option value="sources">Sources / traceability</option><option value="integration">Integrations / workflow</option></select></div>
+        <div><label for="privacy">Privacy sensitivity</label><select id="privacy"><option value="normal">Normal</option><option value="important">Important</option><option value="strict">Strict / sensitive data</option></select></div>
+      </div>
+
       <button class="finder-submit" type="submit">Recommend tools →</button>
-      <small>Recommendations are based on task-fit rules and editorial judgment—not sponsorship.</small>
+      <small>Recommendations are editorial task-fit guidance, not sponsored rankings. Verify privacy and enterprise terms before using sensitive data.</small>
     </form>
 
     <div id="finderResults" class="finder-results" hidden>
-      <div class="hub-section-heading">
-        <div><span class="section-kicker">Recommended</span><h2>Best-fit tools for this job</h2></div>
-        <button id="finderReset" class="finder-reset" type="button">Start over</button>
-      </div>
+      <div class="hub-section-heading"><div><span class="section-kicker">Recommendation</span><h2>Best fit for your stated requirements</h2></div><button id="finderReset" class="finder-reset" type="button">Start over</button></div>
+      <div id="finderSummary" class="finder-summary"></div>
       <div id="finderPrimary" class="finder-primary"></div>
       <div id="finderAlternatives" class="finder-alternatives"></div>
       <div id="finderNextStep" class="finder-next"></div>
@@ -51,17 +46,10 @@
   </section>
 
   <section class="hub-section principle-section">
-    <div class="hub-section-heading"><div><span class="section-kicker">How it works</span><h2>Transparent recommendations</h2></div></div>
-    <div class="principle-grid">
-      <div><span>01</span><strong>We classify the task</strong><p>Website, coding, image, video, research, document work, presentations, meetings or automation.</p></div>
-      <div><span>02</span><strong>We match the workflow</strong><p>The best tool changes depending on whether you need discovery, generation, editing, analysis or automation.</p></div>
-      <div><span>03</span><strong>We explain the tradeoff</strong><p>You see why the primary tool fits and when an alternative may be better.</p></div>
-    </div>
+    <div class="hub-section-heading"><div><span class="section-kicker">How recommendations work</span><h2>Task fit before popularity</h2></div></div>
+    <div class="principle-grid"><div><span>01</span><strong>Classify the job</strong><p>Creation, coding, research, documents, video, meetings, presentations or automation.</p></div><div><span>02</span><strong>Apply your constraints</strong><p>Technical level, budget, privacy and your highest-priority outcome affect the shortlist.</p></div><div><span>03</span><strong>Show the reasoning</strong><p>The result explains why a tool fits and where the alternatives may be stronger.</p></div></div>
   </section>
 </main>
-
 <footer class="footer">© 2026 DiscoverAINow.com · Useful AI, tested and explained.</footer>
-<script src="/analytics.js"></script>
-<script src="/tool-finder.js"></script>
-</body>
-</html>
+<script src="/analytics.js"></script><script src="/tool-finder.js"></script>
+</body></html>
