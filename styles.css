@@ -404,3 +404,9 @@ input,textarea,select,button{max-width:100%}
   .section-heading>a{margin-left:auto}
   .buyer-grid,.internal-tool-grid,.home-tutorial-grid{max-width:100%}
 }
+
+/* Tool brand marks */
+.tool-logo{width:42px;height:42px;border:1px solid var(--line);border-radius:11px;background:#fff;display:grid;place-items:center;overflow:hidden}
+.tool-logo img{width:27px;height:27px;object-fit:contain;display:block}
+[data-theme="dark"] .tool-logo{background:#f7f7f5}
+@media(max-width:560px){.tool-logo{width:40px;height:40px}.tool-logo img{width:26px;height:26px}}
