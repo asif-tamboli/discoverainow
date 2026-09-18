@@ -58,7 +58,6 @@ const resourceCard=(x,type)=>`<article class="resource-card searchable" data-typ
 el('toolGrid').innerHTML=data.tools.map(x=>resourceCard(x,'tool')).join('');
 el('agentGrid').innerHTML=data.agents.map(x=>resourceCard(x,'agent')).join('');
 el('guideGrid').innerHTML=data.guides.map(x=>resourceCard(x,'guide')).join('');
-el('tutorialGrid').innerHTML=data.tutorials.map(x=>resourceCard(x,'tutorial')).join('');
 
 el('promptGrid').innerHTML=data.prompts.map((x,i)=>`<article class="prompt-card searchable" data-type="prompt" data-search="${x.join(' ').toLowerCase()}"><div class="prompt-head"><div><span class="prompt-category">${x[0]}</span><h3>${x[1]}</h3></div><button class="copy-button" data-copy="${i}">Copy prompt</button></div><div class="prompt-text">${x[2]}</div></article>`).join('');
 el('workflowGrid').innerHTML=data.workflows.map(x=>`<article class="workflow-card searchable" data-type="workflow" data-search="${x.join(' ').toLowerCase()}"><span class="workflow-step">${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p></article>`).join('');
