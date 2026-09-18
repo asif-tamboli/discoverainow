@@ -3,283 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Discover useful AI tools, prompts and workflows without the noise. Curated, practical and evidence-first." />
+  <meta name="description" content="Practical AI workflows, prompts, comparisons and tools that help you finish real work." />
   <meta name="theme-color" content="#fbfbfc" />
   <link rel="canonical" href="https://discoverainow.com/" />
   <meta property="og:title" content="Discover AI Now — Useful AI without the noise" />
-  <meta property="og:description" content="Explore AI tools, prompt galleries, workflows, comparisons and practical guides." />
+  <meta property="og:description" content="Practical AI workflows, prompts, comparisons and tools for real tasks." />
   <meta property="og:url" content="https://discoverainow.com/" />
   <meta property="og:type" content="website" />
   <title>Discover AI Now — Useful AI without the noise</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="/" aria-label="Discover AI Now home">
-      <span class="brand-mark">D/</span>
-      <span>Discover AI Now</span>
-    </a>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Discover AI Now home"><span class="brand-mark">D/</span><span>Discover AI Now</span></a>
+  <nav class="main-nav" aria-label="Primary navigation">
+    <a href="/workflows/">Workflows</a>
+    <a href="/prompts/">Prompts</a>
+    <a href="/compare/">Compare</a>
+    <a href="/tools/">Tools</a>
+    <a href="/tutorials/">Tutorials</a>
+  </nav>
+  <div class="header-actions">
+    <button id="headerSearch" class="icon-search" type="button" aria-label="Search">⌕</button>
+    <button id="themeToggle" class="round-button" type="button" aria-label="Toggle dark mode">☾</button>
+  </div>
+</header>
 
-    <nav class="main-nav" aria-label="Primary navigation">
-      <a href="/tools/">Tools</a>
-      <a href="/prompts/">Prompts</a>
-      <a href="#workflows">Workflows</a>
-      <a href="/comparisons/chatgpt-vs-claude-vs-gemini-qa/">Compare</a>
-      <a href="/tutorials/">Tutorials</a>
-      <a href="#news">Radar</a>
-    </nav>
+<main id="top">
+  <section class="hero-shell">
+    <div class="hero hero-utility">
+      <div class="hero-copy">
+        <span class="eyebrow">AI for real work</span>
+        <h1>Useful AI.<br><span>Without the noise.</span></h1>
+        <p>Start with what you need to accomplish. Get a workflow, prompt, tool recommendation and tutorial—not another directory.</p>
 
-    <div class="header-actions">
-      <button id="headerSearch" class="icon-search" type="button" aria-label="Search">⌕</button>
-      <button id="themeToggle" class="round-button" type="button" aria-label="Toggle dark mode">☾</button>
+        <form id="searchForm" class="hero-search">
+          <span class="search-icon">⌕</span>
+          <input id="globalSearch" type="search" placeholder="What do you want AI to help you do?" autocomplete="off" />
+          <select id="categorySelect" aria-label="Category">
+            <option value="all">Everything</option>
+            <option value="workflow">Workflows</option>
+            <option value="prompt">Prompts</option>
+            <option value="guide">Guides</option>
+            <option value="tool">Tools</option>
+            <option value="news">Radar</option>
+          </select>
+          <button type="submit">Search</button>
+        </form>
+
+        <div class="topic-row">
+          <button class="topic-chip" data-query="Research">Research</button>
+          <button class="topic-chip" data-query="Image">Create images</button>
+          <button class="topic-chip" data-query="Coding">Code</button>
+          <button class="topic-chip" data-query="Meeting">Meetings</button>
+          <button class="topic-chip" data-query="Presentation">Presentations</button>
+          <button class="topics-link" data-query="">Clear</button>
+        </div>
+      </div>
+
+      <div class="hero-card utility-map" aria-hidden="true">
+        <div class="hero-card-top"><span>START WITH THE JOB</span><span class="pulse-dot"></span></div>
+        <div class="utility-map-flow">
+          <div><span>01</span><strong>Define</strong><small>What outcome do you need?</small></div>
+          <div><span>02</span><strong>Use</strong><small>Workflow + prompt + tool</small></div>
+          <div><span>03</span><strong>Verify</strong><small>Check evidence and output</small></div>
+        </div>
+        <div class="hero-card-bottom"><strong>Do → verify → reuse</strong><small>Less browsing. More useful output.</small></div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main id="top">
-    <section class="hero-shell">
-      <div class="hero">
-        <div class="hero-copy">
-          <span class="eyebrow">Curated AI for real work</span>
-          <h1>Useful AI.<br><span>Without the noise.</span></h1>
-          <p>Find tools, prompts and workflows worth your time.</p>
+  <section class="home-wrap workflow-first-section">
+    <div class="section-heading">
+      <div><span class="section-kicker">Workflows</span><h2>Start with the job you need done</h2></div>
+      <a href="/workflows/">All workflows →</a>
+    </div>
+    <div id="workflowFeatureGrid" class="workflow-feature-grid"></div>
+  </section>
 
-          <form id="searchForm" class="hero-search">
-            <span class="search-icon">⌕</span>
-            <input id="globalSearch" type="search" placeholder="What do you want AI to help with?" autocomplete="off" />
-            <select id="categorySelect" aria-label="Category">
-              <option value="all">Everything</option>
-              <option value="tool">Tools</option>
-              <option value="prompt">Prompts</option>
-              <option value="agent">Agents</option>
-              <option value="workflow">Workflows</option>
-              <option value="guide">Guides</option>
-              <option value="news">News</option>
-            </select>
-            <button type="submit">Search</button>
-          </form>
+  <section class="home-wrap prompt-home-section">
+    <div class="section-heading">
+      <div><span class="section-kicker">Prompt Gallery</span><h2>Copy something useful. Then adapt it.</h2></div>
+      <a href="/prompts/">All prompts →</a>
+    </div>
+    <div id="promptSnippetGrid" class="prompt-snippet-grid"></div>
+  </section>
 
-          <div class="topic-row">
-            <button class="topic-chip" data-query="Image">Image</button>
-            <button class="topic-chip" data-query="Coding">Coding</button>
-            <button class="topic-chip" data-query="Writing">Writing</button>
-            <button class="topic-chip" data-query="Research">Research</button>
-            <button class="topic-chip" data-query="Productivity">Productivity</button>
-            <button class="topics-link" data-query="">Clear</button>
-          </div>
-        </div>
+  <section class="home-wrap buyer-home-section">
+    <div class="section-heading">
+      <div><span class="section-kicker">Buyer guides</span><h2>Make a better AI decision</h2></div>
+      <a href="/compare/">All comparisons →</a>
+    </div>
+    <div class="buyer-grid">
+      <a class="buyer-card" href="/best/ai-research-tools/"><span>Research</span><h3>Which AI research tool fits your evidence?</h3><p>Perplexity vs NotebookLM vs general assistants—organized by where your sources live.</p><b>Compare →</b></a>
+      <a class="buyer-card" href="/best/ai-image-generators/"><span>Images</span><h3>Choose an image generator by workflow</h3><p>Conversational editing, visual exploration and creative-suite workflows are different jobs.</p><b>Compare →</b></a>
+      <a class="buyer-card" href="/best/ai-coding-assistants-for-test-engineers/"><span>Coding</span><h3>Choose a coding assistant by how you work</h3><p>Compare editor-first, GitHub-first and agentic repository workflows.</p><b>Compare →</b></a>
+    </div>
+  </section>
 
-        <div class="hero-card" aria-hidden="true">
-          <div class="hero-card-top">
-            <span>DISCOVERAINOW</span>
-            <span class="pulse-dot"></span>
-          </div>
-          <div class="mini-window">
-            <div class="mini-sidebar"></div>
-            <div class="mini-content">
-              <i></i><i></i><i></i>
-              <div class="mini-grid"><b></b><b></b><b></b><b></b></div>
-            </div>
-          </div>
-          <div class="hero-card-bottom">
-            <strong>Discover → compare → use</strong>
-            <small>Tools · Prompts · Workflows</small>
-          </div>
-        </div>
-      </div>
-    </section>
+  <section class="home-wrap tool-strip-section">
+    <div class="section-heading compact">
+      <div><span class="section-kicker">Tools</span><h2>Go deeper before you leave the site</h2></div>
+      <a href="/tools/">Browse tools →</a>
+    </div>
+    <div class="internal-tool-grid">
+      <a href="/tools/cursor/"><span class="tool-letter">C</span><div><strong>Cursor</strong><small>Review · coding workflows</small></div><b>→</b></a>
+      <a href="/tools/github-copilot/"><span class="tool-letter">GH</span><div><strong>GitHub Copilot</strong><small>Review · GitHub/IDE workflows</small></div><b>→</b></a>
+      <a href="/tools/claude-code/"><span class="tool-letter">CC</span><div><strong>Claude Code</strong><small>Review · agentic coding</small></div><b>→</b></a>
+      <a href="/tools/perplexity/"><span class="tool-letter">P</span><div><strong>Perplexity</strong><small>Guide · web research</small></div><b>→</b></a>
+      <a href="/tools/notebooklm/"><span class="tool-letter">N</span><div><strong>NotebookLM</strong><small>Guide · your sources</small></div><b>→</b></a>
+      <a href="/tools/midjourney/"><span class="tool-letter">M</span><div><strong>Midjourney</strong><small>Guide · image creation</small></div><b>→</b></a>
+    </div>
+  </section>
 
-    <section class="home-wrap destination-section">
-      <div class="section-heading compact">
-        <div>
-          <span class="section-kicker">Start here</span>
-          <h2>What are you looking for?</h2>
-        </div>
-      </div>
+  <section class="home-wrap tutorials-home">
+    <div class="section-heading">
+      <div><span class="section-kicker">Learn from the source</span><h2>Official tutorials worth your time</h2></div>
+      <a href="/tutorials/">All tutorials →</a>
+    </div>
+    <div class="home-tutorial-grid">
+      <a href="https://openai.com/academy/getting-started/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://openai.com" alt="OpenAI"><div><strong>Getting started with ChatGPT</strong><small>OpenAI Academy · Beginner</small></div><b>↗</b></a>
+      <a href="https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://midjourney.com" alt="Midjourney"><div><strong>Create your first Midjourney image</strong><small>Official docs · Image</small></div><b>↗</b></a>
+      <a href="https://academy.runwayml.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://runwayml.com" alt="Runway"><div><strong>Runway Academy</strong><small>Official courses · Video</small></div><b>↗</b></a>
+      <a href="https://cursor.com/learn" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://cursor.com" alt="Cursor"><div><strong>Learn AI-assisted coding</strong><small>Cursor Learn · Coding</small></div><b>↗</b></a>
+    </div>
+  </section>
 
-      <div class="destination-grid">
-        <a class="destination-card pink" href="/prompts/">
-          <span class="destination-icon">✦</span>
-          <div><strong>Prompt Gallery</strong><small>Image, coding, writing & more</small></div>
-          <b>→</b>
-        </a>
-        <a class="destination-card blue" href="/tools/">
-          <span class="destination-icon">◌</span>
-          <div><strong>AI Tools</strong><small>Browse by real use case</small></div>
-          <b>→</b>
-        </a>
-        <a class="destination-card green" href="#workflows">
-          <span class="destination-icon">⌘</span>
-          <div><strong>Workflows</strong><small>Repeatable ways to use AI</small></div>
-          <b>→</b>
-        </a>
-        <a class="destination-card amber" href="/comparisons/chatgpt-vs-claude-vs-gemini-qa/">
-          <span class="destination-icon">↔</span>
-          <div><strong>Compare</strong><small>Make better AI decisions</small></div>
-          <b>→</b>
-        </a>
-      </div>
-    </section>
+  <section class="home-wrap radar-section" id="radarSection" hidden>
+    <div class="section-heading">
+      <div><span class="section-kicker">AI Radar</span><h2>Useful signals, not a news firehose</h2></div>
+    </div>
+    <div id="trendingGrid" class="article-grid"></div>
+  </section>
 
-    <section class="home-wrap featured-section">
-      <div class="section-heading">
-        <div>
-          <span class="section-kicker">Featured</span>
-          <h2>Useful right now</h2>
-        </div>
-        <a href="/prompts/">View all →</a>
-      </div>
+  <section class="home-wrap newsletter-band">
+    <div><span class="section-kicker">Weekly</span><h2>5 AI things worth using.</h2><p>One workflow, one prompt, one useful tool, one comparison insight and one important update.</p></div>
+    <form id="newsletterForm">
+      <input id="newsletterEmail" type="email" required placeholder="you@example.com" />
+      <button type="submit">Subscribe</button>
+      <small id="newsletterNote">Unsubscribe anytime.</small>
+    </form>
+  </section>
+</main>
 
-      <div class="feature-grid">
-        <a class="feature-card visual-feature image-feature track-link" data-event="prompt_gallery_image" href="/prompts/image-generation/">
-          <div class="feature-art">
-            <span class="orb orb-a"></span><span class="orb orb-b"></span><span class="grid-mark"></span>
-          </div>
-          <div class="feature-copy"><span>Prompt Gallery</span><h3>Image generation prompts</h3><p>Reusable templates for portraits, products and cinematic visuals.</p></div>
-        </a>
+<footer class="site-footer">
+  <a class="brand footer-brand" href="/"><span class="brand-mark">D/</span><span>Discover AI Now</span></a>
+  <nav><a href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a href="/compare/">Compare</a><a href="/about/methodology/">Methodology</a><a href="/disclosure/">Disclosure</a></nav>
+  <small>© 2026 DiscoverAINow.com</small>
+</footer>
 
-        <a class="feature-card track-link" data-event="prompt_gallery_coding" href="/prompts/coding/">
-          <div class="feature-badge dark">⌘</div>
-          <div class="feature-copy"><span>Coding</span><h3>Prompts that ask AI to verify its work</h3><p>Debug, review and refactor with less guesswork.</p></div>
-        </a>
-
-        <a class="feature-card track-link" data-event="comparison_open" href="/best/ai-coding-assistants-for-test-engineers/">
-          <div class="feature-badge soft">↗</div>
-          <div class="feature-copy"><span>Buyer guide</span><h3>AI coding assistants</h3><p>Cursor, Copilot and Claude Code—without the hype.</p></div>
-        </a>
-      </div>
-    </section>
-
-
-    <section class="home-wrap utility-section">
-      <div class="section-heading">
-        <div><span class="section-kicker">Do something useful</span><h2>Popular ways to use AI</h2></div>
-        <a href="/tutorials/">Tutorials →</a>
-      </div>
-      <div class="utility-grid">
-        <a href="/workflows/research-to-brief/"><span>01</span><div><strong>Research a topic and build a sourced brief</strong><small>Discovery → verification → synthesis → decision</small></div><b>→</b></a>
-        <a href="/guides/ai-presentations/"><span>02</span><div><strong>Turn raw information into a better presentation</strong><small>Build the story before the slides</small></div><b>→</b></a>
-        <a href="/workflows/meeting-notes-to-actions/"><span>03</span><div><strong>Turn meeting notes into actions</strong><small>Without inventing owners or deadlines</small></div><b>→</b></a>
-        <a href="/prompts/image-generation/"><span>04</span><div><strong>Create better AI images with structured prompts</strong><small>See before/after prompt diagrams</small></div><b>→</b></a>
-        <a href="/prompts/coding/"><span>05</span><div><strong>Debug and review code with AI</strong><small>Evidence first, fix second</small></div><b>→</b></a>
-        <a href="/best/ai-image-generators/"><span>06</span><div><strong>Choose the right AI image tool</strong><small>Compare by the way you actually work</small></div><b>→</b></a>
-      </div>
-    </section>
-
-    <section class="home-wrap tool-strip-section">
-      <div class="section-heading compact">
-        <div><span class="section-kicker">Popular tools</span><h2>Open the right tool faster</h2></div>
-        <a href="/tools/">All tools →</a>
-      </div>
-      <div class="logo-strip">
-        <a href="https://chatgpt.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://chatgpt.com" alt="ChatGPT"><span>ChatGPT</span></a>
-        <a href="https://claude.ai/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://claude.ai" alt="Claude"><span>Claude</span></a>
-        <a href="https://gemini.google.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://gemini.google.com" alt="Gemini"><span>Gemini</span></a>
-        <a href="https://www.perplexity.ai/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://perplexity.ai" alt="Perplexity"><span>Perplexity</span></a>
-        <a href="https://cursor.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://cursor.com" alt="Cursor"><span>Cursor</span></a>
-        <a href="https://www.midjourney.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://midjourney.com" alt="Midjourney"><span>Midjourney</span></a>
-        <a href="https://runwayml.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://runwayml.com" alt="Runway"><span>Runway</span></a>
-        <a href="https://gamma.app/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://gamma.app" alt="Gamma"><span>Gamma</span></a>
-      </div>
-    </section>
-
-    <section class="home-wrap tutorials-home">
-      <div class="section-heading">
-        <div><span class="section-kicker">Learn from the source</span><h2>Official tutorials worth your time</h2></div>
-        <a href="/tutorials/">All tutorials →</a>
-      </div>
-      <div class="home-tutorial-grid">
-        <a href="https://openai.com/academy/getting-started/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://openai.com" alt="OpenAI"><div><strong>Getting started with ChatGPT</strong><small>OpenAI Academy · Beginner</small></div><b>↗</b></a>
-        <a href="https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://midjourney.com" alt="Midjourney"><div><strong>Create your first Midjourney image</strong><small>Official docs · Image</small></div><b>↗</b></a>
-        <a href="https://academy.runwayml.com/" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://runwayml.com" alt="Runway"><div><strong>Runway Academy</strong><small>Official courses · Video</small></div><b>↗</b></a>
-        <a href="https://cursor.com/learn" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://cursor.com" alt="Cursor"><div><strong>Learn AI-assisted coding</strong><small>Cursor Learn · Coding</small></div><b>↗</b></a>
-      </div>
-    </section>
-
-    <section class="home-wrap radar-section" id="content">
-      <div class="section-heading">
-        <div>
-          <span class="section-kicker">AI Radar</span>
-          <h2>What’s moving now</h2>
-        </div>
-        <button class="text-button" data-filter="all">Reset filters</button>
-      </div>
-      <div id="trendingGrid" class="article-grid"></div>
-    </section>
-
-    <section class="home-wrap discovery-section" id="tools">
-      <div class="section-heading">
-        <div><span class="section-kicker">Discover</span><h2>Tools worth a look</h2></div>
-        <a href="/tools/">All tools →</a>
-      </div>
-      <div id="toolGrid" class="resource-grid"></div>
-    </section>
-
-    <section class="home-wrap discovery-section" id="prompts">
-      <div class="section-heading">
-        <div><span class="section-kicker">Try it</span><h2>Popular prompts</h2></div>
-        <a href="/prompts/">Prompt Gallery →</a>
-      </div>
-      <div id="promptGrid" class="prompt-grid"></div>
-    </section>
-
-    <section class="home-wrap split-discovery">
-      <div class="discovery-panel" id="workflows">
-        <div class="section-heading small">
-          <div><span class="section-kicker">Workflows</span><h2>Use AI better</h2></div>
-        </div>
-        <div id="workflowGrid" class="workflow-grid"></div>
-      </div>
-
-      <div class="discovery-panel" id="agents">
-        <div class="section-heading small">
-          <div><span class="section-kicker">Agents</span><h2>Worth watching</h2></div>
-        </div>
-        <div id="agentGrid" class="resource-grid compact-grid"></div>
-      </div>
-    </section>
-
-    <section class="home-wrap discovery-section" id="guides">
-      <div class="section-heading">
-        <div><span class="section-kicker">Guides</span><h2>Practical guides</h2></div>
-        <a href="/tutorials/">Learn from official tutorials →</a>
-      </div>
-      <div id="guideGrid" class="resource-grid"></div>
-    </section>
-
-    <section class="home-wrap news-section" id="news">
-      <div class="section-heading">
-        <div><span class="section-kicker">Live signal</span><h2>AI news without the firehose</h2></div>
-      </div>
-      <div id="newsGrid" class="news-list"></div>
-    </section>
-
-    <section class="home-wrap newsletter-band">
-      <div>
-        <span class="section-kicker">Weekly</span>
-        <h2>5 AI things worth using.</h2>
-        <p>One useful tool, one prompt, one workflow, one insight, one important update.</p>
-      </div>
-      <form id="newsletterForm">
-        <input id="newsletterEmail" type="email" required placeholder="you@example.com" />
-        <button type="submit">Subscribe</button>
-        <small id="newsletterNote">Unsubscribe anytime.</small>
-      </form>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <a class="brand footer-brand" href="/"><span class="brand-mark">D/</span><span>Discover AI Now</span></a>
-    <nav>
-      <a href="/about/methodology/">Methodology</a>
-      <a href="/disclosure/">Disclosure</a>
-      <a href="/benchmarks/ai-testing/">Benchmarks</a>
-      <a href="/tutorials/">Tutorials</a>
-    </nav>
-    <small>© 2026 DiscoverAINow.com</small>
-  </footer>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="/analytics.js"></script>
-  <script src="/app.js"></script>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="/analytics.js"></script>
+<script src="/app.js"></script>
 </body>
 </html>
