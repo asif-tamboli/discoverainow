@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Prompts for Software Testers | Discover AI Now</title><meta name="description" content="Reusable AI prompts for requirement analysis, edge cases, BDD, API testing, automation review and defect triage."><link rel="canonical" href="https://discoverainow.com/prompts/software-testers/"><link rel="stylesheet" href="/content.css"></head><body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/guides/ai-for-qa-testing/">AI for QA</a><a href="/workflows/jira-story-to-test-cases/">Workflow</a></nav></header><main class="article-shell"><article class="article"><div class="breadcrumbs"><a href="/">Home</a> / Prompts / Software testers</div><span class="eyebrow">Reusable prompt pack</span><h1>Prompts for software testers who want useful output, not longer output.</h1><p class="dek">Each prompt forces the model to separate assumptions from requirements and make uncertainty visible.</p><h2>Requirement risk review</h2><div class="code">Act as a senior QA engineer reviewing the requirement below.
+
+Your goal is NOT to generate test cases yet.
+
+Identify:
+1. ambiguous statements,
+2. missing business rules,
+3. boundary values that are undefined,
+4. state or timing dependencies,
+5. data dependencies,
+6. failure behavior that is unspecified,
+7. questions that must be answered before testing.
+
+For every issue, quote or paraphrase the requirement that caused the concern.
+Do not invent missing rules. Label assumptions explicitly.
+
+REQUIREMENT:
+[PASTE REQUIREMENT]</div><h2>Edge-case expansion</h2><div class="code">Using the validated requirement and known business rules below, generate high-value edge cases.
+
+Group them by:
+- boundaries,
+- state transitions,
+- concurrency/race conditions,
+- time/timezone behavior,
+- authorization,
+- invalid or partial data,
+- retries/idempotency,
+- downstream dependency failures.
+
+For each case include: risk, setup, action, expected behavior, and why the case matters.
+Prioritize realistic high-impact cases. Do not create cases unsupported by the requirement.</div><h2>BDD scenario review</h2><div class="code">Review these Gherkin scenarios as a test automation lead.
+
+Find:
+- duplicated coverage,
+- missing negative paths,
+- ambiguous Given/When/Then steps,
+- implementation details leaking into business scenarios,
+- scenarios that are too broad,
+- shared preconditions that should be simplified.
+
+Return an improved scenario set and explain each material change.</div><h2>Automation code review</h2><div class="code">Review this automated test for correctness, maintainability and flakiness.
+
+Check specifically:
+- synchronization/waits,
+- selector brittleness,
+- assertion quality,
+- test independence,
+- hidden dependencies,
+- cleanup,
+- data isolation,
+- exception handling,
+- unnecessary sleeps,
+- retry misuse.
+
+Prioritize defects and reliability risks over style preferences.
+For every recommendation explain the failure mode it prevents.
+
+CODE:
+[PASTE CODE]</div><h2>Defect triage</h2><div class="code">Analyze the defect evidence below.
+
+Separate your response into:
+A. verified observations,
+B. plausible hypotheses,
+C. evidence needed to confirm/refute each hypothesis,
+D. next diagnostic steps in the most efficient order.
+
+Do not state a root cause unless the supplied evidence proves it.
+
+EVIDENCE:
+[LOGS / STEPS / SCREENSHOTS / REQUESTS]</div><div class="callout"><strong>Why these prompts are structured this way</strong>The highest-value instruction is often “do not invent.” QA work requires traceability. A plausible answer that silently adds a business rule can create false confidence.</div></article><aside class="side"><div class="sidebox"><h3>Use with</h3><p><a href="/benchmarks/ai-testing/">Benchmark rubric</a></p><p><a href="/workflows/jira-story-to-test-cases/">Jira workflow</a></p></div></aside></main><footer class="footer">© 2026 DiscoverAINow.com</footer><script src="/analytics.js"></script></body></html>
