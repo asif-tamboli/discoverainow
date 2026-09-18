@@ -3,212 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Discover AI Now — useful AI prompts, tools, agents, workflows, tutorials and AI news without the noise." />
+  <meta name="description" content="Discover AI Now — curated AI tools, prompts, agents, workflows, guides and news." />
+  <meta name="theme-color" content="#ffffff" />
   <title>Discover AI Now</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="utility-bar">
-    <div class="utility-inner">
-      <span>AI, without the noise.</span>
-      <span class="utility-right">Prompts · Tools · Agents · Workflows · News</span>
-    </div>
-  </div>
-
-  <header class="site-header">
+  <header class="topbar">
     <a class="brand" href="#top" aria-label="Discover AI Now home">
-      <span class="brand-mark">D/</span>
-      <span class="brand-name">Discover AI Now</span>
+      <span class="brand-mark">D/</span><span>Discover AI Now</span>
     </a>
-
-    <nav class="desktop-nav" aria-label="Main navigation">
-      <a href="#trending">Trending</a>
-      <a href="#prompts">Prompts</a>
-      <a href="#tools">Tools</a>
-      <a href="#agents">Agents</a>
-      <a href="#workflows">Workflows</a>
-      <a href="#news">News</a>
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a href="#tools">Tools</a><a href="#prompts">Prompts</a><a href="#agents">Agents</a>
+      <a href="#workflows">Workflows</a><a href="#guides">Guides</a><a href="#news">News</a><a href="#tutorials">Tutorials</a>
     </nav>
-
     <div class="header-actions">
-      <button id="searchJump" class="header-link">Search</button>
-      <button id="themeToggle" class="icon-button" aria-label="Toggle dark mode">☾</button>
+      <button class="header-search" id="headerSearch" type="button" aria-label="Focus search">⌕ <span>Search anything…</span><kbd>⌘ K</kbd></button>
+      <button id="themeToggle" class="round-button" type="button" aria-label="Toggle dark mode">☾</button>
     </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="hero-main">
-        <p class="kicker">A practical guide to the AI landscape</p>
-        <h1>Useful AI, found and explained.</h1>
-        <p class="hero-copy">
-          Discover prompts worth saving, tools worth trying, agent ideas, practical workflows,
-          and the AI updates that actually matter.
-        </p>
-
-        <div class="search-shell">
-          <span class="search-label">Search</span>
-          <input id="globalSearch" type="search" placeholder="Try “research prompts”, “video tools”, or “AI agents”" aria-label="Search Discover AI Now" />
-          <kbd>⌘ K</kbd>
-        </div>
-
-        <div class="quick-tags" aria-label="Content filters">
-          <button data-filter="all" class="tag active">Everything</button>
-          <button data-filter="prompt" class="tag">Prompts</button>
-          <button data-filter="tool" class="tag">Tools</button>
-          <button data-filter="agent" class="tag">Agents</button>
-          <button data-filter="workflow" class="tag">Workflows</button>
-          <button data-filter="tutorial" class="tag">Tutorials</button>
-          <button data-filter="news" class="tag">News</button>
-        </div>
-      </div>
-
-      <aside class="hero-brief" aria-label="Today on Discover AI Now">
-        <div class="brief-heading">
-          <span>Today on Discover AI Now</span>
-          <span class="brief-dot">●</span>
-        </div>
-        <a href="#trending" class="brief-item">
-          <span class="brief-number">01</span>
-          <div>
-            <strong>Better research prompts</strong>
-            <p>How to ask for evidence, uncertainty, and useful synthesis.</p>
+  <main id="top" class="layout">
+    <section class="main-column">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">The AI toolkit for a brighter tomorrow</span>
+          <h1>Find the most useful AI tools, prompts, and workflows.</h1>
+          <p>Curated resources, practical guides, and real-world insights to help you use AI more effectively — without the noise.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#tools">Explore Tools <span>→</span></a>
+            <a class="button secondary" href="#prompts">Browse Prompts</a>
           </div>
-        </a>
-        <a href="#tools" class="brief-item">
-          <span class="brief-number">02</span>
-          <div>
-            <strong>AI tools by job-to-be-done</strong>
-            <p>Start with the task, not a list of logos.</p>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="sunlight"></div>
+          <div class="plant">
+            <span class="stem"></span><i></i><i></i><i></i><i></i><i></i>
+            <b class="pot"></b>
           </div>
-        </a>
-        <a href="#agents" class="brief-item">
-          <span class="brief-number">03</span>
-          <div>
-            <strong>Where agents are actually useful</strong>
-            <p>Research, monitoring, operations, coding, and more.</p>
-          </div>
-        </a>
-      </aside>
-    </section>
-
-    <div class="editorial-rule">
-      <span>Curated for usefulness</span>
-      <span>Updated continuously</span>
-      <span>Built for people who want to use AI, not just read about it</span>
-    </div>
-
-    <section id="trending" class="section">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">Trending now</span>
-          <h2>What’s worth your attention</h2>
+          <div class="poster">Better<br>questions.<br>A brighter<br>future.</div>
+          <div class="mug">Create<br>a more<br>human<br>tomorrow.</div>
+          <div class="books"><span>Ideas</span><span>Tools</span><span>People</span><span>Progress</span></div>
+          <div class="laptop"><span></span></div>
+          <div class="scribble">Smarter tools.<br>Brighter humans.</div>
         </div>
-        <button class="text-button" data-filter="all">Browse all</button>
-      </div>
-      <div id="trendingGrid" class="card-grid editorial-grid"></div>
-    </section>
+      </section>
 
-    <section id="prompts" class="section section-ruled">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">Prompt library</span>
-          <h2>Prompts you can actually use</h2>
+      <section class="search-panel" aria-label="Search and topics">
+        <form id="searchForm" class="search-row">
+          <span class="search-icon">⌕</span>
+          <input id="globalSearch" type="search" placeholder="Search for tools, prompts, agents, workflows, or topics…" autocomplete="off" />
+          <select id="categorySelect" aria-label="Category">
+            <option value="all">All categories</option>
+            <option value="tool">Tools</option>
+            <option value="prompt">Prompts</option>
+            <option value="agent">Agents</option>
+            <option value="workflow">Workflows</option>
+            <option value="guide">Guides</option>
+            <option value="news">News</option>
+          </select>
+          <button class="search-button" type="submit">Search →</button>
+        </form>
+        <div class="topic-row">
+          <button class="topic-chip" data-query="ChatGPT">◉ ChatGPT</button>
+          <button class="topic-chip" data-query="Midjourney">◒ Midjourney</button>
+          <button class="topic-chip" data-query="AI agents">♙ AI agents</button>
+          <button class="topic-chip" data-query="Productivity">ϟ Productivity</button>
+          <button class="topic-chip" data-query="Video generation">▣ Video generation</button>
+          <button class="topic-chip" data-query="Research">▤ Research</button>
+          <button class="topic-chip" data-query="Automation">⚙ Automation</button>
+          <button class="topics-link" data-query="">View all topics →</button>
         </div>
-        <p class="section-note">Clear, adaptable starting points—not prompt theater.</p>
-      </div>
-      <div id="promptGrid" class="prompt-grid"></div>
-    </section>
+      </section>
 
-    <section id="tools" class="section">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">AI tools</span>
-          <h2>Start with what you need to do</h2>
+      <section class="section-block" id="explore">
+        <div class="section-title-row"><h2>Explore by category</h2><a href="#content">View all categories →</a></div>
+        <div class="category-grid">
+          <a class="category-card blue" href="#tools"><span class="category-icon">⌁</span><strong>AI Tools</strong><small>Find the best AI tools for your workflow.</small><b>›</b></a>
+          <a class="category-card orange" href="#prompts"><span class="category-icon">▤</span><strong>Prompts</strong><small>High-quality prompts for real use cases.</small><b>›</b></a>
+          <a class="category-card green" href="#agents"><span class="category-icon">♙</span><strong>AI Agents</strong><small>Agents, assistants and autonomous AI.</small><b>›</b></a>
+          <a class="category-card purple" href="#workflows"><span class="category-icon">⌘</span><strong>Workflows</strong><small>Step-by-step guides and templates.</small><b>›</b></a>
+          <a class="category-card violet" href="#guides"><span class="category-icon">▧</span><strong>Guides</strong><small>Learn and apply AI with practical advice.</small><b>›</b></a>
+          <a class="category-card pink" href="#news"><span class="category-icon">▥</span><strong>News</strong><small>Latest updates and what they mean.</small><b>›</b></a>
         </div>
-        <p class="section-note">Research, code, create, automate, write, and organize.</p>
-      </div>
-      <div id="toolGrid" class="card-grid tool-grid"></div>
+      </section>
+
+      <section class="section-block" id="content">
+        <div class="section-title-row"><div><h2>Trending now</h2><p>Fresh content, hand-picked for what’s useful today.</p></div><button class="link-button" data-filter="all">View all articles →</button></div>
+        <div id="trendingGrid" class="article-grid"></div>
+      </section>
+
+      <section class="section-block content-section" id="tools">
+        <div class="section-title-row"><div><span class="section-kicker">Tools</span><h2>Useful AI products, organized by task</h2></div><a href="#top">Back to search ↑</a></div>
+        <div id="toolGrid" class="resource-grid"></div>
+      </section>
+
+      <section class="section-block content-section" id="prompts">
+        <div class="section-title-row"><div><span class="section-kicker">Prompts</span><h2>Prompts ready to copy and adapt</h2></div><a href="#top">Back to search ↑</a></div>
+        <div id="promptGrid" class="prompt-grid"></div>
+      </section>
+
+      <section class="section-block content-section" id="agents">
+        <div class="section-title-row"><div><span class="section-kicker">Agents</span><h2>Agent patterns for real work</h2></div><a href="#top">Back to search ↑</a></div>
+        <div id="agentGrid" class="resource-grid"></div>
+      </section>
+
+      <section class="section-block content-section" id="workflows">
+        <div class="section-title-row"><div><span class="section-kicker">Workflows</span><h2>Turn AI into repeatable results</h2></div><a href="#top">Back to search ↑</a></div>
+        <div id="workflowGrid" class="workflow-grid"></div>
+      </section>
+
+      <section class="section-block content-section" id="guides">
+        <div class="section-title-row"><div><span class="section-kicker">Guides</span><h2>Practical AI guides</h2></div><a href="#top">Back to search ↑</a></div>
+        <div id="guideGrid" class="resource-grid"></div>
+      </section>
+
+      <section class="section-block content-section" id="news">
+        <div class="section-title-row"><div><span class="section-kicker">News</span><h2>AI news without the noise</h2></div><a href="#top">Back to search ↑</a></div>
+        <div id="newsGrid" class="news-list"></div>
+      </section>
+
+      <section class="section-block content-section" id="tutorials">
+        <div class="section-title-row"><div><span class="section-kicker">Tutorials</span><h2>Learn by doing</h2></div><a href="#top">Back to search ↑</a></div>
+        <div id="tutorialGrid" class="resource-grid"></div>
+      </section>
     </section>
 
-    <section id="agents" class="section split-section section-ruled">
-      <div>
-        <span class="eyebrow">AI agents</span>
-        <h2>Useful when the work has steps.</h2>
-        <p class="section-copy">
-          Agents make the most sense when a task involves gathering information, making decisions,
-          taking actions, and repeating the process over time.
-        </p>
-        <div id="agentList" class="stack-list"></div>
-      </div>
-
-      <aside class="feature-panel">
-        <div class="feature-index">Field note / 01</div>
-        <h3>Don’t start with “I need an agent.”</h3>
-        <p>Start with the recurring job. Define the inputs, decisions, actions, and what a good result looks like.</p>
-        <div class="fake-input">Example: “Every morning, scan customer feedback, group recurring issues, and flag anything urgent.”</div>
-        <button class="primary-button">Explore agent patterns</button>
-      </aside>
-    </section>
-
-    <section id="workflows" class="section">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">Workflows</span>
-          <h2>From vague idea to reliable output</h2>
+    <aside class="sidebar">
+      <section class="side-card today-card">
+        <div class="side-heading"><h3>Today on Discover AI Now</h3><a href="#content">See all →</a></div>
+        <div class="today-list">
+          <button data-jump="#prompts"><span>01</span><i>▤</i><div><strong>Better research prompts</strong><small>How to ask for evidence, uncertainty, and useful synthesis.</small></div></button>
+          <button data-jump="#tools"><span>02</span><i>▣</i><div><strong>AI tools by job-to-be-done</strong><small>Start with the task, not a list of logos.</small></div></button>
+          <button data-jump="#agents"><span>03</span><i>▥</i><div><strong>Where agents are actually useful</strong><small>Research, monitoring, operations, coding, and more.</small></div></button>
+          <button data-jump="#workflows"><span>04</span><i>◆</i><div><strong>Building effective workflows</strong><small>Turn AI into reliable, repeatable results.</small></div></button>
+          <button data-jump="#news"><span>05</span><i>✦</i><div><strong>The latest in AI, explained</strong><small>What’s new, and what it means for you.</small></div></button>
         </div>
-        <p class="section-note">A simple operating model for better AI-assisted work.</p>
-      </div>
-      <div id="workflowGrid" class="workflow-grid"></div>
-    </section>
+      </section>
 
-    <section id="news" class="section section-ruled">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">AI news</span>
-          <h2>Important updates, not every update</h2>
-        </div>
-        <span class="live-badge">Feed integration next</span>
-      </div>
+      <section class="side-card newsletter-card">
+        <div class="newsletter-title">✉ <h3>Get the best of AI, in your inbox.</h3></div>
+        <p>Practical guides, new tools, and fresh ideas — no noise, just what’s worth your time.</p>
+        <form id="newsletterForm"><input type="email" required placeholder="Enter your email" /><button type="submit">Subscribe</button></form>
+        <small>No spam. Unsubscribe anytime.</small>
+      </section>
 
-      <div class="editor-note">
-        <strong>Editorial approach:</strong>
-        major releases, meaningful product changes, useful new capabilities, and policy shifts that affect how people can use AI.
-      </div>
-
-      <div id="newsGrid" class="news-grid"></div>
-    </section>
-
-    <section class="newsletter">
-      <div class="newsletter-copy">
-        <span class="eyebrow newsletter-eyebrow">The weekly brief</span>
-        <h2>One email. The useful side of AI.</h2>
-        <p>Prompts, products, workflows, and developments worth knowing—without filling your inbox.</p>
-      </div>
-      <form id="newsletterForm" class="newsletter-form">
-        <label for="newsletterEmail">Email address</label>
-        <div class="newsletter-row">
-          <input id="newsletterEmail" type="email" required placeholder="you@example.com" />
-          <button type="submit">Subscribe</button>
-        </div>
-      </form>
-    </section>
+      <section class="side-card beginner-card">
+        <div><span>💡</span><h3>New to AI?</h3></div>
+        <p>Start with our beginner’s guide to get up to speed, fast.</p>
+        <a href="#tutorials">Read the guide →</a>
+        <div class="mini-illustration"><span></span><span></span><i></i></div>
+      </section>
+    </aside>
   </main>
 
   <footer>
-    <div class="footer-top">
-      <div class="footer-brand">
-        <span class="brand-mark">D/</span>
-        <div><strong>Discover AI Now</strong><small>Useful AI, found and explained.</small></div>
-      </div>
-      <div class="footer-links">
-        <a href="#prompts">Prompts</a>
-        <a href="#tools">Tools</a>
-        <a href="#agents">Agents</a>
-        <a href="#news">News</a>
-      </div>
-    </div>
-    <p class="fineprint">© 2026 DiscoverAINow.com</p>
+    <div><strong>Discover AI Now</strong><span>Useful AI, found and explained.</span></div>
+    <nav><a href="#tools">Tools</a><a href="#prompts">Prompts</a><a href="#agents">Agents</a><a href="#news">News</a></nav>
+    <small>© 2026 DiscoverAINow.com</small>
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
