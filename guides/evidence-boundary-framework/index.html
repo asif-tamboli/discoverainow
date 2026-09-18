@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Evidence Boundary Framework | Discover AI Now</title><meta name="description" content="Choose an AI research workflow based on where your trusted evidence lives: internal documents, open web, mixed evidence or executable systems."><link rel="canonical" href="https://discoverainow.com/guides/evidence-boundary-framework/"><link rel="stylesheet" href="/content.css"></head><body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a class="active" href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav></header><main class="article-shell"><article class="article">
+<div class="breadcrumbs"><a href="/">Home</a> / <a href="/compare/">Compare</a> / Evidence Boundary Framework</div><span class="eyebrow">Decision framework</span><h1>Point AI at the right evidence boundary before asking it for an answer.</h1><p class="dek">The first tool decision should not be “which model is smartest?” It should be “where does the truth for this task live?”</p>
+
+<h2>Decision matrix</h2><div class="decision-map">
+<div><span>Truth lives in</span><strong>Your closed source set</strong><p>PDFs, policies, meeting notes, internal documents.</p><a href="/tools/notebooklm/">Start with NotebookLM / bounded document workflow →</a></div>
+<div><span>Truth lives in</span><strong>The current public web</strong><p>Recent announcements, market facts, product changes, public evidence.</p><a href="/tools/perplexity/">Start with a source-oriented web research workflow →</a></div>
+<div><span>Truth lives in</span><strong>Both internal + external</strong><p>Internal policy compared against current public evidence.</p><a href="/workflows/research-to-brief/">Use a two-stage research workflow →</a></div>
+</div>
+<div class="decision-map">
+<div><span>Truth requires</span><strong>Execution</strong><p>Code behavior, SQL output, API behavior, calculations or reproducible tests.</p><a href="/verify-ai-output/">Verify by running the system, not by asking the model again →</a></div>
+<div><span>Truth requires</span><strong>Human authority</strong><p>Policy approval, business intent, ownership, legal interpretation or unpublished decisions.</p><a href="/workflow-generator/">Insert explicit human approval gates →</a></div>
+<div><span>Truth is unclear</span><strong>Do not synthesize yet</strong><p>First identify missing evidence and conflicting sources.</p><a href="/prompts/research/">Use evidence-first research prompts →</a></div>
+</div>
+
+<h2>Strict source-verification prompt</h2><div class="code" id="evidencePrompt">Answer only from the evidence boundary defined below.
+
+QUESTION
+[QUESTION]
+
+ALLOWED EVIDENCE
+[LIST DOCUMENTS / URLS / SYSTEM OUTPUTS / DATASETS]
+
+BOUNDARY
+- Do not use outside knowledge unless explicitly allowed.
+- If the answer is not supported by the allowed evidence, say "Not established by the supplied evidence."
+- For every consequential claim, provide the source and exact section/page/record when available.
+- Distinguish direct evidence from inference.
+- If sources conflict, show both positions and explain the conflict.
+- Do not assign a numeric confidence score unless a scoring method is explicitly supplied.
+
+QUOTE-CHECK
+For each key conclusion:
+1. show the supporting source reference,
+2. provide a short supporting excerpt or exact record locator when permitted,
+3. explain how that evidence supports the conclusion,
+4. flag any gap between the evidence and the wording of the claim.
+
+OUTPUT
+1. Answer
+2. Evidence map
+3. Conflicts
+4. Unsupported / unknown items
+5. Verification steps</div>
+<div class="cta"><button class="button primary" data-copy="#evidencePrompt">Copy verification prompt</button><a class="button" href="/verify-ai-output/">Verify an AI answer</a></div>
+
+<h2>Why this matters</h2><p>Tool choice changes the failure mode. A closed-document task can be weakened by unnecessary web material. A current-events question can be weakened by a static document-only workflow. And questions about actual software behavior often require execution rather than another round of language-model reasoning.</p>
+
+<h2>Verification funnel</h2><div class="workflow-steps">
+<div><span>01</span><strong>Define the evidence boundary</strong><p>Internal only, public only, mixed, executable system or human authority.</p></div>
+<div><span>02</span><strong>Choose the retrieval path</strong><p>Use a tool that can access the evidence you actually trust.</p></div>
+<div><span>03</span><strong>Force traceability</strong><p>Require source references for consequential claims and separate inference from direct evidence.</p></div>
+<div><span>04</span><strong>Quote-check a sample</strong><p>Manually inspect several important claims against the original source.</p></div>
+<div><span>05</span><strong>Escalate unknowns</strong><p>If evidence cannot establish the answer, route the question to a human or executable verification path.</p></div>
+</div>
+<div class="callout warning"><strong>Avoid false precision</strong>Numeric “confidence scores” generated by a model can look rigorous without being calibrated. Prefer explicit evidence status: supported, inferred, conflicting or not established.</div>
+<div data-feedback-widget data-context="evidence-boundary-framework"></div>
+</article><aside class="side"><div class="sidebox"><h3>Quick rule</h3><p>Choose the evidence boundary first. Choose the AI tool second.</p></div><div class="sidebox"><h3>Related</h3><p><a href="/best/ai-research-tools/">AI research buyer guide</a><br><a href="/workflows/research-to-brief/">Research-to-brief workflow</a><br><a href="/verify-ai-output/">AI Output Verifier</a></p></div></aside></main><footer class="footer">© 2026 DiscoverAINow.com · Useful AI, tested and explained.</footer><script src="/analytics.js"></script><script src="/feedback.js"></script><script src="/copy-blocks.js"></script></body></html>
