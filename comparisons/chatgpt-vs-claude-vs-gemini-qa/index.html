@@ -1,1 +1,103 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ChatGPT vs Claude vs Gemini for QA Testing | Discover AI Now</title><meta name="description" content="A transparent comparison framework for evaluating ChatGPT, Claude and Gemini on software testing tasks."><link rel="canonical" href="https://discoverainow.com/comparisons/chatgpt-vs-claude-vs-gemini-qa/"><link rel="stylesheet" href="/content.css"></head><body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/benchmarks/ai-testing/">Benchmark</a><a href="/guides/ai-for-qa-testing/">Guide</a></nav></header><main class="article-shell"><article class="article"><div class="breadcrumbs"><a href="/">Home</a> / Comparisons</div><span class="eyebrow">Comparison · experiment plan</span><h1>ChatGPT vs Claude vs Gemini for QA testing.</h1><p class="dek">The useful question is not “which chatbot is smartest?” It is which model produces the most usable testing output for a specific job with the least hidden risk.</p><div class="callout warning"><strong>We have not published a winner.</strong>This page intentionally contains the comparison design before scored runs are complete. Any future ranking will be based on the published benchmark, not impressions.</div><h2>What we will compare</h2><table><thead><tr><th>QA job</th><th>What good looks like</th></tr></thead><tbody><tr><td>Requirement review</td><td>Finds ambiguity and missing acceptance criteria without inventing requirements.</td></tr><tr><td>Test design</td><td>Balanced positive, negative, boundary and dependency coverage.</td></tr><tr><td>Edge cases</td><td>Prioritizes realistic high-impact failures over generic lists.</td></tr><tr><td>Automation</td><td>Maintainable code, reliable waits, clear assertions, minimal brittle selectors.</td></tr><tr><td>Defect reasoning</td><td>Distinguishes evidence from hypothesis and asks for missing information.</td></tr></tbody></table><h2>The prompt-control rule</h2><p>Each model gets equivalent context, task instructions and output constraints. Model-specific prompting tricks are tested separately because optimizing one model more heavily would make a head-to-head comparison misleading.</p><h2>How to choose before our scored run is published</h2><p>Use the model that performs best on <em>your repeatable task</em>. Take one representative requirement, define the expected cases before running the model, then compare misses and cleanup effort. Do not use answer length as a proxy for quality.</p><div class="cta"><a class="button primary" href="/benchmarks/ai-testing/">Use our scoring rubric</a><a class="button" href="/prompts/software-testers/">Copy QA prompts</a></div></article><aside class="side"><div class="sidebox"><h3>Decision rule</h3><p>A model that returns 40 cases but misses the critical boundary can be worse than one returning 15 focused cases.</p></div></aside></main><footer class="footer">© 2026 DiscoverAINow.com</footer><script src="/analytics.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT vs Claude vs Gemini for QA Testing | Discover AI Now</title>
+<meta name="description" content="A transparent, visual comparison framework for evaluating ChatGPT, Claude and Gemini on software testing tasks.">
+<link rel="canonical" href="https://discoverainow.com/comparisons/chatgpt-vs-claude-vs-gemini-qa/">
+<link rel="stylesheet" href="/content.css">
+</head>
+<body>
+<header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/tools/">Tools</a><a href="/prompts/">Prompts</a><a href="/workflows/jira-story-to-test-cases/">Workflows</a><a class="active" href="/comparisons/chatgpt-vs-claude-vs-gemini-qa/">Compare</a><a href="/tutorials/">Tutorials</a></nav></header>
+
+<main class="article-shell">
+<article class="article">
+<div class="breadcrumbs"><a href="/">Home</a> / Comparisons / QA models</div>
+<span class="eyebrow">Comparison · benchmark design</span>
+<h1>ChatGPT vs Claude vs Gemini for QA testing.</h1>
+<p class="dek">The useful question is not “which chatbot is smartest?” It is which one produces the most usable output for your testing task with the least hidden risk.</p>
+
+<div class="callout warning"><strong>No winner published yet.</strong>We are showing the comparison framework before publishing scores. That keeps the benchmark honest: the rules cannot be changed after seeing which model performs best.</div>
+
+<h2>Same task. Same evidence. Same scoring.</h2>
+<div class="compare-flow">
+  <div><span>01</span><strong>One requirement</strong><p>All models receive equivalent source material and constraints.</p></div>
+  <div><span>02</span><strong>Equivalent prompt</strong><p>No model gets special optimization in the head-to-head run.</p></div>
+  <div><span>03</span><strong>Human rubric</strong><p>Correctness, coverage, risk, hallucinations and cleanup.</p></div>
+  <div><span>04</span><strong>Raw misses shown</strong><p>The useful part is what each model overlooked, not just a final number.</p></div>
+</div>
+
+<div class="compare-board">
+  <div class="compare-board-head">
+    <div><strong>QA task</strong></div>
+    <div class="compare-brand"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://chatgpt.com" alt="ChatGPT icon">ChatGPT</div>
+    <div class="compare-brand"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://claude.ai" alt="Claude icon">Claude</div>
+    <div class="compare-brand"><img src="https://www.google.com/s2/favicons?sz=128&domain_url=https://gemini.google.com" alt="Gemini icon">Gemini</div>
+  </div>
+  <div class="compare-row">
+    <div>Requirement review</div>
+    <div class="compare-cell">Check ambiguity, missing rules and unsupported assumptions.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Check ambiguity, missing rules and unsupported assumptions.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Check ambiguity, missing rules and unsupported assumptions.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+  </div>
+  <div class="compare-row">
+    <div>Test design</div>
+    <div class="compare-cell">Positive, negative, boundary, state and dependency coverage.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Positive, negative, boundary, state and dependency coverage.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Positive, negative, boundary, state and dependency coverage.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+  </div>
+  <div class="compare-row">
+    <div>Automation</div>
+    <div class="compare-cell">Selectors, waits, assertions, isolation and maintainability.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Selectors, waits, assertions, isolation and maintainability.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Selectors, waits, assertions, isolation and maintainability.<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+  </div>
+  <div class="compare-row">
+    <div>Defect reasoning</div>
+    <div class="compare-cell">Does it separate evidence from hypothesis and ask for missing data?<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Does it separate evidence from hypothesis and ask for missing data?<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+    <div class="compare-cell">Does it separate evidence from hypothesis and ask for missing data?<div class="metric-line"><i style="width:0"></i></div><div class="compare-note">Score pending benchmark run</div></div>
+  </div>
+</div>
+
+<h2>What “good” actually means</h2>
+<div class="visual-checklist">
+  <div><strong>Correctness</strong><span>No invented requirements or fake APIs.</span></div>
+  <div><strong>Coverage</strong><span>Important risks, not just more test cases.</span></div>
+  <div><strong>Prioritization</strong><span>High-impact failures are separated from low-value noise.</span></div>
+  <div><strong>Automation quality</strong><span>Reliable waits, clear assertions and maintainable structure.</span></div>
+  <div><strong>Hallucination control</strong><span>Uncertainty is labeled rather than silently filled in.</span></div>
+  <div><strong>Cleanup required</strong><span>How much human correction is needed before use.</span></div>
+</div>
+
+<h2>Try the same experiment yourself</h2>
+<p>Take one representative story from your product. Before asking any model for test cases, write down 5–10 risks you expect a strong tester to notice. Then use the same requirement with each model and compare <strong>misses</strong>, not output length.</p>
+
+<div class="code">You are reviewing the requirement below as a senior QA engineer.
+
+First identify:
+1. ambiguous or missing rules,
+2. high-risk edge cases,
+3. boundary conditions,
+4. state/time/concurrency risks,
+5. assumptions you would NOT make without clarification.
+
+Then generate a prioritized test set.
+
+Do not invent business rules.
+Label assumptions explicitly.
+
+REQUIREMENT:
+[PASTE REQUIREMENT]</div>
+
+<div class="cta"><a class="button primary" href="/benchmarks/ai-testing/">See scoring rubric</a><a class="button" href="/prompts/software-testers/">Use QA prompts</a><a class="button" href="/tutorials/">Official tutorials</a></div>
+</article>
+
+<aside class="side">
+  <div class="sidebox"><h3>Decision rule</h3><p>A model that returns 40 cases but misses the critical boundary can be worse than one returning 15 focused cases.</p></div>
+  <div class="sidebox"><h3>Official tools</h3><p><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT ↗</a></p><p><a href="https://claude.ai/" target="_blank" rel="noopener">Claude ↗</a></p><p><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini ↗</a></p></div>
+</aside>
+</main>
+<footer class="footer">© 2026 DiscoverAINow.com</footer><script src="/analytics.js"></script>
+</body>
+</html>
