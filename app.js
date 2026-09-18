@@ -219,11 +219,20 @@ el('newsletterForm')?.addEventListener('submit',async e=>{
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({email,source:'homepage'})
     });
-    if(!r.ok)throw new Error('signup_failed');
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok){
+      throw new Error(data.error||'signup_failed');
+    }
     e.currentTarget.reset();
     toast('You’re subscribed.');
-    if(note)note.textContent='Subscribed. Your weekly brief will focus on useful workflows, prompts and tools.';
-    window.dainTrack?.('newsletter_signup',{source:'homepage'});
+    if(note){
+      note.textContent=data.welcome==='sent'
+        ? 'Subscribed. Check your inbox for the welcome email.'
+        : data.welcome==='send_failed'
+          ? 'Subscribed. Your welcome email may be delayed.'
+          : 'Subscribed. Your weekly brief will focus on useful workflows, prompts and tools.';
+    }
+    window.dainTrack?.('newsletter_signup',{source:'homepage',welcome:data.welcome||'unknown'});
   }catch(err){
     console.warn(err);
     toast('Could not subscribe right now. Please try again.');
