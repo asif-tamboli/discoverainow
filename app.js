@@ -327,6 +327,25 @@ async function githubSearch(query, perPage=12) {
   return Array.isArray(r.items)?r.items:[];
 }
 
+async function githubMultiSearch(queries, perQuery=8) {
+  const merged = [];
+  const seen = new Set();
+  for (const query of queries) {
+    try {
+      const items = await githubSearch(query, perQuery);
+      for (const item of items) {
+        if (!item || seen.has(item.id)) continue;
+        seen.add(item.id);
+        merged.push(item);
+      }
+      if (merged.length >= 12) break;
+    } catch (e) {
+      console.warn('GitHub query failed:', query, e);
+    }
+  }
+  return merged.sort((a,b)=>(b.stargazers_count||0)-(a.stargazers_count||0));
+}
+
 function renderGithubResources(targetId, items, type, icon, sourceText='GitHub') {
   if(!items?.length) return false;
   el(targetId).innerHTML=items.slice(0,9).map(x=>{
@@ -345,19 +364,28 @@ function renderGithubResources(targetId, items, type, icon, sourceText='GitHub')
 async function loadGithubAgents() {
   setSourceStatus('agents','Loading open-source agents…','loading');
   try {
-    const {data:items,cached}=await cachedFetch('dain_gh_agents_v1',()=>githubSearch('(topic:ai-agent OR topic:agentic-ai OR topic:llm-agent) stars:>50',15),45*60*1000);
+    const {data:items,cached}=await cachedFetch('dain_gh_agents_v2',()=>githubMultiSearch([
+      'topic:ai-agent stars:>20',
+      'agentic-ai in:name,description stars:>20',
+      'llm-agent in:name,description stars:>20'
+    ],8),45*60*1000);
     if(!renderGithubResources('agentGrid',items,'agent','♙')) throw new Error('No agents');
     setSourceStatus('agents',(cached?'Cached':'Live')+' · GitHub');
   } catch(e) {
     console.warn('GitHub agents failed',e);
-    setSourceStatus('agents','Curated agents · GitHub unavailable','error');
+    setSourceStatus('agents','Curated agents · live GitHub feed paused','error');
   }
 }
 
 async function loadGithubWorkflows() {
   setSourceStatus('workflows','Loading AI workflows…','loading');
   try {
-    const {data:items,cached}=await cachedFetch('dain_gh_workflows_v1',()=>githubSearch('("ai workflow" OR "llm workflow" OR "agent workflow") stars:>20',12),45*60*1000);
+    const {data:items,cached}=await cachedFetch('dain_gh_workflows_v2',()=>githubMultiSearch([
+      'ai-workflow in:name,description stars:>10',
+      'llm-workflow in:name,description stars:>10',
+      'agent-workflow in:name,description stars:>10',
+      'workflow ai in:name,description stars:>20'
+    ],7),45*60*1000);
     if(!items?.length) throw new Error('No workflows');
     el('workflowGrid').innerHTML=items.slice(0,8).map((x,i)=>`<a class="workflow-card searchable live-workflow" data-type="workflow" data-search="${esc(((x.name||'')+' '+(x.description||'')).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
       <span class="workflow-step">${String(i+1).padStart(2,'0')}</span>
@@ -369,13 +397,17 @@ async function loadGithubWorkflows() {
     setSourceStatus('workflows',(cached?'Cached':'Live')+' · GitHub');
   } catch(e) {
     console.warn('GitHub workflows failed',e);
-    setSourceStatus('workflows','Curated workflows · GitHub unavailable','error');
+    setSourceStatus('workflows','Curated workflows · live GitHub feed paused','error');
   }
 }
 
 async function loadPromptCollections() {
   try {
-    const {data:items}=await cachedFetch('dain_gh_prompts_v1',()=>githubSearch('("prompt engineering" OR "awesome prompts") stars:>200',8),60*60*1000);
+    const {data:items}=await cachedFetch('dain_gh_prompts_v2',()=>githubMultiSearch([
+      'prompt-engineering in:name,description stars:>100',
+      'awesome-prompts in:name,description stars:>100',
+      'chatgpt-prompts in:name,description stars:>100'
+    ],6),60*60*1000);
     if(!items?.length) return;
     const live=items.slice(0,2).map(x=>`<a class="prompt-card searchable live-prompt-collection" data-type="prompt" data-search="${esc(((x.name||'')+' '+(x.description||'')).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
       <div class="prompt-head"><div><span class="prompt-category">Community collection</span><h3>${esc(x.name||'Prompt collection')}</h3></div><span class="collection-stars">★ ${shortNumber(x.stargazers_count)}</span></div>
