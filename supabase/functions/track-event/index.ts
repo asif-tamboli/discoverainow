@@ -11,7 +11,8 @@ const ALLOWED_EVENTS = new Set([
   "session_start","return_pageview","page_view","tool_click","outbound_click","affiliate_click",
   "prompt_copy","workflow_open","newsletter_signup","newsletter_waitlist_join","search","search_no_result",
   "benchmark_view","comparison_open","youtube_click","hero_benchmark","hero_qa_guide",
-  "home_benchmark","home_comparison","home_workflow","home_prompts","benchmark_to_comparison"
+  "home_benchmark","home_comparison","home_workflow","home_prompts","benchmark_to_comparison",
+  "hero_prompts","hero_tools","prompt_gallery_image","prompt_gallery_coding","prompt_gallery_writing","prompt_gallery_qa"
 ]);
 
 function cors(origin:string|null){
