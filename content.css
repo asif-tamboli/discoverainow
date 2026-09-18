@@ -601,3 +601,17 @@ input,textarea,select,button,pre{max-width:100%}
 .result-loop>span{font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-right:3px}
 .result-loop>a{font-size:11px;font-weight:750;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:var(--surface)}
 @media(max-width:620px){.result-loop{align-items:stretch}.result-loop>a{width:100%;text-align:center}}
+
+/* UX consolidation: denser hubs, clearer clickable surfaces */
+.clean-card{grid-template-columns:auto 1fr;min-height:112px;padding:18px}.clean-card-copy span{max-width:48ch}.clean-card>b{display:none}
+.hub-hero{padding-bottom:24px}.hub-section{padding-top:38px}.hub-section-heading{margin-bottom:14px}
+.utility-bridge{align-items:center}.utility-bridge p{max-width:60ch}
+.prompt-suite{padding:28px 0 6px;border-bottom:1px solid var(--line)}
+.prompt-suite-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.prompt-suite-grid>a{display:block;border:1px solid var(--line);border-radius:15px;background:var(--surface);padding:15px;min-height:104px}
+.prompt-suite-grid>a:hover{background:var(--surface-2)}
+.prompt-suite-grid span,.prompt-suite-grid strong,.prompt-suite-grid small{display:block}
+.prompt-suite-grid span{font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:var(--blue);font-weight:850}
+.prompt-suite-grid strong{font-size:14px;margin-top:7px}.prompt-suite-grid small{font-size:10.5px;color:var(--muted);line-height:1.45;margin-top:4px}
+@media(max-width:860px){.prompt-suite-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.prompt-suite-grid{grid-template-columns:1fr}.clean-card{min-height:100px;padding:15px}}
