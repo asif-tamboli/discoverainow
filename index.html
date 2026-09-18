@@ -44,21 +44,14 @@
       <div class="hero-copy">
         <span class="eyebrow">AI for real work</span>
         <h1>Useful AI.<br><span>Without the noise.</span></h1>
-        <p>Start with what you need to accomplish. Get a workflow, prompt, tool recommendation and tutorial—not another directory.</p>
+        <p>Tell us the task. We’ll route you to the right tool, prompt and workflow.</p>
 
-        <form id="searchForm" class="hero-search">
+        <form id="searchForm" class="hero-search decision-search">
           <span class="search-icon">⌕</span>
-          <input id="globalSearch" type="search" placeholder="What do you want AI to help you do?" autocomplete="off" />
-          <select id="categorySelect" aria-label="Category">
-            <option value="all">Everything</option>
-            <option value="workflow">Workflows</option>
-            <option value="prompt">Prompts</option>
-            <option value="guide">Guides</option>
-            <option value="tool">Tools</option>
-            <option value="news">Radar</option>
-          </select>
-          <button type="submit">Search</button>
+          <input id="globalSearch" type="search" placeholder="What are you trying to do?" autocomplete="off" />
+          <button type="submit">Find my approach</button>
         </form>
+        <div id="decisionResult" class="decision-result" hidden></div>
 
         <div class="topic-row">
           <button class="topic-chip" data-query="Research">Research</button>
@@ -89,20 +82,16 @@
       <div><span class="section-kicker">Use AI, don’t just browse it</span><h2>Three ways to start</h2></div>
     </div>
     <div class="buyer-grid">
-      <a class="buyer-card searchable" data-type="guide" data-search="use cases tasks do this with ai website pdf video research" href="/use-cases/"><span>Use cases</span><h3>Start with the job</h3><p>Website, PDF summaries, video, research, presentations, coding and automation.</p></a>
-      <a class="buyer-card searchable" data-type="prompt" data-search="prompt builder customize structured prompt image coding research writing marketing" href="/prompt-builder/"><span>Prompt Builder</span><h3>Build a prompt around your context</h3><p>Create a reusable prompt with output format, constraints and recommended tool fit.</p></a>
-      <a class="buyer-card searchable" data-type="guide" data-search="benchmarks comparisons experiments testing evidence" href="/benchmarks/"><span>Benchmark Lab</span><h3>See how we test AI tools</h3><p>Fixed task, fixed prompt, published rubric and no scores until the experiment is actually run.</p></a>
+      <a class="buyer-card searchable" data-type="guide" data-search="use cases tasks website pdf video research" href="/use-cases/"><span>I know my task</span><h3>Start with a use case</h3><p>Go from a specific job to a practical AI workflow.</p></a>
+      <a class="buyer-card searchable" data-type="prompt" data-search="prompt builder structured prompt" href="/prompt-builder/"><span>I need a prompt</span><h3>Build it around your context</h3><p>Turn your goal and constraints into a reusable prompt.</p></a>
+      <a class="buyer-card searchable" data-type="tool" data-search="tool finder choose ai recommendation" href="/tool-finder/"><span>I need to choose AI</span><h3>Find the right tool</h3><p>Get a recommendation based on the job you need done.</p></a>
     </div>
   </section>
 
-  <section class="home-wrap finder-home">
-    <div class="finder-home-inner">
-      <div>
-        <span class="section-kicker">Not sure which AI tool to use?</span>
-        <h2>Describe the job. Get a strong-fit tool.</h2>
-        <p>Tell us what you want to accomplish—build a website, summarize documents, generate a video, automate a workflow, research a topic—and we’ll explain which tools fit best and why.</p>
-      </div>
-      <a class="finder-home-cta" href="/tool-finder/">Try the AI Tool Finder <span>→</span></a>
+  <section class="home-wrap proof-home">
+    <div class="proof-home-inner">
+      <div><span class="section-kicker">Evidence & benchmarks</span><h2>Recommendations should have a reason.</h2><p>See the protocols and evidence behind our tool comparisons. We publish the test before we publish a score.</p></div>
+      <a href="/benchmarks/" class="proof-card"><strong>Benchmark Lab</strong><small>Protocols · experiments · failure modes</small></a>
     </div>
   </section>
 
