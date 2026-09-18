@@ -276,3 +276,14 @@ body.dark .prompt-snippet>p{color:#b4bdc9}
   .workflow-feature-grid,.prompt-snippet-grid,.buyer-grid,.internal-tool-grid{grid-template-columns:1fr}
   .workflow-feature-card,.buyer-card{min-height:auto}
 }
+
+
+/* ===== Tool Finder homepage CTA ===== */
+.finder-home{padding-top:42px!important}
+.finder-home-inner{display:grid;grid-template-columns:1.2fr auto;gap:28px;align-items:center;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.finder-home h2{font-size:30px;letter-spacing:-1px;margin:6px 0 8px}
+.finder-home p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.55;max-width:760px}
+.finder-home-cta{display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:46px;padding:0 16px;border-radius:11px;background:#101114;color:#fff;font-size:11px;font-weight:850;white-space:nowrap}
+.finder-home-cta:hover{transform:translateY(-1px)}
+.finder-home-cta span{font-size:15px}
+@media(max-width:760px){.finder-home-inner{grid-template-columns:1fr}.finder-home-cta{justify-self:start}.finder-home h2{font-size:26px}}
