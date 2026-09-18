@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://discoverainow.com/</loc></url>
+  <url><loc>https://discoverainow.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://discoverainow.com/benchmarks/ai-testing/</loc><priority>0.9</priority></url>
+  <url><loc>https://discoverainow.com/comparisons/chatgpt-vs-claude-vs-gemini-qa/</loc><priority>0.9</priority></url>
+  <url><loc>https://discoverainow.com/guides/ai-for-qa-testing/</loc><priority>0.9</priority></url>
+  <url><loc>https://discoverainow.com/prompts/software-testers/</loc><priority>0.8</priority></url>
+  <url><loc>https://discoverainow.com/workflows/jira-story-to-test-cases/</loc><priority>0.8</priority></url>
+  <url><loc>https://discoverainow.com/about/methodology/</loc><priority>0.6</priority></url>
+  <url><loc>https://discoverainow.com/disclosure/</loc><priority>0.5</priority></url>
 </urlset>
