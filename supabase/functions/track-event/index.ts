@@ -12,7 +12,7 @@ const ALLOWED_EVENTS = new Set([
   "prompt_copy","workflow_open","newsletter_signup","newsletter_waitlist_join","search","search_no_result",
   "benchmark_view","comparison_open","youtube_click","hero_benchmark","hero_qa_guide",
   "home_benchmark","home_comparison","home_workflow","home_prompts","benchmark_to_comparison",
-  "hero_prompts","hero_tools","prompt_gallery_image","prompt_gallery_coding","prompt_gallery_writing","prompt_gallery_qa","tool_finder_result","prompt_builder_generate","prompt_builder_copy","use_case_open"
+  "hero_prompts","hero_tools","prompt_gallery_image","prompt_gallery_coding","prompt_gallery_writing","prompt_gallery_qa","tool_finder_result","prompt_builder_generate","prompt_builder_copy","use_case_open","workflow_generator_generate","workflow_generator_copy","prompt_evaluator_run","prompt_evaluator_copy","output_verifier_run","output_verifier_copy","utility_feedback","utility_feedback_detail"
 ]);
 
 function cors(origin:string|null){
