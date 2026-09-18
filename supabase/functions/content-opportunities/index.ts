@@ -11,12 +11,14 @@ Deno.serve(async(req:Request)=>{
     const {data,error}=await supabase.from("events")
       .select("event_name,properties,created_at")
       .gte("created_at",since)
-      .in("event_name",["search","search_no_result","tool_finder_result","prompt_builder_generate"]);
+      .in("event_name",["search","search_no_result","tool_finder_result","prompt_builder_generate","workflow_generator_generate","prompt_evaluator_run","output_verifier_run","utility_feedback"]);
     if(error) throw error;
 
     const searches=new Map<string,{count:number,no_result:number}>();
     const finder=new Map<string,number>();
     const builders=new Map<string,number>();
+    const utilities=new Map<string,number>();
+    const feedback=new Map<string,{yes:number,no:number}>();
 
     for(const row of data||[]){
       const p:any=row.properties||{};
@@ -36,6 +38,16 @@ Deno.serve(async(req:Request)=>{
         const type=String(p.type||"unknown");
         builders.set(type,(builders.get(type)||0)+1);
       }
+      if(["workflow_generator_generate","prompt_evaluator_run","output_verifier_run"].includes(row.event_name)){
+        const utility=row.event_name.replace(/_(generate|run)$/,"");
+        utilities.set(utility,(utilities.get(utility)||0)+1);
+      }
+      if(row.event_name==="utility_feedback"){
+        const context=String(p.context||"unknown");
+        const cur=feedback.get(context)||{yes:0,no:0};
+        if(String(p.value)==="yes") cur.yes++; else if(String(p.value)==="no") cur.no++;
+        feedback.set(context,cur);
+      }
     }
 
     const searchSignals=[...searches.entries()]
@@ -45,6 +57,8 @@ Deno.serve(async(req:Request)=>{
 
     const toolFinder=[...finder.entries()].map(([task,count])=>({task,count})).sort((a,b)=>b.count-a.count);
     const promptBuilder=[...builders.entries()].map(([type,count])=>({type,count})).sort((a,b)=>b.count-a.count);
+    const utilityDemand=[...utilities.entries()].map(([utility,count])=>({utility,count})).sort((a,b)=>b.count-a.count);
+    const usefulness=[...feedback.entries()].map(([context,v])=>({context,...v,total:v.yes+v.no,helpful_rate:(v.yes+v.no)?Math.round((v.yes/(v.yes+v.no))*100):null})).sort((a,b)=>b.total-a.total);
 
     const recommendations=[
       ...searchSignals.filter(x=>x.no_result>0).slice(0,5).map(x=>({
@@ -65,6 +79,8 @@ Deno.serve(async(req:Request)=>{
       search_signals:searchSignals,
       tool_finder_demand:toolFinder,
       prompt_builder_demand:promptBuilder,
+      utility_demand:utilityDemand,
+      usefulness_feedback:usefulness,
       recommended_content_opportunities:recommendations
     }),{headers:{"Content-Type":"application/json"}});
   }catch(err){
