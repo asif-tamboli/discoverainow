@@ -106,5 +106,13 @@ document.querySelector('#themeToggle').addEventListener('click', () => {
 });
 
 document.querySelector('#newsletterForm').addEventListener('submit', e => {
-  e.preventDefault(); e.currentTarget.reset(); toast('Thanks — signup UI is ready to connect.');
+  e.preventDefault(); e.currentTarget.reset(); toast('Thanks — you’re on the list.');
 });
+
+const searchJump = document.querySelector('#searchJump');
+if (searchJump) {
+  searchJump.addEventListener('click', () => {
+    input.focus();
+    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
