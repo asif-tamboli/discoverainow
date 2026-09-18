@@ -11,7 +11,7 @@ Deno.serve(async(req:Request)=>{
     const {data,error}=await supabase.from("events")
       .select("event_name,properties,created_at")
       .gte("created_at",since)
-      .in("event_name",["search","search_no_result","tool_finder_result","prompt_builder_generate","workflow_generator_generate","prompt_evaluator_run","output_verifier_run","utility_feedback"]);
+      .in("event_name",["search","search_no_result","tool_finder_result","prompt_builder_generate","workflow_generator_generate","prompt_evaluator_run","output_verifier_run","utility_feedback","content_request_submit"]);
     if(error) throw error;
 
     const searches=new Map<string,{count:number,no_result:number}>();
@@ -19,6 +19,7 @@ Deno.serve(async(req:Request)=>{
     const builders=new Map<string,number>();
     const utilities=new Map<string,number>();
     const feedback=new Map<string,{yes:number,no:number}>();
+    const requests=new Map<string,number>();
 
     for(const row of data||[]){
       const p:any=row.properties||{};
@@ -48,6 +49,10 @@ Deno.serve(async(req:Request)=>{
         if(String(p.value)==="yes") cur.yes++; else if(String(p.value)==="no") cur.no++;
         feedback.set(context,cur);
       }
+      if(row.event_name==="content_request_submit"){
+        const key=String(p.type||"other")+":"+String(p.role||"unspecified");
+        requests.set(key,(requests.get(key)||0)+1);
+      }
     }
 
     const searchSignals=[...searches.entries()]
@@ -59,6 +64,7 @@ Deno.serve(async(req:Request)=>{
     const promptBuilder=[...builders.entries()].map(([type,count])=>({type,count})).sort((a,b)=>b.count-a.count);
     const utilityDemand=[...utilities.entries()].map(([utility,count])=>({utility,count})).sort((a,b)=>b.count-a.count);
     const usefulness=[...feedback.entries()].map(([context,v])=>({context,...v,total:v.yes+v.no,helpful_rate:(v.yes+v.no)?Math.round((v.yes/(v.yes+v.no))*100):null})).sort((a,b)=>b.total-a.total);
+    const requestDemand=[...requests.entries()].map(([segment,count])=>({segment,count})).sort((a,b)=>b.count-a.count);
 
     const recommendations=[
       ...searchSignals.filter(x=>x.no_result>0).slice(0,5).map(x=>({
@@ -81,6 +87,7 @@ Deno.serve(async(req:Request)=>{
       prompt_builder_demand:promptBuilder,
       utility_demand:utilityDemand,
       usefulness_feedback:usefulness,
+      request_demand:requestDemand,
       recommended_content_opportunities:recommendations
     }),{headers:{"Content-Type":"application/json"}});
   }catch(err){
