@@ -86,3 +86,162 @@ el('headerSearch').addEventListener('click',()=>{input.focus();document.querySel
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();el('headerSearch').click()}});
 el('themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');el('themeToggle').textContent=document.body.classList.contains('dark')?'☀':'☾'});
 el('newsletterForm').addEventListener('submit',e=>{e.preventDefault();e.currentTarget.reset();toast('Thanks — you’re subscribed.')});
+
+/* ===== Live AI news: Hacker News API ===== */
+const HN_BASE = 'https://hacker-news.firebaseio.com/v0';
+const LIVE_CACHE_KEY = 'discoverainow_hn_ai_v1';
+const LIVE_CACHE_MS = 15 * 60 * 1000;
+
+const AI_TERMS = [
+  'artificial intelligence','generative ai','machine learning','deep learning',
+  'openai','chatgpt','gpt-','gpt4','gpt5','anthropic','claude','gemini',
+  'llm','large language model','language model','ai agent','ai agents',
+  'agentic','copilot','mistral','llama','hugging face','huggingface',
+  'midjourney','stable diffusion','diffusion model','transformer',
+  'inference','foundation model','multimodal','computer vision','speech model',
+  'ai coding','coding agent','reasoning model'
+];
+
+function isAiStory(item) {
+  if (!item || item.type !== 'story' || item.dead || item.deleted) return false;
+  const haystack = ((item.title || '') + ' ' + (item.text || '')).toLowerCase();
+  return AI_TERMS.some(term => haystack.includes(term));
+}
+
+function storyRank(item) {
+  const ageHours = Math.max(1, (Date.now()/1000 - (item.time || 0)) / 3600);
+  const score = Number(item.score || 0);
+  const comments = Number(item.descendants || 0);
+  return (score * 1.2 + comments * 0.5) / Math.pow(ageHours, 0.38);
+}
+
+function getStoryUrl(item) {
+  return item.url || ('https://news.ycombinator.com/item?id=' + item.id);
+}
+
+function getDomain(url) {
+  try { return new URL(url).hostname.replace(/^www\./,''); }
+  catch { return 'news.ycombinator.com'; }
+}
+
+function relativeTime(unix) {
+  const secs = Math.max(1, Math.floor(Date.now()/1000 - unix));
+  if (secs < 3600) return Math.floor(secs/60) + ' min ago';
+  if (secs < 86400) return Math.floor(secs/3600) + ' hr ago';
+  return Math.floor(secs/86400) + ' day' + (Math.floor(secs/86400) === 1 ? '' : 's') + ' ago';
+}
+
+function liveLabel(title='') {
+  const t = title.toLowerCase();
+  if (/agent|agentic/.test(t)) return 'Agents';
+  if (/code|coding|developer|github|copilot/.test(t)) return 'Coding';
+  if (/image|video|diffusion|midjourney/.test(t)) return 'Creative AI';
+  if (/openai|anthropic|claude|gemini|gpt|llama|mistral|model/.test(t)) return 'Models';
+  return 'AI News';
+}
+
+function liveVisual(index) {
+  return ['visual-wave','visual-chat','visual-bot','visual-sail'][index % 4];
+}
+
+function renderLiveTrending(stories) {
+  if (!stories.length) return;
+  el('trendingGrid').innerHTML = stories.slice(0,4).map((x,i)=> {
+    const url = getStoryUrl(x);
+    const domain = getDomain(url);
+    return `<a class="article-card searchable live-article" data-type="news" data-search="${(x.title+' '+domain+' '+liveLabel(x.title)).toLowerCase()}" href="${url}" target="_blank" rel="noopener noreferrer">
+      <div class="article-thumb ${liveVisual(i)}"><span class="bookmark">↗</span><span class="live-pill">LIVE</span></div>
+      <div class="article-body">
+        <span class="article-type">${liveLabel(x.title)}</span>
+        <h3>${x.title}</h3>
+        <p>${domain} · ${x.score || 0} points · ${x.descendants || 0} comments</p>
+        <div class="article-meta">${relativeTime(x.time)} &nbsp;•&nbsp; Hacker News</div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+function renderLiveNews(stories) {
+  if (!stories.length) return;
+  el('newsGrid').innerHTML = stories.slice(0,8).map(x => {
+    const url = getStoryUrl(x);
+    const domain = getDomain(url);
+    return `<a class="news-item searchable live-news-item" data-type="news" data-search="${(x.title+' '+domain+' '+liveLabel(x.title)).toLowerCase()}" href="${url}" target="_blank" rel="noopener noreferrer">
+      <span class="news-date">${relativeTime(x.time)}</span>
+      <div><h3>${x.title}</h3><p>${domain} · ${x.score || 0} points · ${x.descendants || 0} comments</p></div>
+      <span class="news-source">Read ↗</span>
+    </a>`;
+  }).join('');
+}
+
+function setLiveStatus(text, state='ok') {
+  let node = document.querySelector('.live-data-status');
+  if (!node) {
+    node = document.createElement('div');
+    node.className = 'live-data-status';
+    const trending = document.querySelector('#content .section-title-row');
+    if (trending) trending.appendChild(node);
+  }
+  node.dataset.state = state;
+  node.textContent = text;
+}
+
+async function fetchJson(url, timeoutMs=8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(), timeoutMs);
+  try {
+    const r = await fetch(url, {signal: controller.signal, cache:'no-store'});
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } finally { clearTimeout(timer); }
+}
+
+async function fetchHnAiStories() {
+  const cachedRaw = localStorage.getItem(LIVE_CACHE_KEY);
+  if (cachedRaw) {
+    try {
+      const cached = JSON.parse(cachedRaw);
+      if (Date.now() - cached.savedAt < LIVE_CACHE_MS && Array.isArray(cached.items)) {
+        setLiveStatus('Live AI feed · cached a few minutes ago');
+        return cached.items;
+      }
+    } catch {}
+  }
+
+  setLiveStatus('Refreshing live AI stories…','loading');
+  const [topIds, newIds] = await Promise.all([
+    fetchJson(HN_BASE + '/topstories.json'),
+    fetchJson(HN_BASE + '/newstories.json')
+  ]);
+
+  const ids = [...new Set([...(newIds || []).slice(0,55), ...(topIds || []).slice(0,45)])].slice(0,80);
+  const results = await Promise.allSettled(ids.map(id => fetchJson(HN_BASE + '/item/' + id + '.json', 6500)));
+  const items = results
+    .filter(r => r.status === 'fulfilled')
+    .map(r => r.value)
+    .filter(isAiStory)
+    .sort((a,b) => storyRank(b) - storyRank(a))
+    .slice(0,24);
+
+  if (items.length) {
+    localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({savedAt:Date.now(),items}));
+    setLiveStatus('Live AI feed · updated ' + new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}));
+  } else {
+    setLiveStatus('Live feed unavailable · showing curated content','error');
+  }
+  return items;
+}
+
+async function loadLiveAiNews() {
+  try {
+    const stories = await fetchHnAiStories();
+    if (!stories.length) return;
+    renderLiveTrending(stories);
+    renderLiveNews(stories);
+  } catch (err) {
+    console.warn('Live AI feed failed:', err);
+    setLiveStatus('Live feed unavailable · showing curated content','error');
+  }
+}
+
+loadLiveAiNews();
