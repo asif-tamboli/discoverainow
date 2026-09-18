@@ -3,19 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Discover AI Now — curated AI tools, prompts, agents, workflows, guides and news." />
+  <meta name="description" content="Discover AI Now tests AI tools, prompts and workflows on real work so you can see what actually works before you spend time or money." />
   <meta name="theme-color" content="#ffffff" />
-  <title>Discover AI Now</title>
+  <link rel="canonical" href="https://discoverainow.com/" />
+  <meta property="og:title" content="Discover AI Now — Find AI that actually works" />
+  <meta property="og:description" content="Tested tools, verified prompts, practical workflows and evidence-first AI guidance for developers and professionals." />
+  <meta property="og:url" content="https://discoverainow.com/" />
+  <meta property="og:type" content="website" />
+  <title>Discover AI Now — Find AI that actually works</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="Discover AI Now home">
-      <span class="brand-mark">D/</span><span>Discover AI Now</span>
-    </a>
+    <a class="brand" href="/" aria-label="Discover AI Now home"><span class="brand-mark">D/</span><span>Discover AI Now</span></a>
     <nav class="main-nav" aria-label="Primary navigation">
-      <a href="#tools">Tools</a><a href="#prompts">Prompts</a><a href="#agents">Agents</a>
-      <a href="#workflows">Workflows</a><a href="#guides">Guides</a><a href="#news">News</a><a href="#tutorials">Tutorials</a>
+      <a href="/benchmarks/ai-testing/">Benchmarks</a>
+      <a href="/comparisons/chatgpt-vs-claude-vs-gemini-qa/">Comparisons</a>
+      <a href="#tools">Tools</a>
+      <a href="#prompts">Prompts</a>
+      <a href="#workflows">Workflows</a>
+      <a href="#news">AI Radar</a>
     </nav>
     <div class="header-actions">
       <button class="header-search" id="headerSearch" type="button" aria-label="Focus search">⌕ <span>Search anything…</span><kbd>⌘ K</kbd></button>
@@ -27,143 +34,129 @@
     <section class="main-column">
       <section class="hero">
         <div class="hero-copy">
-          <span class="eyebrow">The AI toolkit for a brighter tomorrow</span>
-          <h1>Find the most useful AI tools, prompts, and workflows.</h1>
-          <p>Curated resources, practical guides, and real-world insights to help you use AI more effectively — without the noise.</p>
+          <span class="eyebrow">Evidence-first AI discovery</span>
+          <h1>Find AI that actually works.</h1>
+          <p>We test tools on real tasks, publish the prompts and workflows, and explain the failure modes so you can make better AI decisions without wasting hours on hype.</p>
           <div class="hero-actions">
-            <a class="button primary" href="#tools">Explore Tools <span>→</span></a>
-            <a class="button secondary" href="#prompts">Browse Prompts</a>
+            <a class="button primary track-link" data-event="hero_benchmark" href="/benchmarks/ai-testing/">See our benchmark <span>→</span></a>
+            <a class="button secondary track-link" data-event="hero_qa_guide" href="/guides/ai-for-qa-testing/">Start with AI for QA</a>
+          </div>
+          <div class="trust-row">
+            <span>✓ Reproducible methodology</span><span>✓ No pay-to-win rankings</span><span>✓ Sources linked</span>
           </div>
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="sunlight"></div>
-          <div class="plant">
-            <span class="stem"></span><i></i><i></i><i></i><i></i><i></i>
-            <b class="pot"></b>
+        <div class="hero-visual proof-visual" aria-hidden="true">
+          <div class="proof-sheet">
+            <span class="proof-kicker">DISCOVERAINOW BENCHMARK</span>
+            <strong>Same task.<br>Same prompt.<br>Better evidence.</strong>
+            <div class="proof-bars"><i style="width:88%"></i><i style="width:73%"></i><i style="width:64%"></i></div>
+            <small>Coverage · correctness · cleanup · hallucination risk</small>
           </div>
-          <div class="poster">Better<br>questions.<br>A brighter<br>future.</div>
-          <div class="mug">Create<br>a more<br>human<br>tomorrow.</div>
-          <div class="books"><span>Ideas</span><span>Tools</span><span>People</span><span>Progress</span></div>
-          <div class="laptop"><span></span></div>
-          <div class="scribble">Smarter tools.<br>Brighter humans.</div>
         </div>
       </section>
 
       <section class="search-panel" aria-label="Search and topics">
         <form id="searchForm" class="search-row">
           <span class="search-icon">⌕</span>
-          <input id="globalSearch" type="search" placeholder="Search for tools, prompts, agents, workflows, or topics…" autocomplete="off" />
+          <input id="globalSearch" type="search" placeholder="Search tools, prompts, agents, workflows or topics…" autocomplete="off" />
           <select id="categorySelect" aria-label="Category">
-            <option value="all">All categories</option>
-            <option value="tool">Tools</option>
-            <option value="prompt">Prompts</option>
-            <option value="agent">Agents</option>
-            <option value="workflow">Workflows</option>
-            <option value="guide">Guides</option>
-            <option value="news">News</option>
+            <option value="all">All categories</option><option value="tool">Tools</option><option value="prompt">Prompts</option>
+            <option value="agent">Agents</option><option value="workflow">Workflows</option><option value="guide">Guides</option><option value="news">News</option>
           </select>
           <button class="search-button" type="submit">Search →</button>
         </form>
         <div class="topic-row">
-          <button class="topic-chip" data-query="ChatGPT">◉ ChatGPT</button>
-          <button class="topic-chip" data-query="Midjourney">◒ Midjourney</button>
-          <button class="topic-chip" data-query="AI agents">♙ AI agents</button>
-          <button class="topic-chip" data-query="Productivity">ϟ Productivity</button>
-          <button class="topic-chip" data-query="Video generation">▣ Video generation</button>
-          <button class="topic-chip" data-query="Research">▤ Research</button>
-          <button class="topic-chip" data-query="Automation">⚙ Automation</button>
-          <button class="topics-link" data-query="">View all topics →</button>
+          <button class="topic-chip" data-query="QA">QA testing</button>
+          <button class="topic-chip" data-query="Coding">Coding</button>
+          <button class="topic-chip" data-query="AI agents">AI agents</button>
+          <button class="topic-chip" data-query="Research">Research</button>
+          <button class="topic-chip" data-query="Automation">Automation</button>
+          <button class="topic-chip" data-query="Productivity">Productivity</button>
+          <button class="topics-link" data-query="">View all →</button>
+        </div>
+      </section>
+
+      <section class="section-block evidence-section">
+        <div class="section-title-row"><div><span class="section-kicker">Original research</span><h2>Start with evidence, not a logo wall</h2><p>Our first authority cluster focuses on AI for software testing and developer work.</p></div><a href="/about/methodology/">How we test →</a></div>
+        <div class="evidence-grid">
+          <a class="evidence-card featured track-link" data-event="home_benchmark" href="/benchmarks/ai-testing/">
+            <span class="card-label">Benchmark methodology v1</span><h3>DiscoverAINow AI Testing Benchmark</h3>
+            <p>A reproducible rubric for comparing models and tools on requirement interpretation, test coverage, code correctness, hallucinations and manual cleanup.</p><b>View benchmark →</b>
+          </a>
+          <a class="evidence-card track-link" data-event="home_comparison" href="/comparisons/chatgpt-vs-claude-vs-gemini-qa/">
+            <span class="card-label">Comparison framework</span><h3>ChatGPT vs Claude vs Gemini for QA</h3>
+            <p>One requirement, one scoring method, transparent prompts. We never invent results that have not been run.</p><b>See comparison plan →</b>
+          </a>
+          <a class="evidence-card track-link" data-event="home_workflow" href="/workflows/jira-story-to-test-cases/">
+            <span class="card-label">Practical workflow</span><h3>Jira story → test cases → edge cases</h3>
+            <p>A step-by-step workflow with a reusable prompt and human verification checklist.</p><b>Use workflow →</b>
+          </a>
+          <a class="evidence-card track-link" data-event="home_prompts" href="/prompts/software-testers/">
+            <span class="card-label">Verified prompt pack</span><h3>AI prompts for software testers</h3>
+            <p>Prompts designed around real QA jobs: requirements, API tests, BDD, regression risk and defect analysis.</p><b>Get prompts →</b>
+          </a>
         </div>
       </section>
 
       <section class="section-block" id="explore">
-        <div class="section-title-row"><h2>Explore by category</h2><a href="#content">View all categories →</a></div>
+        <div class="section-title-row"><div><h2>Explore by job-to-be-done</h2><p>External feeds help us discover what is changing. Our original work decides what deserves attention.</p></div></div>
         <div class="category-grid">
-          <a class="category-card blue" href="#tools"><span class="category-icon">⌁</span><strong>AI Tools</strong><small>Find the best AI tools for your workflow.</small><b>›</b></a>
-          <a class="category-card orange" href="#prompts"><span class="category-icon">▤</span><strong>Prompts</strong><small>High-quality prompts for real use cases.</small><b>›</b></a>
-          <a class="category-card green" href="#agents"><span class="category-icon">♙</span><strong>AI Agents</strong><small>Agents, assistants and autonomous AI.</small><b>›</b></a>
-          <a class="category-card purple" href="#workflows"><span class="category-icon">⌘</span><strong>Workflows</strong><small>Step-by-step guides and templates.</small><b>›</b></a>
-          <a class="category-card violet" href="#guides"><span class="category-icon">▧</span><strong>Guides</strong><small>Learn and apply AI with practical advice.</small><b>›</b></a>
-          <a class="category-card pink" href="#news"><span class="category-icon">▥</span><strong>News</strong><small>Latest updates and what they mean.</small><b>›</b></a>
+          <a class="category-card blue" href="/guides/ai-for-qa-testing/"><span class="category-icon">✓</span><strong>Testing & QA</strong><small>Evidence-based AI workflows for testers.</small><b>›</b></a>
+          <a class="category-card orange" href="#tools"><span class="category-icon">⌁</span><strong>AI Tools</strong><small>Discovery feed plus editorial review.</small><b>›</b></a>
+          <a class="category-card green" href="#prompts"><span class="category-icon">▤</span><strong>Prompts</strong><small>Reusable prompts with context and checks.</small><b>›</b></a>
+          <a class="category-card purple" href="#agents"><span class="category-icon">♙</span><strong>Agents</strong><small>Open-source agents worth investigating.</small><b>›</b></a>
+          <a class="category-card violet" href="#workflows"><span class="category-icon">⌘</span><strong>Workflows</strong><small>Repeatable human + AI processes.</small><b>›</b></a>
+          <a class="category-card pink" href="#news"><span class="category-icon">▥</span><strong>AI Radar</strong><small>Signals to watch, not a news firehose.</small><b>›</b></a>
         </div>
       </section>
 
       <section class="section-block" id="content">
-        <div class="section-title-row"><div><h2>Trending now</h2><p>Fresh content, hand-picked for what’s useful today.</p></div><button class="link-button" data-filter="all">View all articles →</button></div>
+        <div class="section-title-row"><div><h2>AI radar</h2><p>Fresh external signals. These are discovery inputs, not DiscoverAINow endorsements.</p></div><button class="link-button" data-filter="all">View all →</button></div>
         <div id="trendingGrid" class="article-grid"></div>
       </section>
 
-      <section class="section-block content-section" id="tools">
-        <div class="section-title-row"><div><span class="section-kicker">Tools</span><h2>Useful AI products, organized by task</h2></div><a href="#top">Back to search ↑</a></div>
-        <div id="toolGrid" class="resource-grid"></div>
-      </section>
-
-      <section class="section-block content-section" id="prompts">
-        <div class="section-title-row"><div><span class="section-kicker">Prompts</span><h2>Prompts ready to copy and adapt</h2></div><a href="#top">Back to search ↑</a></div>
-        <div id="promptGrid" class="prompt-grid"></div>
-      </section>
-
-      <section class="section-block content-section" id="agents">
-        <div class="section-title-row"><div><span class="section-kicker">Agents</span><h2>Agent patterns for real work</h2></div><a href="#top">Back to search ↑</a></div>
-        <div id="agentGrid" class="resource-grid"></div>
-      </section>
-
-      <section class="section-block content-section" id="workflows">
-        <div class="section-title-row"><div><span class="section-kicker">Workflows</span><h2>Turn AI into repeatable results</h2></div><a href="#top">Back to search ↑</a></div>
-        <div id="workflowGrid" class="workflow-grid"></div>
-      </section>
-
-      <section class="section-block content-section" id="guides">
-        <div class="section-title-row"><div><span class="section-kicker">Guides</span><h2>Practical AI guides</h2></div><a href="#top">Back to search ↑</a></div>
-        <div id="guideGrid" class="resource-grid"></div>
-      </section>
-
-      <section class="section-block content-section" id="news">
-        <div class="section-title-row"><div><span class="section-kicker">News</span><h2>AI news without the noise</h2></div><a href="#top">Back to search ↑</a></div>
-        <div id="newsGrid" class="news-list"></div>
-      </section>
-
-      <section class="section-block content-section" id="tutorials">
-        <div class="section-title-row"><div><span class="section-kicker">Tutorials</span><h2>Learn by doing</h2></div><a href="#top">Back to search ↑</a></div>
-        <div id="tutorialGrid" class="resource-grid"></div>
-      </section>
+      <section class="section-block content-section" id="tools"><div class="section-title-row"><div><span class="section-kicker">Discovery feed</span><h2>Useful AI products to investigate</h2></div><a href="#top">Back to top ↑</a></div><div id="toolGrid" class="resource-grid"></div></section>
+      <section class="section-block content-section" id="prompts"><div class="section-title-row"><div><span class="section-kicker">Prompts</span><h2>Prompts ready to copy and adapt</h2></div><a href="/prompts/software-testers/">QA prompt pack →</a></div><div id="promptGrid" class="prompt-grid"></div></section>
+      <section class="section-block content-section" id="agents"><div class="section-title-row"><div><span class="section-kicker">Discovery feed</span><h2>Open-source agents worth watching</h2></div><a href="#top">Back to top ↑</a></div><div id="agentGrid" class="resource-grid"></div></section>
+      <section class="section-block content-section" id="workflows"><div class="section-title-row"><div><span class="section-kicker">Workflows</span><h2>Turn AI into repeatable results</h2></div><a href="/workflows/jira-story-to-test-cases/">Featured workflow →</a></div><div id="workflowGrid" class="workflow-grid"></div></section>
+      <section class="section-block content-section" id="guides"><div class="section-title-row"><div><span class="section-kicker">Guides</span><h2>Practical AI guides</h2></div><a href="/guides/ai-for-qa-testing/">AI for QA guide →</a></div><div id="guideGrid" class="resource-grid"></div></section>
+      <section class="section-block content-section" id="news"><div class="section-title-row"><div><span class="section-kicker">Live signal</span><h2>AI news without the noise</h2></div><a href="#top">Back to top ↑</a></div><div id="newsGrid" class="news-list"></div></section>
+      <section class="section-block content-section" id="tutorials"><div class="section-title-row"><div><span class="section-kicker">Tutorials</span><h2>Learn by doing</h2></div><a href="#top">Back to top ↑</a></div><div id="tutorialGrid" class="resource-grid"></div></section>
     </section>
 
     <aside class="sidebar">
       <section class="side-card today-card">
-        <div class="side-heading"><h3>Today on Discover AI Now</h3><a href="#content">See all →</a></div>
+        <div class="side-heading"><h3>Start here</h3></div>
         <div class="today-list">
-          <button data-jump="#prompts"><span>01</span><i>▤</i><div><strong>Better research prompts</strong><small>How to ask for evidence, uncertainty, and useful synthesis.</small></div></button>
-          <button data-jump="#tools"><span>02</span><i>▣</i><div><strong>AI tools by job-to-be-done</strong><small>Start with the task, not a list of logos.</small></div></button>
-          <button data-jump="#agents"><span>03</span><i>▥</i><div><strong>Where agents are actually useful</strong><small>Research, monitoring, operations, coding, and more.</small></div></button>
-          <button data-jump="#workflows"><span>04</span><i>◆</i><div><strong>Building effective workflows</strong><small>Turn AI into reliable, repeatable results.</small></div></button>
-          <button data-jump="#news"><span>05</span><i>✦</i><div><strong>The latest in AI, explained</strong><small>What’s new, and what it means for you.</small></div></button>
+          <a href="/benchmarks/ai-testing/"><span>01</span><i>◎</i><div><strong>Our benchmark</strong><small>See exactly how we judge AI output.</small></div></a>
+          <a href="/guides/ai-for-qa-testing/"><span>02</span><i>✓</i><div><strong>AI for QA</strong><small>Where AI helps, and where human review stays mandatory.</small></div></a>
+          <a href="/prompts/software-testers/"><span>03</span><i>▤</i><div><strong>Tester prompt pack</strong><small>Copy prompts built around practical QA work.</small></div></a>
+          <a href="/about/methodology/"><span>04</span><i>◆</i><div><strong>Editorial methodology</strong><small>How we test, disclose and correct.</small></div></a>
         </div>
       </section>
 
       <section class="side-card newsletter-card">
-        <div class="newsletter-title">✉ <h3>Get the best of AI, in your inbox.</h3></div>
-        <p>Practical guides, new tools, and fresh ideas — no noise, just what’s worth your time.</p>
-        <form id="newsletterForm"><input type="email" required placeholder="Enter your email" /><button type="submit">Subscribe</button></form>
-        <small>No spam. Unsubscribe anytime.</small>
+        <div class="newsletter-title">✉ <h3>5 AI things worth using.</h3></div>
+        <p>One tested tool, one prompt, one workflow, one benchmark insight and one meaningful AI change.</p>
+        <form id="newsletterForm"><input id="newsletterEmail" type="email" required placeholder="Enter your email" /><button type="submit">Join waitlist</button></form>
+        <small id="newsletterNote">We will activate email delivery after the subscriber backend is connected.</small>
       </section>
 
       <section class="side-card beginner-card">
-        <div><span>💡</span><h3>New to AI?</h3></div>
-        <p>Start with our beginner’s guide to get up to speed, fast.</p>
-        <a href="#tutorials">Read the guide →</a>
-        <div class="mini-illustration"><span></span><span></span><i></i></div>
+        <div><span>◎</span><h3>No pay-to-win rankings</h3></div>
+        <p>Sponsored placements will always be labeled and will never change benchmark results.</p>
+        <a href="/disclosure/">Read our disclosure →</a>
       </section>
     </aside>
   </main>
 
   <footer>
-    <div><strong>Discover AI Now</strong><span>Useful AI, found and explained.</span></div>
-    <nav><a href="#tools">Tools</a><a href="#prompts">Prompts</a><a href="#agents">Agents</a><a href="#news">News</a></nav>
+    <div><strong>Discover AI Now</strong><span>AI that has to earn your trust.</span></div>
+    <nav><a href="/about/methodology/">Methodology</a><a href="/disclosure/">Disclosure</a><a href="/benchmarks/ai-testing/">Benchmarks</a></nav>
     <small>© 2026 DiscoverAINow.com</small>
   </footer>
-
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+  <script src="/analytics.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>
