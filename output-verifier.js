@@ -47,7 +47,10 @@
  $('outputVerifierForm').addEventListener('submit',e=>{
   e.preventDefault();const text=$('ovOutput').value.trim(), source=$('ovSource').value.trim(), type=$('ovType').value;if(!text)return;
   const sig=signals(text,type,!!source);
-  $('ovRisk').innerHTML='<strong>'+(sig.length?'Review signals detected':'No obvious structural red flags detected')+'</strong><p>'+(sig.length?sig.join(' · '):'You should still complete the checks below. This tool does not independently prove factual accuracy.')+'</p>';
+  const requirementNote=source
+    ? 'Original context supplied. Use it as the acceptance boundary for every check below.'
+    : 'No original requirement was supplied, so requirement coverage cannot be assessed. The review below is limited to structural risk signals.';
+  $('ovRisk').innerHTML='<strong>'+(sig.length?'Review signals detected':'No obvious structural red flags detected')+'</strong><p>'+requirementNote+(sig.length?' Signals: '+sig.join(' · '):' This does not independently prove factual accuracy or correctness.')+'</p>';
   $('ovChecks').innerHTML=sets[type].map((x,i)=>'<label><input type="checkbox"><span><strong>'+String(i+1).padStart(2,'0')+' · '+x[0]+'</strong><small>'+x[1]+'</small></span></label>').join('');
   $('outputVerifierResult').hidden=false;$('outputVerifierResult').scrollIntoView({behavior:'smooth',block:'start'});
   window.dainTrack?.('output_verifier_run',{type,signals:sig.length,has_source:!!source});
