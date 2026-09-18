@@ -67,6 +67,8 @@ el('newsGrid').innerHTML=data.news.map(x=>`<article class="news-item searchable"
 const input=el('globalSearch'), select=el('categorySelect');
 function runSearch(query=input.value,type=select.value){
  const q=(query||'').trim().toLowerCase();
+ const active=!!q||type!=='all';
+ document.body.classList.toggle('search-active',active);
  let matches=0;
  document.querySelectorAll('.searchable').forEach(node=>{
    const matchText=!q||(node.dataset.search||'').includes(q);
@@ -148,7 +150,7 @@ function relativeDate(iso){
 }
 function setSourceStatus(sectionId,text,state='ok'){
   const section=document.getElementById(sectionId);
-  const row=section?.querySelector('.section-title-row');
+  const row=section?.querySelector('.section-heading, .section-title-row');
   if(!row)return;
   let badge=row.querySelector('.source-status');
   if(!badge){badge=document.createElement('span');badge.className='source-status';row.appendChild(badge)}
@@ -239,7 +241,7 @@ function renderSignals(items){
   let radar=document.querySelector('.live-data-status');
   if(!radar){
     radar=document.createElement('div');radar.className='live-data-status';
-    document.querySelector('#content .section-title-row')?.appendChild(radar);
+    document.querySelector('#content .section-heading, #content .section-title-row')?.appendChild(radar);
   }
   radar.textContent='Server-cached AI radar · '+items.length+' signals';
 }
