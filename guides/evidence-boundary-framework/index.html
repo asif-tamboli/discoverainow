@@ -2,14 +2,14 @@
 <div class="breadcrumbs"><a href="/">Home</a> / <a href="/compare/">Compare</a> / Evidence Boundary Framework</div><span class="eyebrow">Decision framework</span><h1>Point AI at the right evidence boundary before asking it for an answer.</h1><p class="dek">The first tool decision should not be “which model is smartest?” It should be “where does the truth for this task live?”</p>
 
 <h2>Decision matrix</h2><div class="decision-map">
-<div><span>Truth lives in</span><strong>Your closed source set</strong><p>PDFs, policies, meeting notes, internal documents.</p><a href="/tools/notebooklm/">Start with NotebookLM / bounded document workflow →</a></div>
-<div><span>Truth lives in</span><strong>The current public web</strong><p>Recent announcements, market facts, product changes, public evidence.</p><a href="/tools/perplexity/">Start with a source-oriented web research workflow →</a></div>
-<div><span>Truth lives in</span><strong>Both internal + external</strong><p>Internal policy compared against current public evidence.</p><a href="/workflows/research-to-brief/">Use a two-stage research workflow →</a></div>
+<div><span>Truth lives in</span><strong>Your closed source set</strong><p>PDFs, policies, meeting notes, internal documents.</p><a href="/tools/notebooklm/">Start with NotebookLM / bounded document workflow</a></div>
+<div><span>Truth lives in</span><strong>The current public web</strong><p>Recent announcements, market facts, product changes, public evidence.</p><a href="/tools/perplexity/">Start with a source-oriented web research workflow</a></div>
+<div><span>Truth lives in</span><strong>Both internal + external</strong><p>Internal policy compared against current public evidence.</p><a href="/workflows/research-to-brief/">Use a two-stage research workflow</a></div>
 </div>
 <div class="decision-map">
-<div><span>Truth requires</span><strong>Execution</strong><p>Code behavior, SQL output, API behavior, calculations or reproducible tests.</p><a href="/verify-ai-output/">Verify by running the system, not by asking the model again →</a></div>
-<div><span>Truth requires</span><strong>Human authority</strong><p>Policy approval, business intent, ownership, legal interpretation or unpublished decisions.</p><a href="/workflow-generator/">Insert explicit human approval gates →</a></div>
-<div><span>Truth is unclear</span><strong>Do not synthesize yet</strong><p>First identify missing evidence and conflicting sources.</p><a href="/prompts/research/">Use evidence-first research prompts →</a></div>
+<div><span>Truth requires</span><strong>Execution</strong><p>Code behavior, SQL output, API behavior, calculations or reproducible tests.</p><a href="/verify-ai-output/">Verify by running the system, not by asking the model again</a></div>
+<div><span>Truth requires</span><strong>Human authority</strong><p>Policy approval, business intent, ownership, legal interpretation or unpublished decisions.</p><a href="/workflow-generator/">Insert explicit human approval gates</a></div>
+<div><span>Truth is unclear</span><strong>Do not synthesize yet</strong><p>First identify missing evidence and conflicting sources.</p><a href="/prompts/research/">Use evidence-first research prompts</a></div>
 </div>
 
 <h2>Strict source-verification prompt</h2><div class="code" id="evidencePrompt">Answer only from the evidence boundary defined below.
