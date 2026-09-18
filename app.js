@@ -85,391 +85,169 @@ document.querySelectorAll('[data-filter="all"]').forEach(btn=>btn.addEventListen
 el('headerSearch').addEventListener('click',()=>{input.focus();document.querySelector('.search-panel').scrollIntoView({behavior:'smooth',block:'center'})});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();el('headerSearch').click()}});
 el('themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');el('themeToggle').textContent=document.body.classList.contains('dark')?'☀':'☾'});
-el('newsletterForm').addEventListener('submit',e=>{e.preventDefault();const email=(el('newsletterEmail')?.value||'').trim();if(!email)return;try{const list=JSON.parse(localStorage.getItem('dain_newsletter_waitlist')||'[]');if(!list.includes(email)){list.push(email);localStorage.setItem('dain_newsletter_waitlist',JSON.stringify(list));}window.dainTrack?.('newsletter_waitlist_join',{source:'homepage'});}catch{}e.currentTarget.reset();toast('You’re on the early-access list. Email delivery activates after backend connection.');const note=el('newsletterNote');if(note)note.textContent='Saved on this device for now. Production email capture will move to the subscriber database.';});
-
-/* ===== Live AI news: Hacker News API ===== */
-const HN_BASE = 'https://hacker-news.firebaseio.com/v0';
-const LIVE_CACHE_KEY = 'discoverainow_hn_ai_v1';
-const LIVE_CACHE_MS = 15 * 60 * 1000;
-
-const AI_TERMS = [
-  'artificial intelligence','generative ai','machine learning','deep learning',
-  'openai','chatgpt','gpt-','gpt4','gpt5','anthropic','claude','gemini',
-  'llm','large language model','language model','ai agent','ai agents',
-  'agentic','copilot','mistral','llama','hugging face','huggingface',
-  'midjourney','stable diffusion','diffusion model','transformer',
-  'inference','foundation model','multimodal','computer vision','speech model',
-  'ai coding','coding agent','reasoning model'
-];
-
-function isAiStory(item) {
-  if (!item || item.type !== 'story' || item.dead || item.deleted) return false;
-  const haystack = ((item.title || '') + ' ' + (item.text || '')).toLowerCase();
-  return AI_TERMS.some(term => haystack.includes(term));
-}
-
-function storyRank(item) {
-  const ageHours = Math.max(1, (Date.now()/1000 - (item.time || 0)) / 3600);
-  const score = Number(item.score || 0);
-  const comments = Number(item.descendants || 0);
-  return (score * 1.2 + comments * 0.5) / Math.pow(ageHours, 0.38);
-}
-
-function getStoryUrl(item) {
-  return item.url || ('https://news.ycombinator.com/item?id=' + item.id);
-}
-
-function getDomain(url) {
-  try { return new URL(url).hostname.replace(/^www\./,''); }
-  catch { return 'news.ycombinator.com'; }
-}
-
-function relativeTime(unix) {
-  const secs = Math.max(1, Math.floor(Date.now()/1000 - unix));
-  if (secs < 3600) return Math.floor(secs/60) + ' min ago';
-  if (secs < 86400) return Math.floor(secs/3600) + ' hr ago';
-  return Math.floor(secs/86400) + ' day' + (Math.floor(secs/86400) === 1 ? '' : 's') + ' ago';
-}
-
-function liveLabel(title='') {
-  const t = title.toLowerCase();
-  if (/agent|agentic/.test(t)) return 'Agents';
-  if (/code|coding|developer|github|copilot/.test(t)) return 'Coding';
-  if (/image|video|diffusion|midjourney/.test(t)) return 'Creative AI';
-  if (/openai|anthropic|claude|gemini|gpt|llama|mistral|model/.test(t)) return 'Models';
-  return 'AI News';
-}
-
-function liveVisual(index) {
-  return ['visual-wave','visual-chat','visual-bot','visual-sail'][index % 4];
-}
-
-function renderLiveTrending(stories) {
-  if (!stories.length) return;
-  el('trendingGrid').innerHTML = stories.slice(0,4).map((x,i)=> {
-    const url = getStoryUrl(x);
-    const domain = getDomain(url);
-    return `<a class="article-card searchable live-article" data-type="news" data-search="${(x.title+' '+domain+' '+liveLabel(x.title)).toLowerCase()}" href="${url}" target="_blank" rel="noopener noreferrer">
-      <div class="article-thumb ${liveVisual(i)}"><span class="bookmark">↗</span><span class="live-pill">LIVE</span></div>
-      <div class="article-body">
-        <span class="article-type">${liveLabel(x.title)}</span>
-        <h3>${x.title}</h3>
-        <p>${domain} · ${x.score || 0} points · ${x.descendants || 0} comments</p>
-        <div class="article-meta">${relativeTime(x.time)} &nbsp;•&nbsp; Hacker News</div>
-      </div>
-    </a>`;
-  }).join('');
-}
-
-function renderLiveNews(stories) {
-  if (!stories.length) return;
-  el('newsGrid').innerHTML = stories.slice(0,8).map(x => {
-    const url = getStoryUrl(x);
-    const domain = getDomain(url);
-    return `<a class="news-item searchable live-news-item" data-type="news" data-search="${(x.title+' '+domain+' '+liveLabel(x.title)).toLowerCase()}" href="${url}" target="_blank" rel="noopener noreferrer">
-      <span class="news-date">${relativeTime(x.time)}</span>
-      <div><h3>${x.title}</h3><p>${domain} · ${x.score || 0} points · ${x.descendants || 0} comments</p></div>
-      <span class="news-source">Read ↗</span>
-    </a>`;
-  }).join('');
-}
-
-function setLiveStatus(text, state='ok') {
-  let node = document.querySelector('.live-data-status');
-  if (!node) {
-    node = document.createElement('div');
-    node.className = 'live-data-status';
-    const trending = document.querySelector('#content .section-title-row');
-    if (trending) trending.appendChild(node);
+el('newsletterForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=(el('newsletterEmail')?.value||'').trim();
+  const button=e.currentTarget.querySelector('button');
+  const note=el('newsletterNote');
+  if(!email)return;
+  button.disabled=true;
+  button.textContent='Joining…';
+  try{
+    const r=await fetch('https://wtbaosegszmousraqfnw.supabase.co/functions/v1/newsletter-signup',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email,source:'homepage'})
+    });
+    if(!r.ok) throw new Error('signup_failed');
+    e.currentTarget.reset();
+    toast('You’re subscribed.');
+    if(note) note.textContent='Subscribed. We’ll use this list for the DiscoverAINow weekly brief.';
+    window.dainTrack?.('newsletter_signup',{source:'homepage'});
+  }catch(err){
+    console.warn(err);
+    toast('Could not subscribe right now. Please try again.');
+    if(note) note.textContent='Signup failed temporarily. Your email was not saved.';
+  }finally{
+    button.disabled=false;
+    button.textContent='Subscribe';
   }
-  node.dataset.state = state;
-  node.textContent = text;
+});
+
+/* ===== Supabase-backed live discovery feeds ===== */
+
+const SUPABASE_URL='https://wtbaosegszmousraqfnw.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_pP9DgWk8vs4Bd2QuAtZWYA_1BeB7WOH';
+
+function esc(s=''){
+  return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
 }
-
-async function fetchJson(url, timeoutMs=8000) {
-  const controller = new AbortController();
-  const timer = setTimeout(()=>controller.abort(), timeoutMs);
-  try {
-    const r = await fetch(url, {signal: controller.signal, cache:'no-store'});
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return await r.json();
-  } finally { clearTimeout(timer); }
-}
-
-async function fetchHnAiStories() {
-  const cachedRaw = localStorage.getItem(LIVE_CACHE_KEY);
-  if (cachedRaw) {
-    try {
-      const cached = JSON.parse(cachedRaw);
-      if (Date.now() - cached.savedAt < LIVE_CACHE_MS && Array.isArray(cached.items)) {
-        setLiveStatus('Live AI feed · cached a few minutes ago');
-        return cached.items;
-      }
-    } catch {}
-  }
-
-  setLiveStatus('Refreshing live AI stories…','loading');
-  const [topIds, newIds] = await Promise.all([
-    fetchJson(HN_BASE + '/topstories.json'),
-    fetchJson(HN_BASE + '/newstories.json')
-  ]);
-
-  const ids = [...new Set([...(newIds || []).slice(0,55), ...(topIds || []).slice(0,45)])].slice(0,80);
-  const results = await Promise.allSettled(ids.map(id => fetchJson(HN_BASE + '/item/' + id + '.json', 6500)));
-  const items = results
-    .filter(r => r.status === 'fulfilled')
-    .map(r => r.value)
-    .filter(isAiStory)
-    .sort((a,b) => storyRank(b) - storyRank(a))
-    .slice(0,24);
-
-  if (items.length) {
-    localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({savedAt:Date.now(),items}));
-    setLiveStatus('Live AI feed · updated ' + new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}));
-  } else {
-    setLiveStatus('Live feed unavailable · showing curated content','error');
-  }
-  return items;
-}
-
-async function loadLiveAiNews() {
-  try {
-    const stories = await fetchHnAiStories();
-    if (!stories.length) return;
-    renderLiveTrending(stories);
-    renderLiveNews(stories);
-  } catch (err) {
-    console.warn('Live AI feed failed:', err);
-    setLiveStatus('Live feed unavailable · showing curated content','error');
-  }
-}
-
-loadLiveAiNews();
-
-
-/* ===== Live directory feeds: Hugging Face, GitHub, DEV ===== */
-const DIRECTORY_CACHE_MS = 30 * 60 * 1000;
-
-function cacheGet(key, maxAge=DIRECTORY_CACHE_MS) {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (!parsed.savedAt || Date.now() - parsed.savedAt > maxAge) return null;
-    return parsed.data;
-  } catch { return null; }
-}
-function cacheSet(key, data) {
-  try { localStorage.setItem(key, JSON.stringify({savedAt:Date.now(), data})); } catch {}
-}
-function esc(s='') {
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-}
-function shortNumber(n=0) {
+function shortNumber(n=0){
   n=Number(n)||0;
-  if(n>=1000000) return (n/1000000).toFixed(1).replace('.0','')+'m';
-  if(n>=1000) return (n/1000).toFixed(1).replace('.0','')+'k';
+  if(n>=1000000)return (n/1000000).toFixed(1).replace('.0','')+'m';
+  if(n>=1000)return (n/1000).toFixed(1).replace('.0','')+'k';
   return String(n);
 }
-function setSourceStatus(sectionId, text, state='ok') {
+function getDomain(url){
+  try{return new URL(url).hostname.replace(/^www\./,'')}catch{return''}
+}
+function relativeDate(iso){
+  if(!iso)return'Recent';
+  const ms=Date.now()-new Date(iso).getTime();
+  const hours=Math.max(0,Math.floor(ms/3600000));
+  if(hours<1)return'Just now';
+  if(hours<24)return hours+' hr ago';
+  const days=Math.floor(hours/24);
+  return days+' day'+(days===1?'':'s')+' ago';
+}
+function setSourceStatus(sectionId,text,state='ok'){
   const section=document.getElementById(sectionId);
   const row=section?.querySelector('.section-title-row');
-  if(!row) return;
+  if(!row)return;
   let badge=row.querySelector('.source-status');
-  if(!badge){
-    badge=document.createElement('span');
-    badge.className='source-status';
-    row.appendChild(badge);
-  }
+  if(!badge){badge=document.createElement('span');badge.className='source-status';row.appendChild(badge)}
   badge.dataset.state=state;
   badge.textContent=text;
 }
-async function cachedFetch(key, loader, maxAge=DIRECTORY_CACHE_MS) {
-  const cached=cacheGet(key,maxAge);
-  if(cached) return {data:cached,cached:true};
-  const data=await loader();
-  if(data) cacheSet(key,data);
-  return {data,cached:false};
+function liveVisual(index){return ['visual-wave','visual-chat','visual-bot','visual-sail'][index%4]}
+function signalLabel(title=''){
+  const t=title.toLowerCase();
+  if(/agent|agentic/.test(t))return'Agents';
+  if(/code|coding|developer|github|copilot/.test(t))return'Coding';
+  if(/image|video|diffusion|midjourney/.test(t))return'Creative AI';
+  if(/openai|anthropic|claude|gemini|gpt|llama|mistral|model/.test(t))return'Models';
+  return'AI signal';
 }
 
-async function loadHuggingFaceTools() {
-  setSourceStatus('tools','Loading live Hugging Face tools…','loading');
-  try {
-    const {data:spaces,cached}=await cachedFetch('dain_hf_spaces_v1', async()=>{
-      const url='https://huggingface.co/api/spaces?sort=likes&direction=-1&limit=18&full=true';
-      const items=await fetchJson(url,9000);
-      return Array.isArray(items)?items:[];
-    },45*60*1000);
-    if(!spaces?.length) throw new Error('No spaces');
-    const useful=spaces.filter(x=>!x.private&&!x.disabled).slice(0,9);
-    el('toolGrid').innerHTML=useful.map(x=>{
-      const id=x.id||'';
-      const name=id.split('/').pop().replace(/[-_]/g,' ');
-      const tags=Array.isArray(x.tags)?x.tags.slice(0,3).join(' · '):'AI app';
-      return `<a class="resource-card searchable live-resource" data-type="tool" data-search="${esc((name+' '+tags+' '+id).toLowerCase())}" href="https://huggingface.co/spaces/${encodeURI(id)}" target="_blank" rel="noopener noreferrer">
-        <span class="resource-icon">◉</span>
-        <span class="source-label">Hugging Face Space</span>
-        <h3>${esc(name)}</h3>
-        <p>${esc(tags || 'Interactive AI application')}</p>
-        <footer>♥ ${shortNumber(x.likes)} likes · Open Space ↗</footer>
-      </a>`;
-    }).join('');
-    setSourceStatus('tools',(cached?'Cached':'Live')+' · Hugging Face');
-  } catch(e) {
-    console.warn('HF tools failed',e);
-    setSourceStatus('tools','Curated tools · live source unavailable','error');
+async function fetchSignals(){
+  const url=SUPABASE_URL+'/rest/v1/public_signals?select=source_name,title,url,summary,published_at,relevance_score,raw&order=published_at.desc.nullslast&limit=100';
+  const r=await fetch(url,{headers:{apikey:SUPABASE_PUBLISHABLE_KEY}});
+  if(!r.ok)throw new Error('signal_fetch_'+r.status);
+  return await r.json();
+}
+
+function renderSignals(items){
+  const by=(name)=>items.filter(x=>x.source_name===name);
+  const hn=by('Hacker News');
+  const hf=by('Hugging Face');
+  const gh=by('GitHub');
+  const dev=by('DEV Community');
+
+  if(hn.length){
+    el('trendingGrid').innerHTML=hn.slice(0,4).map((x,i)=>`
+      <a class="article-card searchable live-article" data-type="news" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+        <div class="article-thumb ${liveVisual(i)}"><span class="bookmark">↗</span><span class="live-pill">RADAR</span></div>
+        <div class="article-body"><span class="article-type">${signalLabel(x.title)}</span><h3>${esc(x.title)}</h3>
+        <p>${esc(getDomain(x.url))} · ${shortNumber(x.raw?.score||0)} points · ${shortNumber(x.raw?.comments||0)} comments</p>
+        <div class="article-meta">${relativeDate(x.published_at)} &nbsp;•&nbsp; Hacker News signal</div></div>
+      </a>`).join('');
+    el('newsGrid').innerHTML=hn.slice(0,8).map(x=>`
+      <a class="news-item searchable live-news-item" data-type="news" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+        <span class="news-date">${relativeDate(x.published_at)}</span><div><h3>${esc(x.title)}</h3><p>${esc(getDomain(x.url))} · ${shortNumber(x.raw?.score||0)} points</p></div><span class="news-source">Read ↗</span>
+      </a>`).join('');
+    setSourceStatus('news','Cached · Supabase');
+  }
+
+  if(hf.length){
+    el('toolGrid').innerHTML=hf.slice(0,9).map(x=>`
+      <a class="resource-card searchable live-resource" data-type="tool" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="tool_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+        <span class="resource-icon">◉</span><span class="source-label">Hugging Face discovery</span><h3>${esc(x.title)}</h3>
+        <p>${esc(x.summary||'Public AI application discovered through the Hugging Face feed.')}</p>
+        <footer>♥ ${shortNumber(x.raw?.likes||0)} · Investigate ↗</footer>
+      </a>`).join('');
+    setSourceStatus('tools','Cached · Supabase');
+  }
+
+  if(gh.length){
+    el('agentGrid').innerHTML=gh.slice(0,9).map(x=>`
+      <a class="resource-card searchable live-resource" data-type="agent" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+        <span class="resource-icon">♙</span><span class="source-label">GitHub discovery</span><h3>${esc(x.title)}</h3>
+        <p>${esc(x.summary||'Open-source AI project discovered through GitHub.')}</p>
+        <footer>★ ${shortNumber(x.raw?.stars||0)} · ${esc(x.raw?.language||'Open source')} · Inspect ↗</footer>
+      </a>`).join('');
+    el('workflowGrid').innerHTML=gh.slice(0,8).map((x,i)=>`
+      <a class="workflow-card searchable live-workflow" data-type="workflow" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="workflow_open" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+        <span class="workflow-step">${String(i+1).padStart(2,'0')}</span><span class="source-label">GitHub discovery</span><h3>${esc(x.title)}</h3>
+        <p>${esc(x.summary||'Open-source AI workflow candidate.')}</p><small>★ ${shortNumber(x.raw?.stars||0)} · Inspect ↗</small>
+      </a>`).join('');
+    setSourceStatus('agents','Cached · Supabase');
+    setSourceStatus('workflows','Discovery feed · Supabase');
+  }
+
+  if(dev.length){
+    const guideItems=dev.filter(x=>/guide|how|learn|using|introduction|build/i.test((x.title||'')+' '+(x.summary||'')));
+    const tutorialItems=dev.filter(x=>/tutorial|build|create|step|code|project/i.test((x.title||'')+' '+(x.summary||'')));
+    const renderDev=(target,arr,type,icon)=>{if(!arr.length)return;el(target).innerHTML=arr.slice(0,9).map(x=>`
+      <a class="resource-card searchable live-resource" data-type="${type}" data-search="${esc((x.title+' '+(x.summary||'')).toLowerCase())}" data-track="outbound_click" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
+        <span class="resource-icon">${icon}</span><span class="source-label">DEV discovery</span><h3>${esc(x.title)}</h3>
+        <p>${esc(x.summary||'Community article surfaced for editorial review.')}</p>
+        <footer>♡ ${shortNumber(x.raw?.reactions||0)} · ${x.raw?.reading_time_minutes||'—'} min · Read ↗</footer>
+      </a>`).join('')};
+    renderDev('guideGrid',guideItems.length?guideItems:dev,'guide','▧');
+    renderDev('tutorialGrid',tutorialItems.length?tutorialItems:dev,'tutorial','◫');
+    setSourceStatus('guides','Discovery feed · Supabase');
+    setSourceStatus('tutorials','Discovery feed · Supabase');
+  }
+
+  setSourceStatus('prompts','Original curated prompts');
+  let radar=document.querySelector('.live-data-status');
+  if(!radar){
+    radar=document.createElement('div');radar.className='live-data-status';
+    document.querySelector('#content .section-title-row')?.appendChild(radar);
+  }
+  radar.textContent='Server-cached AI radar · '+items.length+' signals';
+}
+
+async function loadServerBackedDiscovery(){
+  try{
+    const items=await fetchSignals();
+    if(!Array.isArray(items)||!items.length)throw new Error('no_signals');
+    renderSignals(items);
+  }catch(err){
+    console.warn('Supabase signal feed failed',err);
+    const sections=['tools','agents','workflows','guides','tutorials','news'];
+    sections.forEach(id=>setSourceStatus(id,'Curated fallback · feed temporarily unavailable','error'));
   }
 }
 
-async function githubSearch(query, perPage=12) {
-  const url='https://api.github.com/search/repositories?q='+encodeURIComponent(query)+'&sort=stars&order=desc&per_page='+perPage;
-  const r=await fetchJson(url,9000);
-  return Array.isArray(r.items)?r.items:[];
-}
-
-async function githubMultiSearch(queries, perQuery=8) {
-  const merged = [];
-  const seen = new Set();
-  for (const query of queries) {
-    try {
-      const items = await githubSearch(query, perQuery);
-      for (const item of items) {
-        if (!item || seen.has(item.id)) continue;
-        seen.add(item.id);
-        merged.push(item);
-      }
-      if (merged.length >= 12) break;
-    } catch (e) {
-      console.warn('GitHub query failed:', query, e);
-    }
-  }
-  return merged.sort((a,b)=>(b.stargazers_count||0)-(a.stargazers_count||0));
-}
-
-function renderGithubResources(targetId, items, type, icon, sourceText='GitHub') {
-  if(!items?.length) return false;
-  el(targetId).innerHTML=items.slice(0,9).map(x=>{
-    const topics=Array.isArray(x.topics)&&x.topics.length?x.topics.slice(0,3).join(' · '):(x.language||'Open source');
-    return `<a class="resource-card searchable live-resource" data-type="${type}" data-search="${esc(((x.name||'')+' '+(x.description||'')+' '+topics).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
-      <span class="resource-icon">${icon}</span>
-      <span class="source-label">${sourceText}</span>
-      <h3>${esc(x.name||'Open-source project')}</h3>
-      <p>${esc(x.description||'Open-source AI project')}</p>
-      <footer>★ ${shortNumber(x.stargazers_count)} · ${esc(topics)} · Open ↗</footer>
-    </a>`;
-  }).join('');
-  return true;
-}
-
-async function loadGithubAgents() {
-  setSourceStatus('agents','Loading open-source agents…','loading');
-  try {
-    const {data:items,cached}=await cachedFetch('dain_gh_agents_v2',()=>githubMultiSearch([
-      'topic:ai-agent stars:>20',
-      'agentic-ai in:name,description stars:>20',
-      'llm-agent in:name,description stars:>20'
-    ],8),45*60*1000);
-    if(!renderGithubResources('agentGrid',items,'agent','♙')) throw new Error('No agents');
-    setSourceStatus('agents',(cached?'Cached':'Live')+' · GitHub');
-  } catch(e) {
-    console.warn('GitHub agents failed',e);
-    setSourceStatus('agents','Curated agents · live GitHub feed paused','error');
-  }
-}
-
-async function loadGithubWorkflows() {
-  setSourceStatus('workflows','Loading AI workflows…','loading');
-  try {
-    const {data:items,cached}=await cachedFetch('dain_gh_workflows_v2',()=>githubMultiSearch([
-      'ai-workflow in:name,description stars:>10',
-      'llm-workflow in:name,description stars:>10',
-      'agent-workflow in:name,description stars:>10',
-      'workflow ai in:name,description stars:>20'
-    ],7),45*60*1000);
-    if(!items?.length) throw new Error('No workflows');
-    el('workflowGrid').innerHTML=items.slice(0,8).map((x,i)=>`<a class="workflow-card searchable live-workflow" data-type="workflow" data-search="${esc(((x.name||'')+' '+(x.description||'')).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
-      <span class="workflow-step">${String(i+1).padStart(2,'0')}</span>
-      <span class="source-label">GitHub workflow</span>
-      <h3>${esc(x.name||'AI workflow')}</h3>
-      <p>${esc(x.description||'Open-source workflow for AI automation.')}</p>
-      <small>★ ${shortNumber(x.stargazers_count)} · Open ↗</small>
-    </a>`).join('');
-    setSourceStatus('workflows',(cached?'Cached':'Live')+' · GitHub');
-  } catch(e) {
-    console.warn('GitHub workflows failed',e);
-    setSourceStatus('workflows','Curated workflows · live GitHub feed paused','error');
-  }
-}
-
-async function loadPromptCollections() {
-  try {
-    const {data:items}=await cachedFetch('dain_gh_prompts_v2',()=>githubMultiSearch([
-      'prompt-engineering in:name,description stars:>100',
-      'awesome-prompts in:name,description stars:>100',
-      'chatgpt-prompts in:name,description stars:>100'
-    ],6),60*60*1000);
-    if(!items?.length) return;
-    const live=items.slice(0,2).map(x=>`<a class="prompt-card searchable live-prompt-collection" data-type="prompt" data-search="${esc(((x.name||'')+' '+(x.description||'')).toLowerCase())}" href="${esc(x.html_url||'#')}" target="_blank" rel="noopener noreferrer">
-      <div class="prompt-head"><div><span class="prompt-category">Community collection</span><h3>${esc(x.name||'Prompt collection')}</h3></div><span class="collection-stars">★ ${shortNumber(x.stargazers_count)}</span></div>
-      <div class="prompt-text">${esc(x.description||'Open public prompt collection on GitHub.')}</div>
-      <div class="collection-link">Browse on GitHub ↗</div>
-    </a>`).join('');
-    el('promptGrid').insertAdjacentHTML('beforeend',live);
-    setSourceStatus('prompts','Curated prompts + public GitHub collections');
-  } catch(e) {
-    console.warn('Prompt collections failed',e);
-  }
-}
-
-async function devArticles(tags, topDays=30, perPage=20) {
-  const url='https://dev.to/api/articles?tags='+encodeURIComponent(tags)+'&top='+topDays+'&per_page='+perPage;
-  const r=await fetchJson(url,9000);
-  return Array.isArray(r)?r:[];
-}
-
-function renderDevResources(targetId, items, type, icon) {
-  if(!items?.length) return false;
-  el(targetId).innerHTML=items.slice(0,9).map(x=>`<a class="resource-card searchable live-resource" data-type="${type}" data-search="${esc(((x.title||'')+' '+(x.description||'')+' '+(x.tag_list||[]).join(' ')).toLowerCase())}" href="${esc(x.url||'#')}" target="_blank" rel="noopener noreferrer">
-    <span class="resource-icon">${icon}</span>
-    <span class="source-label">DEV Community</span>
-    <h3>${esc(x.title||'AI guide')}</h3>
-    <p>${esc(x.description||'Community-written AI article and tutorial.')}</p>
-    <footer>♡ ${shortNumber(x.public_reactions_count)} · ${x.reading_time_minutes||'—'} min read · Open ↗</footer>
-  </a>`).join('');
-  return true;
-}
-
-async function loadDevGuides() {
-  setSourceStatus('guides','Loading community guides…','loading');
-  try {
-    const {data:items,cached}=await cachedFetch('dain_dev_guides_v1',()=>devArticles('ai,machinelearning',30,24),60*60*1000);
-    const filtered=items.filter(x=>/guide|how|tutorial|learn|build|using|introduction/i.test((x.title||'')+' '+(x.description||'')));
-    if(!renderDevResources('guideGrid',filtered.length?filtered:items,'guide','▧')) throw new Error('No guides');
-    setSourceStatus('guides',(cached?'Cached':'Live')+' · DEV');
-  } catch(e) {
-    console.warn('DEV guides failed',e);
-    setSourceStatus('guides','Curated guides · DEV unavailable','error');
-  }
-}
-
-async function loadDevTutorials() {
-  setSourceStatus('tutorials','Loading AI tutorials…','loading');
-  try {
-    const {data:items,cached}=await cachedFetch('dain_dev_tutorials_v1',()=>devArticles('ai,programming',14,24),60*60*1000);
-    const filtered=items.filter(x=>/tutorial|build|create|step|how to|project|code/i.test((x.title||'')+' '+(x.description||'')));
-    if(!renderDevResources('tutorialGrid',filtered.length?filtered:items,'tutorial','◫')) throw new Error('No tutorials');
-    setSourceStatus('tutorials',(cached?'Cached':'Live')+' · DEV');
-  } catch(e) {
-    console.warn('DEV tutorials failed',e);
-    setSourceStatus('tutorials','Curated tutorials · DEV unavailable','error');
-  }
-}
-
-Promise.allSettled([
-  loadHuggingFaceTools(),
-  loadGithubAgents(),
-  loadGithubWorkflows(),
-  loadPromptCollections(),
-  loadDevGuides(),
-  loadDevTutorials()
-]);
+loadServerBackedDiscovery();
