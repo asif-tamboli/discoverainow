@@ -92,6 +92,8 @@
     results.hidden=false; results.scrollIntoView({behavior:'smooth',block:'start'});
     window.dainTrack?.('tool_finder_result',{task:match.p.id,priority:ctx.priority,skill:ctx.skill,budget:ctx.budget,privacy:ctx.privacy,primary:top.key,query:text.toLowerCase().slice(0,180)});
   }
+  const incoming=new URLSearchParams(window.location.search).get('q');
+  if(incoming){input.value=incoming.slice(0,1200);input.closest('.finder-step')?.classList.add('prefilled');}
   form.addEventListener('submit',e=>{e.preventDefault();const text=(input.value||'').trim();if(text.length<4){input.focus();return;}recommend(text);});
   document.querySelectorAll('[data-example]').forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.example||'';input.focus();}));
   reset.addEventListener('click',()=>{results.hidden=true;input.value='';input.focus();});
