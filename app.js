@@ -152,33 +152,44 @@ document.querySelectorAll('[data-prompt-copy]').forEach(btn=>{
 const input=el('globalSearch');
 
 const decisionProfiles=[
-  {words:['pdf','document','documents','paper','report','sources'],title:'Work from your own documents',tool:'NotebookLM',toolUrl:'/tools/notebooklm/',why:'Best starting point when the answer should stay grounded in a source set you provide.',next:'/workflows/research-to-brief/',nextLabel:'Use the research workflow'},
-  {words:['research','current','web','sources','fact check','competitor'],title:'Research with sources',tool:'Perplexity',toolUrl:'/tools/perplexity/',why:'A strong starting point for current web discovery and source-oriented research.',next:'/workflows/research-to-brief/',nextLabel:'Use the research workflow'},
-  {words:['image','photo','thumbnail','poster','visual','product image'],title:'Create and refine an image',tool:'Midjourney + Prompt Lab',toolUrl:'/tools/midjourney/',why:'Start with an image-focused tool, then adapt the same intent across generators when needed.',next:'/prompt-lab/',nextLabel:'Build the cross-tool prompt'},
-  {words:['code','coding','debug','bug','repository','repo','software','test automation'],title:'Work inside a codebase',tool:'Cursor',toolUrl:'/tools/cursor/',why:'A practical starting point for AI-assisted editing, debugging and changes across real project files.',next:'/best/ai-coding-tools/',nextLabel:'Compare coding approaches'},
-  {words:['presentation','slides','deck','powerpoint'],title:'Turn an idea into a presentation',tool:'AI presentation workflow',toolUrl:'/guides/ai-presentations/',why:'Start with the narrative and evidence before choosing the tool that renders the deck.',next:'/guides/ai-presentations/',nextLabel:'Open the presentation workflow'},
-  {words:['meeting','transcript','minutes','action items'],title:'Turn a meeting into actions',tool:'Meeting workflow',toolUrl:'/workflows/meeting-notes-to-actions/',why:'Capture the source first, then structure decisions, owners and follow-ups.',next:'/workflows/meeting-notes-to-actions/',nextLabel:'Open the meeting workflow'},
-  {words:['automate','automation','workflow','webhook','repetitive'],title:'Automate a repeatable process',tool:'Automation tools',toolUrl:'/tools/',why:'Choose the automation layer based on integrations, control and how much custom logic you need.',next:'/use-cases/',nextLabel:'Explore automation use cases'},
-  {words:['write','writing','email','blog','proposal','resume','content'],title:'Create a structured first draft',tool:'Prompt Builder',toolUrl:'/prompt-builder/',why:'The biggest gain comes from defining context, output format and constraints before generating.',next:'/prompt-builder/',nextLabel:'Build the prompt'},
-  {words:['website','web app','landing page','app'],title:'Build a website or app',tool:'AI coding/building workflow',toolUrl:'/use-cases/build-website/',why:'Start from the outcome and acceptance criteria, then choose the build tool around your level of control.',next:'/use-cases/build-website/',nextLabel:'Open the build workflow'}
+  {id:'documents',words:['pdf','document','documents','paper','report','sources','files'],title:'Work from your own documents',tool:'NotebookLM',toolUrl:'/tools/notebooklm/',why:'Keep the answer grounded in the source set you provide.',workflow:'/workflows/research-to-brief/',workflowLabel:'Research workflow',prompt:'/prompt-builder/'},
+  {id:'research',words:['research','current','web','sources','fact check','fact-check','competitor','market'],title:'Research with traceable sources',tool:'Perplexity',toolUrl:'/tools/perplexity/',why:'Start with source-oriented discovery, then verify consequential claims.',workflow:'/workflows/research-to-brief/',workflowLabel:'Research workflow',prompt:'/prompts/research/'},
+  {id:'image',words:['image','photo','thumbnail','poster','visual','product image','logo'],title:'Create and refine an image',tool:'Midjourney + Prompt Lab',toolUrl:'/tools/midjourney/',why:'Use an image-focused workflow and adapt the same intent across generators when useful.',workflow:'/prompt-lab/',workflowLabel:'Cross-tool Prompt Lab',prompt:'/prompts/image-generation/'},
+  {id:'coding',words:['code','coding','debug','bug','repository','repo','software','test automation','api'],title:'Work inside a codebase',tool:'Cursor',toolUrl:'/tools/cursor/',why:'Use repository context, make a scoped change and verify the behavior.',workflow:'/best/ai-coding-tools/',workflowLabel:'Coding tool guide',prompt:'/prompts/coding/'},
+  {id:'presentation',words:['presentation','slides','deck','powerpoint','pitch deck'],title:'Turn information into a presentation',tool:'Presentation workflow',toolUrl:'/guides/ai-presentations/',why:'Build the narrative and evidence before generating slides.',workflow:'/guides/ai-presentations/',workflowLabel:'Presentation workflow',prompt:'/prompt-builder/'},
+  {id:'meeting',words:['meeting','transcript','minutes','action items','meeting notes'],title:'Turn a meeting into actions',tool:'Meeting workflow',toolUrl:'/workflows/meeting-notes-to-actions/',why:'Preserve the source, then separate decisions, owners and unresolved questions.',workflow:'/workflows/meeting-notes-to-actions/',workflowLabel:'Meeting workflow',prompt:'/prompts/writing-productivity/'},
+  {id:'automation',words:['automate','automation','workflow','webhook','repetitive','integrate','trigger'],title:'Automate a repeatable process',tool:'Automation tools',toolUrl:'/tools/',why:'Choose the automation layer around integrations, control and human approval points.',workflow:'/guides/ai-agents/',workflowLabel:'Automation guide',prompt:'/prompt-builder/'},
+  {id:'writing',words:['write','writing','email','blog','proposal','resume','content','rewrite'],title:'Create a structured first draft',tool:'Prompt Builder',toolUrl:'/prompt-builder/',why:'Define audience, context, output format and constraints before generating.',workflow:'/prompts/writing-productivity/',workflowLabel:'Writing prompts',prompt:'/prompt-builder/'},
+  {id:'website',words:['website','web app','landing page','app','web site','frontend'],title:'Build a website or app',tool:'AI build workflow',toolUrl:'/use-cases/build-website/',why:'Define the outcome and acceptance criteria before choosing how much control to delegate.',workflow:'/use-cases/build-website/',workflowLabel:'Build workflow',prompt:'/prompt-builder/'}
 ];
 
+function inferDecisionContext(q){
+  const t=q.toLowerCase();
+  const privacy=/private|privacy|confidential|sensitive|internal|cannot upload|can't upload|cant upload|proprietary|phi|pii/.test(t)?'Privacy-sensitive':null;
+  const evidence=/citation|citations|source|sources|evidence|accurate|fact|verify/.test(t)?'Traceability matters':null;
+  const speed=/quick|quickly|fast|fastest|today|urgent/.test(t)?'Speed matters':null;
+  const budget=/free|budget|cheap|low cost|under \$/.test(t)?'Budget-sensitive':null;
+  const beginner=/no code|no-code|beginner|nontechnical|non-technical/.test(t)?'Low-code preferred':null;
+  const output=/brief|report|summary|slides|presentation|video|image|website|app|code|email/.exec(t)?.[0];
+  return {privacy,evidence,speed,budget,beginner,output};
+}
 function chooseDecision(q){
   const t=q.toLowerCase();
-  const ranked=decisionProfiles.map(p=>({p,score:p.words.reduce((n,w)=>n+(t.includes(w)?(w.includes(' ')?3:2):0),0)})).sort((a,b)=>b.score-a.score);
+  const ranked=decisionProfiles.map(p=>({p,score:p.words.reduce((n,w)=>n+(t.includes(w)?(w.includes(' ')?4:2):0),0)})).sort((a,b)=>b.score-a.score);
   return ranked[0]?.score?ranked[0].p:null;
 }
 function showDecision(q){
-  const box=el('decisionResult');
-  if(!box)return;
-  const d=chooseDecision(q);
-  if(!d){
-    window.location.href='/tool-finder/?q='+encodeURIComponent(q);
-    return;
-  }
-  box.innerHTML='<span class="decision-label">Recommended starting point</span><strong>'+d.title+'</strong><p>'+d.why+'</p><div class="decision-actions"><a href="'+d.toolUrl+'">'+d.tool+'</a><a href="'+d.next+'">'+d.nextLabel+'</a><a href="/tool-finder/?q='+encodeURIComponent(q)+'">Refine recommendation</a></div>';
+  const box=el('decisionResult'); if(!box)return;
+  const d=chooseDecision(q), ctx=inferDecisionContext(q);
+  if(!d){window.location.href='/tool-finder/?q='+encodeURIComponent(q);return;}
+  const constraints=[ctx.privacy,ctx.evidence,ctx.speed,ctx.budget,ctx.beginner,ctx.output?'Output: '+ctx.output:null].filter(Boolean);
+  const privacyNote=ctx.privacy?'<p class="decision-caution"><strong>Constraint:</strong> Your request appears privacy-sensitive. Confirm the selected product\'s current data-handling and enterprise terms before uploading sensitive material.</p>':'';
+  box.innerHTML='<span class="decision-label">Recommended approach</span><strong>'+d.title+'</strong><p>'+d.why+'</p>'+
+    (constraints.length?'<div class="decision-context">'+constraints.map(x=>'<span>'+x+'</span>').join('')+'</div>':'')+privacyNote+
+    '<div class="decision-path"><span>1 · Tool</span><a href="'+d.toolUrl+'">'+d.tool+'</a><span>2 · Prompt</span><a href="'+d.prompt+'">Prepare prompt</a><span>3 · Workflow</span><a href="'+d.workflow+'">'+d.workflowLabel+'</a><span>4 · Verify</span><a href="/verify-ai-output/">Judge result</a></div>'+
+    '<div class="decision-actions"><a href="'+d.workflow+'">Start this approach</a><a href="/tool-finder/?q='+encodeURIComponent(q)+'">Refine constraints</a></div>';
   box.hidden=false;
-  window.dainTrack?.('search',{query:q.toLowerCase().slice(0,180),category:'decision',matches:1});
+  window.dainTrack?.('search',{query:q.toLowerCase().slice(0,180),category:'decision_v2',matches:1,task:d.id,privacy:!!ctx.privacy,evidence:!!ctx.evidence});
 }
 el('searchForm')?.addEventListener('submit',e=>{e.preventDefault();const q=(input?.value||'').trim();if(q.length<3){input?.focus();return;}showDecision(q);});
 document.querySelectorAll('.topic-chip').forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.query||'';showDecision(input.value);}));
