@@ -6,6 +6,7 @@
   <meta name="description" content="Describe what you need to accomplish, then refine by skill level, budget, privacy and priorities to get transparent AI tool recommendations.">
   <link rel="canonical" href="https://discoverainow.com/tool-finder/">
   <link rel="stylesheet" href="/content.css">
+  <link rel="stylesheet" href="/tool-finder-v2.css">
 </head>
 <body>
 <header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav></header>
@@ -40,7 +41,12 @@
       <div class="hub-section-heading"><div><span class="section-kicker">Recommendation</span><h2>Best fit for your stated requirements</h2></div><button id="finderReset" class="finder-reset" type="button">Start over</button></div>
       <div id="finderSummary" class="finder-summary"></div>
       <div id="finderPrimary" class="finder-primary"></div>
+      <div id="finderFreeOption" class="finder-free-option"></div>
       <div id="finderAlternatives" class="finder-alternatives"></div>
+      <div class="finder-execution-grid">
+        <section id="finderWorkflow" class="finder-workflow" aria-labelledby="finderWorkflowTitle"></section>
+        <section id="finderPrompt" class="finder-prompt" aria-labelledby="finderPromptTitle"></section>
+      </div>
       <div id="finderNextStep" class="finder-next"></div>
     </div>
   </section>

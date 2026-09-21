@@ -1,7 +1,8 @@
 (() => {
   const $=id=>document.getElementById(id);
   const form=$('toolFinderForm'), input=$('requirement'), results=$('finderResults'), primary=$('finderPrimary'),
-    alternatives=$('finderAlternatives'), next=$('finderNextStep'), reset=$('finderReset'), summary=$('finderSummary');
+    alternatives=$('finderAlternatives'), freeOption=$('finderFreeOption'), workflow=$('finderWorkflow'), prompt=$('finderPrompt'),
+    next=$('finderNextStep'), reset=$('finderReset'), summary=$('finderSummary');
 
   const tools={
     cursor:{name:'Cursor',href:'/tools/cursor/',tag:'Coding',level:['mixed','developer'],budget:['low','mid','flexible'],strengths:['quality','control'],privacy:'important',why:'Best when you want AI-native editing across a real codebase with strong control over files and changes.'},
@@ -37,6 +38,20 @@
     {id:'coding',words:['code','coding','developer','debug','refactor','repository','repo','api','software','program','bug','test automation'],tools:['cursor','claudeCode','copilot','chatgpt'],next:'/best/ai-coding-tools/',nextText:'Compare AI coding tools'},
     {id:'writing',words:['write','writing','email','rewrite','copy','blog','proposal','resume','cover letter','content'],tools:['chatgpt','claude','gemini'],next:'/prompts/writing-productivity/',nextText:'Use writing and productivity prompts'}
   ];
+
+  const playbooks={
+    website:{goal:'Turn a brief into a working, responsive website',free:'replit',steps:['Write the audience, goal and required pages','Generate the first working version','Check mobile layout, links and forms','Publish only after a final content review'],prompt:'Build a responsive website for [business or project]. The audience is [audience]. The primary goal is [goal]. Include [pages or sections]. Use a clean, accessible design. Before finishing, check mobile layout, navigation, forms, loading states and broken links.'},
+    video:{goal:'Create a polished short video from a clear brief',free:'chatgpt',steps:['Define the message, length and format','Create a shot list and narration','Generate short clips scene by scene','Edit pacing, captions and audio'],prompt:'Create a [length]-second [format] video concept for [product or topic]. The audience is [audience]. Provide a scene-by-scene shot list, narration, on-screen text, visual direction and a final call to action. Keep every scene practical to generate and edit.'},
+    documents:{goal:'Extract reliable answers from your documents',free:'notebooklm',steps:['Add only the documents you trust','Ask for a structured summary with citations','Check every important claim against its source','Export the final brief and unresolved questions'],prompt:'Using only the provided documents, create a structured brief about [topic]. Include key findings, supporting citations, disagreements between sources, missing information and five follow-up questions. Do not add facts that are not supported by the documents.'},
+    research:{goal:'Build a sourced brief you can verify',free:'perplexity',steps:['Define the decision and freshness required','Collect primary and reputable sources','Separate evidence from interpretation','Verify high-impact claims before sharing'],prompt:'Research [topic] to help me decide [decision]. Prioritize recent primary sources. Return key findings, a comparison table, risks, unanswered questions and source links. Clearly label facts, estimates and your own inference.'},
+    automation:{goal:'Automate one repeatable workflow safely',free:'n8n',steps:['Map the trigger, inputs and expected output','Build the smallest successful path','Add validation and failure handling','Run with test data before enabling it'],prompt:'Design an automation for this process: [process]. Trigger: [trigger]. Inputs: [inputs]. Required output: [output]. List each step, field mapping, validation rule, failure path and a safe test plan before activation.'},
+    image:{goal:'Generate a usable image with controlled details',free:'chatgpt',steps:['Define subject, composition and output size','Generate one clear base image','Review identity, text and edge details','Refine only the specific problems found'],prompt:'Create a [format] image of [subject] for [purpose]. Composition: [composition]. Style: [style]. Lighting: [lighting]. Preserve these exact details: [details]. Avoid [problems]. Output at [dimensions] with no unwanted text or watermark.'},
+    presentation:{goal:'Turn a clear narrative into a useful deck',free:'gamma',steps:['Write the audience and one key takeaway','Create the slide narrative before styling','Generate the first deck','Replace vague claims and verify every number'],prompt:'Create a [number]-slide presentation for [audience] about [topic]. The single takeaway is [takeaway]. Build a clear narrative with one idea per slide, concise titles, suggested visuals, speaker notes and a final action. Flag every claim that needs verification.'},
+    meeting:{goal:'Convert a meeting into owned actions',free:'otter',steps:['Capture or import the transcript','Separate decisions from discussion','Assign each action an owner and date','Send the concise recap for confirmation'],prompt:'Turn this meeting transcript into a concise recap. Return decisions, action items with owner and due date, open questions, risks and items needing confirmation. Do not invent owners or deadlines; mark them as unassigned when absent.'},
+    coding:{goal:'Make a scoped code change you can verify',free:'copilot',steps:['State the expected behavior and constraints','Ask for the smallest safe change','Run focused tests and inspect the diff','Check regression risks before merging'],prompt:'Implement this change: [requirement]. First identify the relevant files and current behavior. Make the smallest safe change, preserve existing conventions, add or update focused tests, run them, and report regression risks. Do not invent APIs or business rules.'},
+    writing:{goal:'Produce a focused draft for a real audience',free:'chatgpt',steps:['Define audience, purpose and tone','Provide the facts and constraints','Generate a concise first draft','Edit for accuracy, voice and action'],prompt:'Write a [type of content] for [audience]. Goal: [goal]. Tone: [tone]. Use these facts: [facts]. Include [required points], avoid [things to avoid], and end with [desired action]. Keep it concise and do not invent details.'},
+    general:{goal:'Choose a practical starting point and validate the result',free:'chatgpt',steps:['Describe the exact outcome you need','Provide constraints and source material','Generate one usable first result','Verify facts, fit and completeness'],prompt:'Help me complete this task: [task]. My audience is [audience]. The required outcome is [outcome]. Constraints: [constraints]. First propose a short plan, then produce the result, and finish with a checklist I can use to verify it.'}
+  };
 
   const privacyRank={normal:1,important:2,strict:3};
   function classify(text){
@@ -77,7 +92,26 @@
     const t=tools[rec.key], rel=t.external?' target="_blank" rel="noopener"':'';
     const reason=rec.reasons.length?'<small>'+rec.reasons.slice(0,2).join(' · ')+'</small>':'';
     const trade=tradeoff(rec,top,ctx);
-    return '<a class="finder-tool-card" href="'+t.href+'"'+rel+'><div><span>'+label+' · '+t.tag+'</span><strong>'+t.name+'</strong><p>'+t.why+'</p><small class="finder-fit-label">'+fitLabel(rec)+'</small>'+reason+(trade?'<small class="finder-tradeoff">'+trade+'</small>':'')+'</div><b>'+(t.external?'↗':'→')+'</b></a>';
+    const access=t.budget.includes('free')?'Free option available':'Paid plan typically required';
+    const limitation=t.external?'Check current pricing, data terms and usage limits before committing.':'Review the full guide for limitations and best-fit use cases.';
+    return '<a class="finder-tool-card" href="'+t.href+'"'+rel+'><div><span>'+label+' · '+t.tag+'</span><strong>'+t.name+'</strong><p>'+t.why+'</p><div class="finder-card-facts"><em>'+access+'</em><em>'+limitation+'</em></div><small class="finder-fit-label">'+fitLabel(rec)+'</small>'+reason+(trade?'<small class="finder-tradeoff">'+trade+'</small>':'')+'</div><b>'+(t.external?'↗':'→')+'</b></a>';
+  }
+  function renderExecution(profile,top,ctx){
+    const plan=playbooks[profile.id]||playbooks.general;
+    const freeKey=plan.free&&tools[plan.free]?plan.free:(tools[top.key].budget.includes('free')?top.key:'chatgpt');
+    const freeRec=scoreTool(freeKey,ctx,0);
+    if(freeKey===top.key){
+      freeOption.innerHTML='<div class="finder-free-note"><span>Budget-friendly start</span><strong>'+tools[freeKey].name+' already includes a free option</strong><p>Start there, validate the workflow, then pay only if usage limits become a real constraint.</p></div>';
+    }else{
+      freeOption.innerHTML='<h3>Best free starting option</h3>'+card(freeRec,'Free option',top,ctx);
+    }
+    workflow.innerHTML='<span class="section-kicker">Starter workflow</span><h3 id="finderWorkflowTitle">'+plan.goal+'</h3><ol>'+plan.steps.map(x=>'<li>'+x+'</li>').join('')+'</ol>';
+    prompt.innerHTML='<div class="finder-prompt-head"><div><span class="section-kicker">Ready-to-use prompt</span><h3 id="finderPromptTitle">Start with this</h3></div><button type="button" id="copyFinderPrompt">Copy prompt</button></div><pre><code id="finderPromptText"></code></pre>';
+    $('finderPromptText').textContent=plan.prompt;
+    $('copyFinderPrompt').addEventListener('click',async e=>{
+      try{await navigator.clipboard.writeText(plan.prompt);e.currentTarget.textContent='Copied';setTimeout(()=>e.currentTarget.textContent='Copy prompt',1600);}catch{e.currentTarget.textContent='Select and copy';}
+      window.dainTrack?.('prompt_copy',{source:'tool_finder',task:profile.id,primary:top.key});
+    });
   }
   function recommend(text){
     let match=classify(text);
@@ -88,6 +122,7 @@
     summary.innerHTML='<strong>Task:</strong> '+match.p.id.replace(/-/g,' ')+' <span>·</span> <strong>Priority:</strong> '+ctx.priority+' <span>·</span> <strong>Skill:</strong> '+ctx.skill+' <span>·</span> <strong>Privacy:</strong> '+ctx.privacy;
     primary.innerHTML=card(top,'Primary recommendation',top,ctx);
     alternatives.innerHTML='<h3>Alternatives and tradeoffs</h3><div class="finder-alt-grid">'+alts.map((x,i)=>card(x,'Alternative '+(i+1),top,ctx)).join('')+'</div>';
+    renderExecution(match.p,top,ctx);
     next.innerHTML='<span>Next best step</span><strong>'+match.p.nextText+'</strong><a href="'+match.p.next+'">Open workflow / guide →</a>';
     results.hidden=false; results.scrollIntoView({behavior:'smooth',block:'start'});
     window.dainTrack?.('tool_finder_result',{task:match.p.id,priority:ctx.priority,skill:ctx.skill,budget:ctx.budget,privacy:ctx.privacy,primary:top.key,query:(window.dainSafeText?.(text)||text.toLowerCase().slice(0,180))});
