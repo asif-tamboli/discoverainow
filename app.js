@@ -189,7 +189,7 @@ function showDecision(q){
     '<div class="decision-path"><span>1 · Tool</span><a href="'+d.toolUrl+'">'+d.tool+'</a><span>2 · Prompt</span><a href="'+d.prompt+'">Prepare prompt</a><span>3 · Workflow</span><a href="'+d.workflow+'">'+d.workflowLabel+'</a><span>4 · Verify</span><a href="/verify-ai-output/">Judge result</a></div>'+
     '<div class="decision-actions"><a href="'+d.workflow+'">Start this approach</a><a href="/tool-finder/?q='+encodeURIComponent(q)+'">Refine constraints</a></div>';
   box.hidden=false;
-  window.dainTrack?.('search',{query:q.toLowerCase().slice(0,180),category:'decision_v2',matches:1,task:d.id,privacy:!!ctx.privacy,evidence:!!ctx.evidence});
+  window.dainTrack?.('search',{query:(window.dainSafeText?.(q)||q.toLowerCase().slice(0,180)),category:'decision_v2',matches:1,task:d.id,privacy:!!ctx.privacy,evidence:!!ctx.evidence});
 }
 el('searchForm')?.addEventListener('submit',e=>{e.preventDefault();const q=(input?.value||'').trim();if(q.length<3){input?.focus();return;}showDecision(q);});
 document.querySelectorAll('.topic-chip').forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.query||'';showDecision(input.value);}));
