@@ -122,6 +122,14 @@ ${v.constraints||'[Add channel, length, claim restrictions or CTA requirements]'
     }
   };
 
+  document.querySelectorAll('[data-pb-type]').forEach(btn=>btn.addEventListener('click',()=>{
+    $('pbType').value=btn.dataset.pbType;
+    document.querySelectorAll('[data-pb-type]').forEach(b=>b.classList.toggle('active',b===btn));
+    $('pbGoal').focus();
+  }));
+  document.querySelector('[data-pb-type="image"]')?.classList.add('active');
+  $('pbType').addEventListener('change',()=>document.querySelectorAll('[data-pb-type]').forEach(b=>b.classList.toggle('active',b.dataset.pbType===$('pbType').value)));
+
   $('promptBuilderForm').addEventListener('submit',e=>{
     e.preventDefault();
     const type=$('pbType').value, t=templates[type];
@@ -137,5 +145,5 @@ ${v.constraints||'[Add channel, length, claim restrictions or CTA requirements]'
   $('pbCopy').addEventListener('click',async()=>{
     try{await navigator.clipboard.writeText($('pbOutput').textContent);$('pbCopy').textContent='Copied';setTimeout(()=>$('pbCopy').textContent='Copy prompt',1200);window.dainTrack?.('prompt_builder_copy',{type:$('pbType').value});}catch{}
   });
-  $('pbReset').addEventListener('click',()=>{ $('promptBuilderForm').reset(); $('promptBuilderResult').hidden=true; $('pbGoal').focus();});
+  $('pbReset').addEventListener('click',()=>{ $('promptBuilderForm').reset(); $('promptBuilderResult').hidden=true; document.querySelectorAll('[data-pb-type]').forEach(b=>b.classList.toggle('active',b.dataset.pbType==='image')); $('pbGoal').focus();});
 })();
