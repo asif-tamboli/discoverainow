@@ -639,3 +639,19 @@ input,textarea,select,button,pre{max-width:100%}
 .evidence-bridge{margin:28px 0;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
 .evidence-bridge strong{display:block;font-size:16px;margin:5px 0}.evidence-bridge p{font-size:12.5px;line-height:1.55;color:var(--muted);max-width:68ch}.evidence-bridge a{display:inline-block;margin-top:5px;font-size:11px;font-weight:800;color:var(--blue)}
 @media(max-width:620px){.benchmark-protocol-grid{grid-template-columns:1fr}.evidence-bridge{padding:15px}}
+
+
+/* ===== 2026-09 Scan-first content refinement ===== */
+.article>p{max-width:72ch}
+.article h2{margin-top:34px;margin-bottom:10px}
+.article h2+p{margin-top:0}
+.buyer-summary>div,.pros-cons-grid>div{padding:17px}
+.buyer-summary p,.pros-cons-grid p{font-size:13.5px!important;line-height:1.55!important;margin:7px 0!important}
+.evidence-bridge p{max-width:62ch}
+.prompt-entry details p{max-width:68ch}
+.prompt-demo .demo-copy{line-height:1.5}
+.article .cta{margin-top:24px}
+@media(max-width:620px){
+ .article h2{margin-top:28px}
+ .buyer-summary p,.pros-cons-grid p{font-size:13px!important}
+}
