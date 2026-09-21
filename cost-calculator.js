@@ -1,10 +1,11 @@
 (() => {
  const rows=document.getElementById('costRows'),fmt=n=>'$'+n.toFixed(2);
  const cats=['General assistant','Coding','Research','Documents','Images','Video','Automation','Presentations','Other'];
+ function labelRows(){[...rows.children].forEach((row,index)=>{const n=index+1;row.querySelector('.cr-name').setAttribute('aria-label','Tool '+n+' name');row.querySelector('.cr-cat').setAttribute('aria-label','Tool '+n+' category');row.querySelector('.cr-price').setAttribute('aria-label','Tool '+n+' monthly price');row.querySelector('.cr-seats').setAttribute('aria-label','Tool '+n+' seats');row.querySelector('.cr-remove').setAttribute('aria-label','Remove tool '+n);});}
  function add(data={}){
    const r=document.createElement('div');r.className='cost-row';
    r.innerHTML='<input class="cr-name" placeholder="Tool name" value="'+(data.name||'').replace(/"/g,'&quot;')+'"><select class="cr-cat">'+cats.map(c=>'<option'+(c===data.cat?' selected':'')+'>'+c+'</option>').join('')+'</select><input class="cr-price" type="number" min="0" step="0.01" placeholder="Monthly price" value="'+(data.price??'')+'"><input class="cr-seats" type="number" min="1" step="1" value="'+(data.seats||1)+'"><button type="button" class="cr-remove">×</button>';
-   rows.appendChild(r);r.querySelectorAll('input,select').forEach(x=>x.addEventListener('input',calc));r.querySelector('.cr-remove').onclick=()=>{r.remove();calc();};
+   rows.appendChild(r);labelRows();r.querySelectorAll('input,select').forEach(x=>x.addEventListener('input',calc));r.querySelector('.cr-remove').onclick=()=>{r.remove();labelRows();calc();};
  }
  function data(){return [...rows.children].map(r=>({name:r.querySelector('.cr-name').value.trim()||'Unnamed tool',cat:r.querySelector('.cr-cat').value,price:Math.max(0,Number(r.querySelector('.cr-price').value)||0),seats:Math.max(1,Number(r.querySelector('.cr-seats').value)||1)}));}
  function calc(){
