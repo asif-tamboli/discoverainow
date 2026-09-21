@@ -628,3 +628,14 @@ input,textarea,select,button,pre{max-width:100%}
 .judge-correction h3{font-size:19px;margin:5px 0 13px}.judge-correction pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#11151d;color:#e8edf5;border-radius:12px;padding:16px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:430px;overflow:auto}
 .judge-correction button{margin-top:12px;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 12px;font-size:11px;font-weight:800;cursor:pointer}
 @media(max-width:620px){.judge-row{grid-template-columns:28px 1fr}.judge-row strong{grid-column:2;justify-self:start}.judge-correction{padding:15px}.judge-correction pre{font-size:11.5px}}
+
+/* Evidence-driven image benchmark */
+.benchmark-protocol-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 28px}
+.benchmark-protocol-grid>div{border:1px solid var(--line);border-radius:15px;background:var(--surface);padding:16px}
+.benchmark-protocol-grid span{font-size:9px;color:var(--blue);font-weight:850;letter-spacing:.7px}
+.benchmark-protocol-grid strong{display:block;font-size:14px;margin:6px 0 3px}.benchmark-protocol-grid p{font-size:12px!important;color:var(--muted);line-height:1.5!important;margin:0!important}
+.benchmark-empty{border:1px dashed #cfd5dd;border-radius:16px;padding:22px;background:var(--surface-2);margin:16px 0 24px}
+.benchmark-empty span{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:850}.benchmark-empty strong{display:block;font-size:18px;margin:5px 0}.benchmark-empty p{color:var(--muted);margin:0!important}
+.evidence-bridge{margin:28px 0;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.evidence-bridge strong{display:block;font-size:16px;margin:5px 0}.evidence-bridge p{font-size:12.5px;line-height:1.55;color:var(--muted);max-width:68ch}.evidence-bridge a{display:inline-block;margin-top:5px;font-size:11px;font-weight:800;color:var(--blue)}
+@media(max-width:620px){.benchmark-protocol-grid{grid-template-columns:1fr}.evidence-bridge{padding:15px}}
