@@ -8,8 +8,20 @@
   let session_id=sessionStorage.getItem(sidKey);
   if(!session_id){session_id=makeId();sessionStorage.setItem(sidKey,session_id)}
 
+  const audienceContext=()=>{
+    const ua=navigator.userAgent||'';
+    const device=/iPad|Tablet/i.test(ua)?'tablet':/Mobi|Android|iPhone/i.test(ua)?'mobile':'desktop';
+    const os=/iPhone|iPad|iPod/i.test(ua)?'iOS':/Android/i.test(ua)?'Android':/Windows/i.test(ua)?'Windows':/Mac OS X|Macintosh/i.test(ua)?'macOS':/Linux/i.test(ua)?'Linux':'other';
+    const source=(()=>{try{const r=document.referrer;if(!r)return'direct';const h=new URL(r).hostname.replace(/^www\./,'');if(h===location.hostname)return'internal';if(/google\./.test(h))return'google';if(/bing\./.test(h))return'bing';if(/linkedin\./.test(h))return'linkedin';if(/reddit\./.test(h))return'reddit';if(/facebook\.|instagram\./.test(h))return'meta';return h.slice(0,80)}catch{return'other'}})();
+    const p=new URLSearchParams(location.search);
+    return {device,os,language:(navigator.language||'unknown').slice(0,20),source,utm_source:(p.get('utm_source')||'').slice(0,80),utm_medium:(p.get('utm_medium')||'').slice(0,80),utm_campaign:(p.get('utm_campaign')||'').slice(0,120)};
+  };
+  const audience=audienceContext();
+  const cleanText=s=>String(s||'').replace(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g,'[email]').replace(/\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g,'[phone]').replace(/\b\d{3}-\d{2}-\d{4}\b/g,'[id]').slice(0,300);
+  window.dainSafeText=cleanText;
+
   window.dainTrack=(event,properties={})=>{
-    const payload={event_name:event,path:location.pathname,session_id,anonymous_id,properties};
+    const payload={event_name:event,path:location.pathname,session_id,anonymous_id,properties:{...audience,...properties}};
     fetch(ENDPOINT,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
@@ -39,7 +51,7 @@
   addEventListener('pagehide',()=>{window.dainTrack('session_exit',{seconds:Math.round((Date.now()-started)/1000),engaged,scroll:Math.min(100,Math.round((scrollY/(Math.max(1,document.documentElement.scrollHeight-innerHeight)))*100))})});
 
   if(!sessionStorage.getItem('dain_session_seen')){
-    window.dainTrack('session_start',{referrer:document.referrer||'direct'});
+    window.dainTrack('session_start',{referrer:document.referrer||'direct',landing_path:location.pathname});
     sessionStorage.setItem('dain_session_seen','1');
   }else{
     window.dainTrack('return_pageview');
