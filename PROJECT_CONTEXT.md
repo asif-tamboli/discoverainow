@@ -436,6 +436,30 @@ Hub:
 
 Existing use cases include website/app building, research, presentations, image generation, PDF summaries, meetings, coding/debugging, automation, video, QA/test coverage.
 
+### AI Product Photography conversion funnel
+
+`/use-cases/ai-product-photography/` is now an action-first, revenue-ready vertical rather than a static article. It supports four jobs:
+- clean studio product shot
+- lifestyle product scene
+- background replacement
+- social advertising creative
+
+Each selection returns:
+- editorial best-fit tool and a free starting option
+- honest limitations/evidence boundaries
+- job-specific copy-ready prompt and recommended dimensions
+- four-step workflow
+- product-image quality checklist
+- tracked routes to the recommended tool, Prompt Lab, image comparison and Result Judge
+- contextual newsletter signup
+
+Files:
+- `use-cases/ai-product-photography/index.html`
+- `product-photo-funnel.js`
+- `product-photo-funnel.css`
+
+This is the first complete acquisition-to-action vertical. Preserve its trust language: recommendations are editorial task-fit guidance, not measured benchmark winners, and ordinary outbound links must not be described as affiliate links until affiliate relationships exist.
+
 High-intent image acquisition cluster:
 - `/use-cases/ai-product-photography/`
 - `/use-cases/ai-portraits-reference-fidelity/`
