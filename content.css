@@ -670,3 +670,23 @@ input,textarea,select,button,pre{max-width:100%}
 .instant-start-grid>a>strong{font-size:12px}.instant-start-grid>a>span{font-size:12px;color:var(--muted)}
 @media(max-width:860px){.instant-start-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.instant-start-grid{grid-template-columns:1fr}.instant-start-head p{width:100%}}
+
+
+/* ===== Guided core utilities ===== */
+.guided-label{font-size:10px;font-weight:850;letter-spacing:.75px;text-transform:uppercase;color:var(--muted);margin:2px 0 9px}
+.finder-task-picks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 18px}
+.finder-task-picks button{min-height:52px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-weight:750;cursor:pointer}
+.finder-task-picks button:hover{background:var(--blue-soft);border-color:#cbd8f3}
+.finder-advanced{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:4px 0 16px}
+.finder-advanced summary{cursor:pointer;font-size:12px;font-weight:800;list-style:none;display:flex;gap:8px;align-items:center}
+.finder-advanced summary::-webkit-details-marker{display:none}.finder-advanced summary:before{content:'+';color:var(--blue);font-size:16px}.finder-advanced[open] summary:before{content:'−'}
+.finder-advanced summary span{font-size:9px;color:var(--muted);font-weight:700;border:1px solid var(--line);padding:2px 6px;border-radius:99px}
+.finder-advanced .finder-refine{margin-top:14px}
+.pb-type-picks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:15px}
+.pb-type-picks button{border:1px solid var(--line);border-radius:12px;background:var(--surface);min-height:48px;font-size:12px;font-weight:750;cursor:pointer}
+.pb-type-picks button.active,.pb-type-picks button:hover{background:var(--blue-soft);border-color:#b9cbee;color:var(--blue)}
+.pb-native-type{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.pb-advanced>div{margin-top:14px}.pb-advanced .pb-grid{margin-top:14px}.pb-advanced textarea{margin-bottom:14px}
+.finder-v2 .finder-step textarea{min-height:110px}
+@media(max-width:800px){.finder-task-picks,.pb-type-picks{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.finder-task-picks,.pb-type-picks{grid-template-columns:1fr 1fr}}
