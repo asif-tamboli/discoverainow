@@ -445,3 +445,21 @@ input,textarea,select,button{max-width:100%}
 .decision-path span{font-size:9px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.4px}
 .decision-path a{font-size:11px;font-weight:800}
 @media(max-width:760px){.decision-path{grid-template-columns:auto 1fr;gap:8px 10px}.decision-context{margin-bottom:8px}}
+
+
+/* ===== 2026-09 Scan-first refinement: preserve theme, reduce reading load ===== */
+.hero{min-height:520px;padding-top:48px;padding-bottom:48px}
+.hero p{max-width:560px}
+section.home-wrap{padding-top:58px}
+.section-heading{margin-bottom:16px}
+.utility-launch .buyer-card,.buyer-home-section .buyer-card{min-height:150px;padding:20px}
+.utility-launch .buyer-card p,.buyer-home-section .buyer-card p{margin-top:7px;max-width:34ch}
+.proof-home-inner,.result-judge-inner{padding-top:24px;padding-bottom:24px}
+.proof-home-inner p,.result-judge-inner p{max-width:48ch}
+.workflow-feature-card p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prompt-snippet>p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tool-strip-section,.tutorials-home{padding-top:48px!important}
+@media(max-width:700px){
+  section.home-wrap{padding-top:44px}
+  .hero{min-height:auto;padding-top:34px;padding-bottom:34px}
+}
