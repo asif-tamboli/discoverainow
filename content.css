@@ -690,3 +690,4 @@ input,textarea,select,button,pre{max-width:100%}
 .finder-v2 .finder-step textarea{min-height:110px}
 @media(max-width:800px){.finder-task-picks,.pb-type-picks{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.finder-task-picks,.pb-type-picks{grid-template-columns:1fr 1fr}}
+.tool-empty-state{margin:1rem 0 0;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:14px;color:var(--muted);background:var(--surface)}
