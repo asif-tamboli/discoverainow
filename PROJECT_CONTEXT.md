@@ -857,7 +857,23 @@ The product should increasingly feel like:
 
 **“Tell us what you want AI to do. We’ll help you choose it, prompt it, use it and check it.”**
 
-## 31. Important working rule for future ChatGPT sessions
+## 31. Cross-chat continuation protocol
+
+This file is the durable handoff between ChatGPT conversations. A new project chat should begin with:
+
+> Read `PROJECT_CONTEXT.md` from `asif-tamboli/discoverainow`, inspect the current repository state, and continue from the newest verified state. Repository state newer than this document overrides this document.
+
+After a meaningful implementation session, update this file with:
+- shipped product/UX changes
+- important commit SHAs
+- analytics findings that changed priorities
+- new known defects or resolved defects
+- decisions not to build something
+- current next action
+
+Do not rely on a private ChatGPT conversation URL as the project source of truth.
+
+## 32. Important working rule for future ChatGPT sessions
 
 When continuing this project:
 - read this file first
