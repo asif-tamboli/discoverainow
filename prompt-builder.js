@@ -132,7 +132,7 @@ ${v.constraints||'[Add channel, length, claim restrictions or CTA requirements]'
     $('pbRelated').href=t.related;
     $('promptBuilderResult').hidden=false;
     $('promptBuilderResult').scrollIntoView({behavior:'smooth',block:'start'});
-    window.dainTrack?.('prompt_builder_generate',{type});
+    window.dainTrack?.('prompt_builder_generate',{type,intent:(window.dainSafeText?.(v.goal)||v.goal.slice(0,300))});
   });
   $('pbCopy').addEventListener('click',async()=>{
     try{await navigator.clipboard.writeText($('pbOutput').textContent);$('pbCopy').textContent='Copied';setTimeout(()=>$('pbCopy').textContent='Copy prompt',1200);window.dainTrack?.('prompt_builder_copy',{type:$('pbType').value});}catch{}
