@@ -138,7 +138,8 @@ ${v.constraints||'[No additional constraints supplied]'}`
   }
 
   function fit(score,top){const d=top-score;if(d<1)return 'Best fit';if(d<2.5)return 'Strong fit';if(d<4)return 'Good alternative';return 'Conditional fit';}
-  function bar(n){return '<span class="pl-meter"><i style="width:'+(n*10)+'%"></i></span><b>'+n+'/10</b>';}
+  function dimensionFit(n){return n>=9?'Excellent':n>=8?'Strong':n>=7?'Good':'Conditional';}
+  function bar(n){const label=dimensionFit(n);return '<span class="pl-meter"><i style="width:'+(n*10)+'%"></i></span><b>'+label+'</b>';}
 
   function render(v,ranked){
     const top=ranked[0];
