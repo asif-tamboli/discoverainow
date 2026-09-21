@@ -10,19 +10,19 @@
 <body>
 <header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/workflows/">Workflows</a><a href="/prompts/">Prompts</a><a href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav></header>
 <main class="directory-shell">
-  <section class="hub-hero"><div><div class="breadcrumbs"><a href="/">Home</a> / Prompt Builder</div><span class="eyebrow">Prompt Builder</span><h1>Build the prompt around the job.</h1><p class="dek">Choose what you’re doing, add the context that matters, and get a reusable prompt with constraints and a recommended tool fit.</p></div></section>
+  <section class="hub-hero"><div><div class="breadcrumbs"><a href="/">Home</a> / Prompt Builder</div><span class="eyebrow">Prompt Builder</span><h1>What do you want AI to create?</h1><p class="dek">Give us the outcome. Add details only when they matter.</p></div></section>
 
   <section class="prompt-builder-shell">
     <form id="promptBuilderForm" class="prompt-builder-form">
-      <div><label for="pbType">Task type</label><select id="pbType"><option value="image">Image generation</option><option value="coding">Coding / debugging</option><option value="research">Research / synthesis</option><option value="writing">Writing / productivity</option><option value="marketing">Marketing</option></select></div>
-      <div><label for="pbGoal">What is the outcome?</label><input id="pbGoal" type="text" placeholder="Example: Create a premium product image for an Instagram ad" required></div>
-      <div><label for="pbContext">Context / source material</label><textarea id="pbContext" rows="5" placeholder="Describe the product, audience, source documents, code, requirement or constraints the AI should know."></textarea></div>
+      <div class="guided-label">1 · Pick the job</div><div class="pb-type-picks"><button type="button" data-pb-type="image">◫ Image</button><button type="button" data-pb-type="coding">&lt;/&gt; Code</button><button type="button" data-pb-type="research">⌕ Research</button><button type="button" data-pb-type="writing">✎ Writing</button><button type="button" data-pb-type="marketing">◎ Marketing</button></div><div class="pb-native-type"><label for="pbType">Task type</label><select id="pbType"><option value="image">Image generation</option><option value="coding">Coding / debugging</option><option value="research">Research / synthesis</option><option value="writing">Writing / productivity</option><option value="marketing">Marketing</option></select></div>
+      <div><label for="pbGoal">2 · What do you need?</label><input id="pbGoal" type="text" placeholder="Example: Create a premium product image for an Instagram ad" required></div>
+      <details class="finder-advanced pb-advanced"><summary>Add context & constraints <span>Optional</span></summary><div><label for="pbContext">Context / source material</label><textarea id="pbContext" rows="5" placeholder="Describe the product, audience, source documents, code, requirement or constraints the AI should know."></textarea></div>
       <div class="pb-grid">
         <div><label for="pbFormat">Output format</label><input id="pbFormat" type="text" placeholder="Example: 4:5 image, JSON, executive brief"></div>
         <div><label for="pbTone">Tone / style</label><input id="pbTone" type="text" placeholder="Example: concise, photorealistic, technical"></div>
       </div>
       <div><label for="pbConstraints">Important constraints</label><textarea id="pbConstraints" rows="3" placeholder="What must not change? What should the model avoid inventing? What quality bar matters?"></textarea></div>
-      <button class="finder-submit" type="submit">Build prompt →</button>
+      </details><button class="finder-submit" type="submit">Build my prompt</button>
     </form>
 
     <div id="promptBuilderResult" class="prompt-builder-result" hidden>
