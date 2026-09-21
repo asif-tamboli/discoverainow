@@ -116,6 +116,7 @@
         
       </a>
     </div>
+    <p id="toolEmptyState" class="tool-empty-state" hidden>No matching category yet. Try a broader term or choose another filter.</p>
   </section>
 
 
@@ -170,15 +171,19 @@
   const search=document.getElementById('toolSearch');
   const buttons=[...document.querySelectorAll('#toolFilters button')];
   const cards=[...document.querySelectorAll('#toolCategoryGrid .clean-card')];
+  const empty=document.getElementById('toolEmptyState');
   let filter='all';
   function apply(){
     const q=(search.value||'').trim().toLowerCase();
+    let visible=0;
     cards.forEach(card=>{
       const groups=(card.dataset.group||'').split(' ');
       const filterMatch=filter==='all'||groups.includes(filter);
       const text=(card.dataset.search||'')+' '+card.textContent.toLowerCase();
       card.hidden=!(filterMatch&&(!q||text.includes(q)));
+      if(!card.hidden)visible++;
     });
+    empty.hidden=visible!==0;
   }
   search.addEventListener('input',apply);
   buttons.forEach(btn=>btn.addEventListener('click',()=>{
