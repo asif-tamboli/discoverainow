@@ -20,15 +20,52 @@
   const cleanText=s=>String(s||'').replace(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g,'[email]').replace(/\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g,'[phone]').replace(/\b\d{3}-\d{2}-\d{4}\b/g,'[id]').slice(0,300);
   window.dainSafeText=cleanText;
 
+  const funnelStages={
+    session_start:['01_entry','Entry'],
+    search:['02_intent','Intent'],
+    tool_finder_result:['03_recommendation','Recommendation'],
+    prompt_builder_generate:['03_recommendation','Recommendation'],
+    workflow_generator_generate:['03_recommendation','Recommendation'],
+    prompt_lab_compare:['03_recommendation','Recommendation'],
+    prompt_evaluator_run:['03_recommendation','Recommendation'],
+    prompt_compare_run:['03_recommendation','Recommendation'],
+    stack_builder_result:['03_recommendation','Recommendation'],
+    replacement_finder_result:['03_recommendation','Recommendation'],
+    recommendation_click:['04_action','Action'],
+    prompt_copy:['04_action','Action'],
+    prompt_builder_copy:['04_action','Action'],
+    workflow_open:['04_action','Action'],
+    workflow_generator_copy:['04_action','Action'],
+    prompt_lab_copy:['04_action','Action'],
+    prompt_evaluator_copy:['04_action','Action'],
+    prompt_compare_copy:['04_action','Action'],
+    output_verifier_run:['05_verification','Verification'],
+    output_verifier_copy:['05_verification','Verification'],
+    output_verifier_correction_copy:['05_verification','Verification'],
+    newsletter_signup:['06_conversion','Conversion'],
+    workspace_save:['06_conversion','Conversion'],
+    outbound_click:['06_conversion','Conversion'],
+    affiliate_click:['06_conversion','Conversion'],
+    content_request_submit:['06_conversion','Conversion']
+  };
+
+  const contentGroup=()=>{
+    const part=location.pathname.split('/').filter(Boolean)[0]||'home';
+    return ['best','benchmarks','compare','comparisons','guides','prompts','tools','use-cases','workflows'].includes(part)?part:'utilities';
+  };
+
   window.dainTrack=(event,properties={})=>{
-    const payload={event_name:event,path:location.pathname,session_id,anonymous_id,properties:{...audience,...properties}};
+    const stage=funnelStages[event];
+    const context={...audience,content_group:contentGroup(),journey_id:session_id,...properties};
+    if(stage){context.funnel_stage=stage[0];context.funnel_label=stage[1];}
+    const payload={event_name:event,path:location.pathname,session_id,anonymous_id,properties:context};
     fetch(ENDPOINT,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(payload),
       keepalive:true
     }).catch(()=>{});
-    if(window.gtag)window.gtag('event',event,properties);
+    if(window.gtag)window.gtag('event',event,context);
   };
 
   document.addEventListener('click',e=>{
