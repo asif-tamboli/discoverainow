@@ -1,7 +1,7 @@
 (() => {
  const $=id=>document.getElementById(id);
  const T={
-  chatgpt:['ChatGPT','/tools/chatgpt/'],claude:['Claude','/tools/claude/'],gemini:['Gemini','/tools/gemini/'],cursor:['Cursor','/tools/cursor/'],copilot:['GitHub Copilot','/tools/github-copilot/'],perplexity:['Perplexity','/tools/perplexity/'],notebooklm:['NotebookLM','/tools/notebooklm/'],midjourney:['Midjourney','/tools/midjourney/'],
+  chatgpt:['ChatGPT','/tools/chatgpt/'],claude:['Claude','/tools/claude/'],gemini:['Gemini','/tools/gemini/'],cursor:['Cursor','/tools/cursor/'],copilot:['GitHub Copilot','/tools/github-copilot/'],perplexity:['Perplexity','/tools/perplexity/'],notebooklm:['NotebookLM','/tools/notebooklm/'],midjourney:['Midjourney','/tools/midjourney/'],zapier:['Zapier','https://zapier.com/'],
   claudeCode:['Claude Code','/tools/claude-code/'],n8n:['n8n','https://n8n.io/'],firefly:['Adobe Firefly','https://firefly.adobe.com/'],make:['Make','https://www.make.com/']
  };
  const map={
