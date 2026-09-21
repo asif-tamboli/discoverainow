@@ -90,7 +90,7 @@
     alternatives.innerHTML='<h3>Alternatives and tradeoffs</h3><div class="finder-alt-grid">'+alts.map((x,i)=>card(x,'Alternative '+(i+1),top,ctx)).join('')+'</div>';
     next.innerHTML='<span>Next best step</span><strong>'+match.p.nextText+'</strong><a href="'+match.p.next+'">Open workflow / guide →</a>';
     results.hidden=false; results.scrollIntoView({behavior:'smooth',block:'start'});
-    window.dainTrack?.('tool_finder_result',{task:match.p.id,priority:ctx.priority,skill:ctx.skill,budget:ctx.budget,privacy:ctx.privacy,primary:top.key,query:text.toLowerCase().slice(0,180)});
+    window.dainTrack?.('tool_finder_result',{task:match.p.id,priority:ctx.priority,skill:ctx.skill,budget:ctx.budget,privacy:ctx.privacy,primary:top.key,query:(window.dainSafeText?.(text)||text.toLowerCase().slice(0,180))});
   }
   const incoming=new URLSearchParams(window.location.search).get('q');
   if(incoming){input.value=incoming.slice(0,1200);input.closest('.finder-step')?.classList.add('prefilled');}
