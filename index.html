@@ -42,49 +42,50 @@
   <section class="hero-shell">
     <div class="hero hero-utility">
       <div class="hero-copy">
-        <span class="eyebrow">AI for real work</span>
-        <h1>Useful AI.<br><span>Without the noise.</span></h1>
-        <p>Tell us the task. We’ll route you to the right tool, prompt and workflow.</p>
+        <span class="eyebrow">Tell us the job. We build the path.</span>
+        <h1>What do you want<br><span>AI to do?</span></h1>
+        <p class="hero-promise"><b>Choose a task</b><i>→</i><b>Get the AI</b><i>→</i><b>Get the prompt</b><i>→</i><b>Verify it</b></p>
 
         <form id="searchForm" class="hero-search decision-search">
           <span class="search-icon">⌕</span>
-          <input id="globalSearch" type="search" placeholder="What are you trying to do?" autocomplete="off" />
-          <button type="submit">Find my approach</button>
+          <input id="globalSearch" type="search" placeholder="Example: create a product image, research a topic, debug code…" autocomplete="off" />
+          <button type="submit">Show me how</button>
         </form>
         <div id="decisionResult" class="decision-result" hidden></div>
 
-        <div class="topic-row">
-          <button class="topic-chip" data-query="Research">Research</button>
-          <button class="topic-chip" data-query="Image">Create images</button>
-          <button class="topic-chip" data-query="Coding">Code</button>
-          <button class="topic-chip" data-query="Meeting">Meetings</button>
-          <button class="topic-chip" data-query="Presentation">Presentations</button>
-          <button class="topics-link" data-query="">Clear</button>
+        <div class="quick-task-label">Or pick a task</div>
+        <div class="topic-row visual-task-row">
+          <button class="topic-chip" data-query="Create a product image"><b>◫</b><span>Create image</span></button>
+          <button class="topic-chip" data-query="Research a topic with sources"><b>⌕</b><span>Research</span></button>
+          <button class="topic-chip" data-query="Debug code"><b>&lt;/&gt;</b><span>Debug code</span></button>
+          <button class="topic-chip" data-query="Turn meeting notes into actions"><b>✓</b><span>Meeting → actions</span></button>
+          <button class="topic-chip" data-query="Create a presentation"><b>▤</b><span>Create slides</span></button>
         </div>
       </div>
 
-      <div class="hero-card utility-map" aria-hidden="true">
-        <div class="hero-card-top"><span>START WITH THE JOB</span><span class="pulse-dot"></span></div>
-        <div class="utility-map-flow">
-          <div><span>01</span><strong>Define</strong><small>What outcome do you need?</small></div>
-          <div><span>02</span><strong>Use</strong><small>Workflow + prompt + tool</small></div>
-          <div><span>03</span><strong>Verify</strong><small>Check evidence and output</small></div>
+      <div class="hero-card portal-preview" aria-label="How Discover AI Now works">
+        <div class="hero-card-top"><span>YOUR AI PATH</span><span class="pulse-dot"></span></div>
+        <div class="portal-path">
+          <div class="portal-path-input"><span>You need</span><strong>“Create a product image”</strong></div>
+          <i>↓</i>
+          <div class="portal-path-result"><span>We give you</span><div><b>01</b><strong>Best-fit AI</strong></div><div><b>02</b><strong>Ready prompt</strong></div><div><b>03</b><strong>Workflow</strong></div><div><b>04</b><strong>Checks</strong></div></div>
         </div>
-        <div class="hero-card-bottom"><strong>Do → verify → reuse</strong><small>Less browsing. More useful output.</small></div>
+        <div class="hero-card-bottom"><strong>One task. One clear path.</strong><small>No AI-tool hunting.</small></div>
       </div>
     </div>
   </section>
 
 
 
-  <section class="home-wrap utility-launch">
+  <section class="home-wrap start-visual">
     <div class="section-heading">
-      <div><span class="section-kicker">Use AI, don’t just browse it</span><h2>Three ways to start</h2></div>
+      <div><span class="section-kicker">Start here</span><h2>What do you need right now?</h2></div>
     </div>
-    <div class="buyer-grid">
-      <a class="buyer-card searchable" data-type="guide" data-search="use cases tasks website pdf video research" href="/use-cases/"><span>I know my task</span><h3>Start with a use case</h3><p>Task → practical workflow.</p></a>
-      <a class="buyer-card searchable" data-type="prompt" data-search="prompt builder structured prompt" href="/prompt-builder/"><span>I need a prompt</span><h3>Build it around your context</h3><p>Goal + constraints → reusable prompt.</p></a>
-      <a class="buyer-card searchable" data-type="tool" data-search="tool finder choose ai recommendation" href="/tool-finder/"><span>I need to choose AI</span><h3>Find the right tool</h3><p>Task → matched AI tool.</p></a>
+    <div class="start-action-grid">
+      <a href="/tool-finder/" class="start-action"><span class="start-icon">◎</span><div><small>CHOOSE</small><strong>Which AI?</strong></div><b>→</b></a>
+      <a href="/prompt-builder/" class="start-action"><span class="start-icon">✦</span><div><small>CREATE</small><strong>Build my prompt</strong></div><b>→</b></a>
+      <a href="/workflows/" class="start-action"><span class="start-icon">↳</span><div><small>DO</small><strong>Show the steps</strong></div><b>→</b></a>
+      <a href="/verify-ai-output/" class="start-action"><span class="start-icon">✓</span><div><small>CHECK</small><strong>Verify my result</strong></div><b>→</b></a>
     </div>
   </section>
 
@@ -116,7 +117,7 @@
     </div>
   </section>
 
-  <section class="home-wrap buyer-home-section">
+  <section class="home-wrap buyer-home-section home-secondary">
     <div class="section-heading">
       <div><span class="section-kicker">Buyer guides</span><h2>Make a better AI decision</h2></div>
     </div>
@@ -127,7 +128,7 @@
     </div>
   </section>
 
-  <section class="home-wrap tool-strip-section">
+  <section class="home-wrap tool-strip-section home-secondary">
     <div class="section-heading compact">
       <div><span class="section-kicker">Tools</span><h2>Go deeper before you leave the site</h2></div>
     </div>
@@ -141,7 +142,7 @@
     </div>
   </section>
 
-  <section class="home-wrap tutorials-home">
+  <section class="home-wrap tutorials-home home-secondary">
     <div class="section-heading">
       <div><span class="section-kicker">Learn from the source</span><h2>Official tutorials worth your time</h2></div>
     </div>
