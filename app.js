@@ -88,7 +88,6 @@ function WorkflowCard(item,index){
       <h3>${item.title}</h3>
       <p>${item.description}</p>
       <div class="workflow-mini-steps">${item.steps.map(step=>`<span>${step}</span>`).join('<i>→</i>')}</div>
-      <footer>Use workflow →</footer>
     </a>`;
 }
 

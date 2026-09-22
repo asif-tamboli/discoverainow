@@ -917,3 +917,4 @@ When continuing this project:
 - never fabricate live usage, benchmark results, provider behavior, or test results
 - distinguish static code review from actual runtime/browser testing
 - prefer improving the connected core journey over adding another feature
+- avoid repeating text CTAs inside fully clickable cards; use a small decorative chevron only when a visual click cue helps, while preserving distinct functional actions such as Copy, Compare or Open Tool
