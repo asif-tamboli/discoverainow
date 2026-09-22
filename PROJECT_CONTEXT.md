@@ -434,6 +434,13 @@ Workflow Generator:
 Hub:
 - `/use-cases/`
 
+Navigation update:
+- Use Cases is now a primary homepage navigation item and footer link.
+- Homepage includes a visible **Browse by outcome** launcher with six task categories.
+- The Use Cases hub is organized into scannable anchored groups: Create images, Research & documents, Code & build, Present & communicate, Automate work, and Meetings & productivity.
+- Popular complete paths are surfaced before the full category catalog.
+- Preserve this outcome-first structure; do not return to one long undifferentiated card list.
+
 Existing use cases include website/app building, research, presentations, image generation, PDF summaries, meetings, coding/debugging, automation, video, QA/test coverage.
 
 ### AI Product Photography conversion funnel
