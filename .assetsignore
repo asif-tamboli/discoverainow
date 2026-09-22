@@ -9,3 +9,6 @@ package.json
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+private/
+tests/
+PROJECT_CONTEXT.md

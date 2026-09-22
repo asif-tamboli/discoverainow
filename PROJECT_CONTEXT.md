@@ -4,6 +4,17 @@ _Last updated from the primary project conversation: 2026-09-22_
 
 > This document is the handoff/source-of-truth for continuing DiscoverAINow work in another ChatGPT conversation. Newer verified repository state overrides older notes here.
 
+## Growth implementation — September 22, 2026
+
+- Shared task context carries goals and constraints between Home, Tool Finder, Prompt Builder, Prompt Lab, Workflows and Result Judge using session storage. Clear and opt-out controls are included; source documents and AI results are not stored by this feature. Existing form entries win over saved context.
+- Outcome feedback now records worked/partly/failed/not tried, optional tool, and an improvement category. It acknowledges only successful HTTP saves and supports retry.
+- Two original before/after prompt examples on Summarize PDFs and Build Website show actual deterministic Prompt Builder outputs. They are explicitly not external-provider results or benchmarks; further paid/free model evaluation remains separate work.
+- Affiliate configuration is implemented but empty: no approved partner links were available. Activation requires genuine approval, exact HTTPS destination and affiliate URL, and visible commission disclosure. No invented links or revenue claims.
+- `private/funnel.py` generates a local aggregate dashboard from an events JSON export or local server-side Supabase credentials. The private folder is excluded from deployment; credentials and reports must never be committed. See `private/README.md`.
+- `?traffic=internal` marks the owner’s browser until `?traffic=public` is used. Suspected bots are tagged heuristically. The report filters marked sessions and explicitly identifies unclassified historical traffic. Stage counts show reach, not sequential conversion or revenue.
+- Core analytics omit free-text query/goal/intent/prompt/source/output/constraints/message fields and handle blocked storage. No database schema changes or paid dependencies introduced.
+- Verification: Node behavior tests and Python dashboard tests are in `tests/`. Browser visual verification and external-provider output benchmarks must not be inferred from these tests.
+
 ## Product
 DiscoverAINow.com is evolving from a generic AI directory/content site into an **AI decision-and-verification product**.
 
@@ -654,4 +665,3 @@ Do not add another major feature yet.
 When starting a new ChatGPT conversation, say:
 
 > Read PROJECT_CONTEXT.md in the asif-tamboli/discoverainow repository and treat it as the project handoff. Inspect the current repository before making changes because newer commits may supersede parts of the document. Continue from the Immediate roadmap and preserve the product/design boundaries documented there.
-

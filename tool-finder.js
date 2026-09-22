@@ -116,6 +116,7 @@
   function recommend(text){
     let match=classify(text);
     if(!match || match.score===0) match={p:{id:'general',tools:['chatgpt','claude','gemini'],next:'/tools/',nextText:'Browse tools by use case'}};
+    form.dataset.taskType=match.p.id;
     const ctx={skill:$('skill').value,budget:$('budget').value,priority:$('priority').value,privacy:$('privacy').value};
     const ranked=match.p.tools.map((k,i)=>scoreTool(k,ctx,i)).sort((a,b)=>b.score-a.score);
     const top=ranked[0], alts=ranked.slice(1,4);
