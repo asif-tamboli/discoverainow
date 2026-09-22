@@ -800,6 +800,8 @@ The AI detector idea was explicitly rejected earlier. Do not reintroduce it unle
 
 ## 27. Responsive/readability safeguards
 
+Dark-mode light-hover cards now use a scoped dark foreground palette (titles, secondary copy and category labels), including homepage tool, tutorial, workflow, buyer, utility and logo cards. Keyboard focus uses the same readable light surface with a visible outline. Preserve this pairing when adding hover styles.
+
 Responsive/readability work:
 - `641990eb502e07e86244412d75b449ab2b63d3dd`
 - `bca21a6f09edaeee62294e510d0d13fc817abedf`
