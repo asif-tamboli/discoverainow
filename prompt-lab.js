@@ -154,22 +154,36 @@ ${v.constraints||'[No additional constraints supplied]'}`
       return '<article class="pl-tool-card"><div class="pl-tool-card-head"><div><span>'+fit(r.score,top.score)+'</span><strong>'+r.t.name+'</strong><small>'+r.t.type+'</small></div><a href="'+r.t.href+'" '+(r.t.external?'target="_blank" rel="noopener"':'')+'>↗</a></div><p><b>Likely strength:</b> '+r.t.best+'</p><p><b>Tradeoff:</b> '+r.t.trade+'</p><div class="pl-profile">'+rows+'</div></article>';
     }).join('');
 
-    $('plPrompts').innerHTML=ranked.map((r,i)=>{
+    const promptCards=ranked.map((r,i)=>{
       const prompt=r.t.prompt(v);
       return '<article class="tool-prompt-card '+(i===0?'featured':'')+'"><div class="tool-prompt-head"><div><span>'+(i===0?'Recommended first':'Alternative')+'</span><strong>'+r.t.name+'</strong></div><button type="button" class="pl-copy" data-key="'+r.key+'">Copy prompt</button></div><pre>'+esc(prompt)+'</pre><small><b>Why adapted this way:</b> '+esc(r.t.best)+' '+esc(r.t.trade)+'</small></article>';
-    }).join('');
+    });
 
+    $('plPrompts').innerHTML=promptCards[0];
+    $('plAlternativePrompts').innerHTML=promptCards.slice(1).join('');
+    $('plAlternatives').open=false;
+    $('plCopyStatus').textContent='';
     document.querySelectorAll('.pl-copy').forEach(btn=>btn.addEventListener('click',async()=>{
       const key=btn.dataset.key;const prompt=tools[key].prompt(v);
-      try{await navigator.clipboard.writeText(prompt);const old=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=old,1200);window.dainTrack?.('prompt_lab_copy',{tool:key,use_case:v.useCase,priority:v.priority});}catch{}
+      try{await navigator.clipboard.writeText(prompt);const old=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=old,1200);window.dainTrack?.('prompt_lab_copy',{tool:key,use_case:v.useCase,priority:v.priority});}catch{$('plCopyStatus').textContent='Clipboard unavailable. Select the prompt text and copy it manually.'}
     }));
   }
 
   $('promptLabForm').addEventListener('submit',e=>{
     e.preventDefault();const v=context();if(v.goal.length<5){$('plGoal').focus();return;}
-    const ranked=scored(v);render(v,ranked);$('promptLabResult').hidden=false;$('promptLabResult').scrollIntoView({behavior:'smooth',block:'start'});
+    const ranked=scored(v);render(v,ranked);$('promptLabResult').hidden=false;$('plResultHeading').focus({preventScroll:true});$('promptLabResult').scrollIntoView({behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
     window.dainTrack?.('prompt_lab_compare',{use_case:v.useCase,style:v.style,priority:v.priority,text:v.text,editing:v.edit,reference:v.reference,primary:ranked[0].key});
   });
 
-  $('plReset').addEventListener('click',()=>{$('promptLabForm').reset();$('promptLabResult').hidden=true;$('plGoal').focus();});
+  const taskButtons=document.querySelectorAll('[data-lab-task]');
+  function syncTask(){taskButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.labTask===$('plUseCase').value)));}
+  taskButtons.forEach(b=>b.addEventListener('click',()=>{
+    $('plUseCase').value=b.dataset.labTask;
+    syncTask();
+    $('promptLabResult').hidden=true;
+    $('plGoal').focus();
+  }));
+  $('plUseCase').addEventListener('change',syncTask);
+  $('promptLabForm').addEventListener('input',()=>{$('promptLabResult').hidden=true;});
+  $('plReset').addEventListener('click',()=>{$('promptLabForm').reset();syncTask();$('plOptions').open=false;$('plAlternatives').open=false;$('promptLabResult').hidden=true;$('plGoal').focus();});
 })();

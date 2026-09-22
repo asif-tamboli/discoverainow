@@ -1,0 +1,15 @@
+.lab-tasks{border:0;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.lab-tasks legend{font-size:14px;font-weight:800;margin-bottom:12px}
+.lab-tasks button{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;min-height:88px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
+.lab-tasks button span{font-size:24px;color:var(--blue)}
+.lab-tasks button[aria-pressed="true"]{border:2px solid var(--blue);background:var(--surface-2);font-weight:800}
+.lab-disclosure{border-top:1px solid var(--line);padding:16px 0}
+.lab-disclosure summary{cursor:pointer;font-weight:750;font-size:14px;padding:8px 0}
+.lab-options-body{display:grid;gap:20px;margin-top:18px}
+.lab-note{font-size:13px;color:var(--muted);line-height:1.6;margin:16px 0}
+.prompt-lab-page #plPrompts{display:block}
+.prompt-lab-page .tool-prompt-card pre{max-height:320px;overflow:auto}
+.prompt-lab-page :is(button,summary):focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.prompt-lab-page button{min-height:44px}
+.prompt-lab-page .utility-result{scroll-margin-top:80px}
+@media(max-width:650px){.lab-tasks{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-tasks button{font-size:14px}.prompt-lab-page .tool-prompt-head{flex-wrap:wrap;gap:12px}}

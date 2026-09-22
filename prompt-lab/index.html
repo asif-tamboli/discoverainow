@@ -5,7 +5,7 @@
   <title>Cross-Tool Prompt Lab — Compare AI Image Tools | Discover AI Now</title>
   <meta name="description" content="Describe the image you want, compare best-fit AI image tools, get tool-specific prompts, expected output characteristics and tradeoffs.">
   <link rel="canonical" href="https://discoverainow.com/prompt-lab/">
-  <link rel="stylesheet" href="/content.css">
+  <link rel="stylesheet" href="/content.css"><link rel="stylesheet" href="/prompt-lab-guided.css">
 </head>
 <body><header class="sitebar"><a class="brand" href="/"><span class="mark">D/</span>Discover AI Now</a><nav><a href="/workflows/">Workflows</a><div class="nav-menu"><a class="nav-menu-trigger active" href="/prompts/">Prompts <span aria-hidden="true">⌄</span></a><div class="nav-dropdown"><a href="/prompts/"><strong>Prompt Gallery</strong><small>Browse reusable prompts</small></a><a href="/prompt-builder/"><strong>Prompt Builder</strong><small>Build from your context</small></a><a class="current" href="/prompt-lab/"><strong>Cross-Tool Prompt Lab</strong><small>Compare image prompts across tools</small></a><a href="/prompt-evaluator/"><strong>Prompt Evaluator</strong><small>Improve an existing prompt</small></a><a href="/prompt-compare/"><strong>Prompt A/B Compare</strong><small>Compare two prompts</small></a></div></div><a href="/compare/">Compare</a><a href="/tools/">Tools</a><a href="/tutorials/">Tutorials</a></nav></header>
 <main class="directory-shell prompt-lab-page">
@@ -13,15 +13,21 @@
     <div>
       <div class="breadcrumbs"><a href="/">Home</a> / <a href="/prompts/">Prompts</a> / Cross-Tool Prompt Lab</div>
       <span class="eyebrow">Cross-Tool Prompt Lab</span>
-      <h1>One image idea. Different tools. Different results.</h1>
-      <p class="dek">Describe the image you want. We’ll compare which image tools fit the job, adapt the prompt for each one, and show the output characteristics you should expect before you spend time generating.</p>
+      <h1>What image do you want to create?</h1>
+      <p class="dek">Choose a task. Describe your image. Get a tool and a ready-to-copy prompt.</p>
     </div>
   </section>
 
   <section class="utility-shell">
     <form id="promptLabForm" class="utility-form prompt-lab-form">
-      <div><label for="plGoal">What do you want to create?</label><textarea id="plGoal" rows="5" maxlength="1400" placeholder="Example: A premium cinematic product ad for a perfume bottle on black stone with soft gold rim lighting and clean negative space for copy." required></textarea></div>
+      <fieldset class="lab-tasks"><legend>Choose an image task</legend>
+<button type="button" data-lab-task="product" aria-pressed="true"><span aria-hidden="true">▣</span>Product photo</button>
+<button type="button" data-lab-task="portrait" aria-pressed="false"><span aria-hidden="true">◎</span>Portrait</button>
+<button type="button" data-lab-task="poster" aria-pressed="false"><span aria-hidden="true">▤</span>Poster</button>
+<button type="button" data-lab-task="thumbnail" aria-pressed="false"><span aria-hidden="true">▷</span>Thumbnail</button>
+</fieldset><div><label for="plGoal">What do you want to create?</label><textarea id="plGoal" rows="4" minlength="5" maxlength="1400" placeholder="Example: A premium cinematic product ad for a perfume bottle on black stone with soft gold rim lighting and clean negative space for copy." required></textarea></div>
 
+      <details id="plOptions" class="lab-disclosure"><summary>Style, dimensions & constraints · Optional</summary><div class="lab-options-body">
       <div class="prompt-lab-grid">
         <div><label for="plUseCase">Use case</label><select id="plUseCase">
           <option value="product">Product / ecommerce image</option>
@@ -72,23 +78,24 @@
 
       <div><label for="plConstraints">Important constraints</label><textarea id="plConstraints" rows="4" placeholder="Example: preserve exact bottle geometry, no extra text, no people, product centered, realistic reflections, keep upper-right area clear for headline."></textarea></div>
 
-      <button class="finder-submit" type="submit">Compare image tools →</button>
+      </div></details>
+      <button class="finder-submit" type="submit">Get my tool & prompt</button>
       <small>Fit labels are editorial guidance, not measured benchmark scores. Actual output varies by model version, settings, references and generation seed.</small>
     </form>
 
     <div id="promptLabResult" class="utility-result prompt-lab-result" hidden>
-      <div class="hub-section-heading"><div><span class="section-kicker">Tool match</span><h2>How the tools fit this image job</h2></div><button id="plReset" class="finder-reset" type="button">Start over</button></div>
+      <div class="hub-section-heading"><div><span class="section-kicker">Tool match</span><h2 id="plResultHeading" tabindex="-1">Your starting point</h2></div><button id="plReset" class="finder-reset" type="button">Start over</button></div>
       <div id="plSummary" class="finder-summary"></div>
       <div id="plWinner" class="prompt-lab-winner"></div>
 
-      <div class="prompt-lab-section-head"><div><span>Side-by-side</span><strong>Expected output profile</strong></div><small>Editorial tool-fit model — qualitative guidance, not a measured benchmark</small></div>
-      <div id="plComparison" class="prompt-lab-comparison"></div>
-
-      <div class="prompt-lab-section-head"><div><span>Prompt adaptation</span><strong>Same intent, rewritten for each tool</strong></div><small>Copy the version for the tool you choose</small></div>
+      <p class="lab-note">Editorial tool-fit model — qualitative guidance, not a measured benchmark. Images are not generated here.</p>
       <div id="plPrompts" class="tool-prompt-tabs"></div>
-
-      <div class="callout warning"><strong>Important</strong>This version does not call third-party image APIs or fabricate preview images. The “expected output” section is an explainable forecast based on the selected task and tool characteristics. Live generation can be added later for providers with suitable APIs and terms.</div>
-
+      <p id="plCopyStatus" role="status" aria-live="polite"></p>
+      <details class="lab-disclosure" id="plAlternatives"><summary>Compare other tools & prompts</summary>
+        <div id="plAlternativePrompts" class="tool-prompt-tabs"></div>
+        <h3>Expected strengths & tradeoffs</h3>
+        <div id="plComparison" class="prompt-lab-comparison"></div>
+      </details>
       <div class="evidence-bridge"><span class="section-kicker">Evidence layer</span><strong>Want measured evidence instead of editorial fit?</strong><p>We have pre-published the controlled image benchmark protocol. Results stay blank until the same tasks are actually run across the tools.</p><a data-track="prompt_lab_to_benchmark" href="/benchmarks/ai-image-generation/">See the benchmark protocol</a></div><div class="pb-actions"><a href="/best/ai-image-generators/">Read the image-tool buyer guide</a><a href="/prompts/image-generation/">Open image prompt examples</a></div>
       <div data-feedback-widget data-context="cross-tool-prompt-lab"></div>
     </div>

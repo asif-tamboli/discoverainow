@@ -269,7 +269,7 @@ Analytics:
 - `prompt_lab_compare`
 - `prompt_lab_copy`
 
-Prompt Lab should be simplified visually next, but do not destroy the existing capability.
+Prompt Lab now starts with four visual task choices and the image goal. All eight use cases, style, priority, aspect ratio, toggles and constraints remain under optional settings. Results show the recommended tool and prompt first; four alternative prompts and all tool profiles are expandable. Editorial guidance remains explicitly distinct from measured benchmarks. Ranking logic and analytics events are preserved. No image generation or paid service was added.
 
 ## 10. AI Result Judge V2
 
