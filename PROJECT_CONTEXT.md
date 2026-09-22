@@ -13,7 +13,7 @@ _Last updated from the primary project conversation: 2026-09-22_
 - `private/funnel.py` generates a local aggregate dashboard from an events JSON export or local server-side Supabase credentials. The private folder is excluded from deployment; credentials and reports must never be committed. See `private/README.md`.
 - `?traffic=internal` marks the owner’s browser until `?traffic=public` is used. Suspected bots are tagged heuristically. The report filters marked sessions and explicitly identifies unclassified historical traffic. Stage counts show reach, not sequential conversion or revenue.
 - Core analytics omit free-text query/goal/intent/prompt/source/output/constraints/message fields and handle blocked storage. No database schema changes or paid dependencies introduced.
-- Verification: Node behavior tests and Python dashboard tests are in `tests/`. Browser visual verification and external-provider output benchmarks must not be inferred from these tests.
+- Verification: six Node behavior checks and two Python dashboard checks passed. A marked internal feedback event was accepted and confirmed in Supabase. After deployment, the live browser verified Tool Finder → Prompt Builder (goal plus task type) → Result Judge (original goal), prompt generation, and clearing the saved task before returning to a blank builder. Full responsive/dark-mode regression testing and external-provider output benchmarks remain separate work.
 
 ## Product
 DiscoverAINow.com is evolving from a generic AI directory/content site into an **AI decision-and-verification product**.
