@@ -1,504 +1,280 @@
-# DiscoverAINow — Project Context
+# DiscoverAINow.com — Project Context
 
-> **Purpose:** Durable handoff/source-of-truth for continuing the DiscoverAINow project in a new ChatGPT conversation.
->
-> **State captured:** September 21, 2026, from the current project conversation.
->
-> **Precedence rule:** Newer verified repository state and explicitly documented later decisions override older notes in this file. Do not assume a feature is live merely because it appears in a roadmap.
+_Last updated: 2026-09-22. This file is the durable handoff/source of truth for continuing the project across ChatGPT conversations. Newer verified repo state and later dated updates override older notes._
 
-## 1. Product in one sentence
+## Product
+DiscoverAINow.com is an AI decision-and-utility product. Its simplest explanation is:
 
-**You tell DiscoverAINow what you want to do with AI; it helps you choose the right AI tool, gives you a prompt and practical path, and helps you check the result.**
+> You tell it what you want to do with AI, and it helps you choose the right AI tool, gives you a prompt to use, and helps you check the result.
 
-Short mental model:
+Core journey:
 
-**Your task → Right AI → Right prompt → Workflow → Check the result**
+**Task → right AI → prompt → workflow → result → verify**
 
-Core thesis:
+Positioning: **Useful AI. Without the noise.**
 
-**DiscoverAINow is an AI decision-and-verification product, not a generic AI directory or AI-news site.**
+The site should feel like one connected product, not a directory of unrelated AI pages.
 
-Primary positioning:
+## Product principles
+- Revenue is important, but recommendations must not become pay-to-win.
+- Original useful utility and decision support beat generic AI news/content.
+- Use first-party behavior data to choose what to build.
+- Broad AI utility: images, coding, research, writing, productivity, presentations, automation, video. QA/testing is a specialty cluster, not the whole identity.
+- Utility over filler.
+- Do not fabricate benchmark results, scores, provider outputs, evidence, or usage.
+- Most current utilities are deterministic/rule-based. Do not market them as live LLM reasoning.
+- Consolidate, prove, and connect before adding more standalone features.
 
-**Useful AI. Without the noise.**
+## Infrastructure
+- Live site: https://discoverainow.com
+- GitHub: asif-tamboli/discoverainow
+- Default branch: main
+- GitHub main auto-deploys to Cloudflare.
+- Cloudflare Worker/service: ancient-recipe-44f0
+- Supabase project ID: wtbaosegszmousraqfnw
+- Supabase URL: https://wtbaosegszmousraqfnw.supabase.co
+- Resend/newsletter infrastructure configured.
+- Stack: HTML5, CSS3, vanilla JavaScript, Supabase/PostgreSQL + Edge Functions, Cloudflare Workers, GitHub deployment, Resend, localStorage for Workspace.
 
-## 2. Product principles
+## UX direction
+Design: clean, minimalist, premium/product/editorial; white/off-white; restrained blue; typography-first; thin borders; generous whitespace; dark-mode ready. Avoid generic decorative AI art and pastel-directory aesthetics.
 
-1. Revenue generation.
-2. Original, useful content and utilities.
-3. Use first-party behavior plus market evidence to decide what to build next.
-4. Support broad AI jobs: images, coding, research, writing, productivity, presentations, automation, video, etc.
-5. QA/testing is a specialty cluster, not the entire identity.
-6. Utility over filler.
-7. Do not fabricate benchmark evidence, scores, results, or tool capabilities.
-8. Recommendations should not become pay-to-win.
-9. Prefer integration and proof over adding more standalone utilities.
-10. **Less explaining → more choosing → immediate result → deeper detail only when wanted.**
-11. Simple by default; advanced controls through progressive disclosure.
-12. Do not market deterministic/rule-based utilities as if a live LLM reasons over every interaction.
+Primary UX rule:
 
-## 3. Infrastructure
+**Less explaining → more choosing → immediate result → deeper detail only when wanted.**
 
-- Domain: **discoverainow.com**
-- Production: **https://discoverainow.com**
-- GitHub: **asif-tamboli/discoverainow**
-- Main branch: **main**
-- Cloudflare domain/DNS
-- Cloudflare Worker/service: **ancient-recipe-44f0**
-- GitHub main → Cloudflare auto-deploy is configured.
-- Supabase project ID: **wtbaosegszmousraqfnw**
-- Supabase URL: **https://wtbaosegszmousraqfnw.supabase.co**
-- Resend domain for newsletter is configured/verified.
-- Sender: **Discover AI Now <newsletter@discoverainow.com>**
+Also: **Choose → See → Compare → Act**, not **Read → Read → Read → Click**.
 
-Tech stack:
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Supabase/PostgreSQL
-- Supabase Edge Functions
-- Cloudflare Workers
-- GitHub
-- Resend
-- localStorage for Workspace
+A new visitor should understand the product in ~5 seconds, start a task in ~10 seconds, and ideally get useful value in under 2 minutes.
 
-## 4. UX/design direction
-
-Keep the current visual identity:
-- clean
-- minimalist
-- premium/product/editorial
-- white/off-white surfaces
-- restrained blue accent
-- typography-first
-- subtle borders
-- generous but controlled whitespace
-- simple functional icons
-- dark-mode ready
-- responsive
-
-Avoid:
-- pastel directory clutter
-- generic decorative AI artwork
-- “AI-generated-looking” visuals
-- text walls
-- shrinking fonts to solve density
-- unexplained product jargon
-
-Desired interaction pattern:
-
-**Choose → See → Compare → Act**
-
-not:
-
-**Read → Read → Read → Click**
-
-User feedback that drove this direction: the site previously felt too text-heavy and required visitors to learn what the portal was before getting value.
-
-## 5. Homepage — current direction
-
-Homepage hero is action-first.
+## Homepage — current direction
+Homepage was converted to action-first.
 
 Hero:
-- eyebrow: **Tell us the job. We build the path.**
-- H1: **What do you want AI to do?**
-- promise: **Choose a task → Get the AI → Get the prompt → Verify it**
-- search CTA: **Show me how**
-- placeholder gives concrete examples.
+- “What do you want AI to do?”
+- “Tell us the job. We build the path.”
+- Promise: Choose a task → Get the AI → Get the prompt → Verify it
+- Search CTA: “Show me how”
+- Quick tasks: create image, research, debug code, meeting → actions, create slides
+- Right-side product demo shows: Best-fit AI → Ready prompt → Workflow → Checks
+- Start actions: Which AI? / Build my prompt / Show the steps / Verify my result
+- Buyer guides/tools/tutorials are visually secondary.
 
-Quick tasks:
-- Create image
-- Research
-- Debug code
-- Meeting → actions
-- Create slides
+Important commits from this phase include:
+- 4c383dc83a5f1b357f42492fca3d8338549847e9 — action-first homepage HTML
+- 523b13ae5c50992125ca48c8f21d408481ba7782 — action-first homepage styles
+- aa96ad7cfdfba2a3f95239468e382c87981b2f3b — scan-first homepage copy
+- e536971fb8a56f7282826c54c16b94f959301bd1 — scan-first homepage CSS
+- 20d127587d41fda45fb68cc65c8dd74ae03dd8ce — content density pass
 
-Right-side product preview explains:
-- Best-fit AI
-- Ready prompt
-- Workflow
-- Checks
+## Hub pages
+Shared action-first Quick Start pattern added to major hubs:
+- /tools/
+- /prompts/
+- /workflows/
+- /compare/
+- /use-cases/
+- /tutorials/
+- /benchmarks/
 
-Primary “Start here” actions:
-- **CHOOSE — Which AI?** → Tool Finder
-- **CREATE — Build my prompt** → Prompt Builder
-- **DO — Show the steps** → Workflows
-- **CHECK — Verify my result** → Result Judge
-
-Buyer guides/tools/tutorials are intentionally visually secondary.
-
-Key homepage action-first commits:
-- `4c383dc83a5f1b357f42492fca3d8338549847e9` — action-first homepage
-- `523b13ae5c50992125ca48c8f21d408481ba7782` — visual action-first interactions
-
-Earlier scan-first work:
-- `aa96ad7cfdfba2a3f95239468e382c87981b2f3b`
-- `e536971fb8a56f7282826c54c16b94f959301bd1`
-- `20d127587d41fda45fb68cc65c8dd74ae03dd8ce`
-
-## 6. Action-first hubs
-
-Shared Quick Start interaction added to major hubs. Shared CSS commit:
-- `f31feb24d8b56c66b7c3f1502b9b7cf6225a8210`
+Shared CSS commit: f31feb24d8b56c66b7c3f1502b9b7cf6225a8210.
 
 Hub commits:
-- Tools: `cd2d31660d370847554658b6b412c68f5782bbae`
-- Prompts: `06ec85e62485571b0f8c3869029d9a7fe35d019e`
-- Workflows: `83186100331a2e80f9077c32579bb9d4adf8844a`
-- Compare: `c64af694e92432a67b865e49c58e736f1a401f6f`
-- Use Cases: `695f16baccc8cc93cb68ea7ea2394e4190c404f5`
-- Tutorials: `73f9472909092be61c2575c3ba680a1dde1a00b9`
-- Benchmarks: `abb1cbbeb38b68306dad0b129181faa24789f44e`
+- tools: cd2d31660d370847554658b6b412c68f5782bbae
+- prompts: 06ec85e62485571b0f8c3869029d9a7fe35d019e
+- workflows: 83186100331a2e80f9077c32579bb9d4adf8844a
+- compare: c64af694e92432a67b865e49c58e736f1a401f6f
+- use-cases: 695f16baccc8cc93cb68ea7ea2394e4190c404f5
+- tutorials: 73f9472909092be61c2575c3ba680a1dde1a00b9
+- benchmarks: abb1cbbeb38b68306dad0b129181faa24789f44e
 
-Known issue to preserve as follow-up:
-- Benchmark hub has two placeholder quick-start destinations for Research accuracy and Code debugging that were linked to `#`.
-- Do not fabricate benchmark pages/results. Mark these Planned/non-clickable or route to a legitimate request/roadmap destination.
+Known cleanup: benchmark hub had two quick-start placeholders (research accuracy and code debugging) pointing to #. They should be marked Planned/non-clickable or routed to a request mechanism until real pages exist.
 
-## 7. Tool Finder — latest state
+## Core interactive product
 
-Path: **/tool-finder/**
+### Decision Engine
+Homepage deterministic task router in app.js. Detects task plus signals such as privacy, traceability, speed, budget, beginner/low-code and expected output.
 
-The Tool Finder was simplified after the action-first redesign.
+Path displayed:
+**1 Tool → 2 Prompt → 3 Workflow → 4 Verify**
 
-Current first impression:
-**What do you want AI to do?**
+Commit associated with Decision Engine V2: c33366fc36a4e810403ca416a44a3e4d594912ba.
 
-Users can describe a task or choose examples. Advanced controls are retained but hidden behind:
-**Refine recommendation · Optional**
+### Tool Finder
+Path: /tool-finder/
 
-Advanced dimensions:
-- skill
-- budget
-- priority
-- privacy
+Profiles include Cursor, Copilot, Claude Code, ChatGPT, Claude, Gemini, Perplexity, NotebookLM, Midjourney, Runway, Firefly, Gamma, Otter, Lovable, Bolt, Replit, n8n, Make, Zapier.
 
-Primary CTA:
-**Show my best starting point**
+Latest UX change: made it guided and progressive:
+- H1: “What do you want AI to do?”
+- Pick a task or describe it.
+- Advanced skill/budget/priority/privacy controls moved under “Refine recommendation · Optional”.
+- CTA: “Show my best starting point”.
 
-Latest commits:
-- `012fb010be18a75340a503672a6d2438344b97d0` — guided two-step Tool Finder
-- CSS for guided utilities: `2e4c7791a1e1d76eb47f1511e2161158a97f0cc1`
+Recent commit: 012fb010be18a75340a503672a6d2438344b97d0.
 
-Tool Finder is deterministic/rule-based. It classifies tasks and applies transparent constraint weighting. It is not an LLM semantic recommender.
+Tool Finder is deterministic/editorial task-fit guidance, not a measured benchmark or sponsored ranking.
 
-Current tool profiles include:
-Cursor, GitHub Copilot, Claude Code, ChatGPT, Claude, Gemini, Perplexity, NotebookLM, Midjourney, Runway, Firefly, Gamma, Otter, Lovable, Bolt, Replit, n8n, Make, Zapier.
+### Prompt Builder
+Path: /prompt-builder/
 
-Analytics event:
-- `tool_finder_result`
+Task types:
+- image
+- coding
+- research
+- writing
+- marketing
 
-## 8. Prompt Builder — latest state
+Latest UX:
+- H1: “What do you want AI to create?”
+- Quick job buttons: Image / Code / Research / Writing / Marketing
+- Main required question: “What do you need?”
+- Context, output format, tone/style, constraints are hidden under optional progressive disclosure.
+- Quick task buttons are wired to existing builder logic.
 
-Path: **/prompt-builder/**
-
-Latest interaction:
-**What do you want AI to create?**
-
-Quick job choices:
-- Image
-- Code
-- Research
-- Writing
-- Marketing
-
-Then:
-**What do you need?**
-
-Advanced context is hidden under:
-**Add context & constraints · Optional**
-
-Advanced fields remain:
-- context/source material
-- output format
-- tone/style
-- constraints
-
-Latest commits:
-- `e7f4e7ed1eaf126afabb525b13d9dcb563f83080` — outcome-first Prompt Builder
-- `66772f1c76d154349a9fc923df4cb959faa40104` — quick-task wiring
-- `2e4c7791a1e1d76eb47f1511e2161158a97f0cc1` — shared guided styling
-
-Prompt generation is deterministic template construction, not a live LLM call.
+Recent commits:
+- e7f4e7ed1eaf126afabb525b13d9dcb563f83080 — outcome-first HTML
+- 66772f1c76d154349a9fc923df4cb959faa40104 — quick-choice JS
+- 2e4c7791a1e1d76eb47f1511e2161158a97f0cc1 — guided utility styles
 
 Analytics:
-- `prompt_builder_generate`
-- `prompt_builder_copy`
+- prompt_builder_generate
+- prompt_builder_copy
 
-## 9. Prompt Lab
+### Prompt Lab
+Path: /prompt-lab/
 
-Path: **/prompt-lab/**
-
-Purpose:
-Cross-tool image prompt comparison/adaptation.
-
-Inputs include:
-- image goal
-- use case
-- style
-- priority
-- aspect ratio
-- text requirement
-- revision needs
-- reference fidelity
-- constraints
-
-Tools:
+Cross-tool image prompt comparison for:
 - ChatGPT Image
 - Midjourney
 - Ideogram
 - Adobe Firefly
 - FLUX
 
-Important trust decision:
-Numeric-looking public fit scores were replaced by qualitative labels:
-- Excellent
-- Strong
-- Good
-- Conditional
+Inputs include image goal, use case, style, priority, aspect ratio, text requirement, revision needs, reference fidelity, constraints.
 
-Commit:
-- `14f4e3808cb93502942a83143219245a36b5fc8f`
+Important trust change: numeric-looking public scores were replaced by qualitative labels (Excellent / Strong / Good / Conditional). Internal deterministic values remain for ranking/display mechanics.
 
-Page explicitly labels the system:
-**Editorial tool-fit model — qualitative guidance, not a measured benchmark**
+Commits:
+- 14f4e3808cb93502942a83143219245a36b5fc8f
+- fd4f93867d9a5a4ad350a644a16946d792042e51
 
-Commit:
-- `fd4f93867d9a5a4ad350a644a16946d792042e51`
+Label: “Editorial tool-fit model — qualitative guidance, not a measured benchmark.”
 
 Analytics:
-- `prompt_lab_compare`
-- `prompt_lab_copy`
+- prompt_lab_compare
+- prompt_lab_copy
 
-Prompt Lab now starts with four visual task choices and the image goal. All eight use cases, style, priority, aspect ratio, toggles and constraints remain under optional settings. Results show the recommended tool and prompt first; four alternative prompts and all tool profiles are expandable. Editorial guidance remains explicitly distinct from measured benchmarks. Ranking logic and analytics events are preserved. No image generation or paid service was added.
+### AI Result Judge
+Path: /verify-ai-output/
 
-## 10. AI Result Judge V2
+V2 is deterministic lexical/text-overlap analysis, not semantic LLM analysis.
 
-September 22 UX update: homepage outcome cards now link to matching Use Cases category anchors instead of selecting a single workflow. Result Judge retains its deterministic review engine, with side-by-side request/result inputs (stacked on mobile), optional output-type settings, expandable checks and prompt preview, a protected example action, and a revise/recheck action that preserves inputs. The text-only limitation is explicit. Short requests that yield no reviewable requirements no longer imply full coverage. No paid API or new service was added.
+It:
+- compares original requirements/source context with AI result
+- splits up to 12 requirement statements
+- marks Likely addressed / Needs review / Not evident
+- shows type-specific human verification checks
+- flags simple structural risks
+- generates a corrective prompt
+- supports Judge → Fix → Judge again
 
-Path: **/verify-ai-output/**
+Explicit caveat is required: text overlap is not proof of semantic correctness.
 
-Core question:
-**Did the AI actually do what you asked?**
-
-Inputs:
-- output type
-- original requirement/source context
-- AI result
-
-Behavior:
-- deterministic lexical/text-overlap requirement review
-- splits requirements
-- maps likely textual coverage
-- surfaces structural risk signals
-- provides type-specific human verification checks
-- builds a corrective prompt
-- loop: **Judge → Fix → Judge again**
-
-Coverage labels:
-- Likely addressed
-- Needs review
-- Not evident
-
-Important disclosure:
-This is a deterministic text-overlap review, **not proof of semantic correctness**.
+Commits:
+- 71511303e52d970419b23364860c7208ec0b926f
+- 1d823672eb72c58ad6344ef23d4a29cdd06ff35b
 
 Analytics:
-- `output_verifier_run`
-- `output_verifier_correction_copy`
-- `output_verifier_copy`
+- output_verifier_run
+- output_verifier_correction_copy
+- output_verifier_copy
 
-V2 implementation commits:
-- page: `71511303e52d970419b23364860c7208ec0b926f`
-- JS: `1d823672eb72c58ad6344ef23d4a29cdd06ff35b`
+Do not build V3/paid semantic analysis until usage demonstrates demand.
 
-Do not build Result Judge V3/paid LLM semantic analysis until usage demonstrates demand.
+## Prompt ecosystem
+Paths:
+- /prompts/
+- /prompt-builder/
+- /prompt-lab/
+- /prompt-evaluator/
+- /prompt-compare/
 
-## 11. Decision Engine V2
+Treat these as a Prompt Suite rather than adding random prompt utilities:
+1. Build
+2. Improve
+3. Compare
+4. Cross-tool
 
-Homepage `app.js` contains deterministic task-first routing.
+Prompt Suite commit: e03e5225b7013b68136312c7a6f26cb54d273678.
 
-Profiles include:
-- documents
-- research
-- image
-- coding
-- presentation
-- meeting
-- automation
-- writing
-- website
+## Other utilities
+- /workflow-generator/
+- /ai-stack-builder/
+- /replace-ai-tool/
+- /ai-cost-calculator/
+- /workspace/
 
-It detects constraints such as:
-- privacy-sensitive wording
-- evidence/traceability
-- speed
-- budget
-- beginner/low-code
-- expected output
+Strategic assessment:
+- Stack Builder: commercially strong
+- Replacement Finder: high purchase intent
+- Cost Calculator: supporting utility
+- Workspace: retention foundation but currently shallow
+- Result Judge: strategic differentiator
 
-Result path:
-**1 Tool → 2 Prompt → 3 Workflow → 4 Verify**
+Authentication/Supabase Auth should remain delayed until repeat usage justifies it.
 
-Unknown tasks route to:
-`/tool-finder/?q=<query>`
+## Workflows
+Hub: /workflows/
 
-Decision Engine commit:
-- `c33366fc36a4e810403ca416a44a3e4d594912ba`
+Notable paths:
+- /workflows/research-to-brief/
+- /workflows/meeting-notes-to-actions/
+- /workflows/jira-story-to-test-cases/
+- /workflows/ai-pr-regression-audit/
+- /workflows/persistent-ai-context/
+- /guides/ai-presentations/
 
-Tool Finder query-prefill commit:
-- `9939967c659c12793bc79d0cfadb55d46c46489e`
+Workflow Generator: /workflow-generator/
 
-## 12. Connected product architecture
+## Use cases
+Hub: /use-cases/
 
-Target user journey:
+Dedicated pages include:
+- /use-cases/build-website/
+- /use-cases/summarize-pdfs/
+- /use-cases/create-ai-video/
+- /use-cases/ai-product-photography/
+- /use-cases/ai-portraits-reference-fidelity/
+- /use-cases/ai-poster-text/
+- /use-cases/ai-youtube-thumbnail/
 
-```text
-USER TASK
-    ↓
-Decision Engine
-    ↓
-Recommended AI
-    ↓
-Prompt Builder
-    ↓
-Workflow
-    ↓
-AI Result
-    ↓
-Result Judge
-   ↙         ↘
-Problems?    Good?
-   ↓          ↓
-Corrective   Verify
-Prompt        ↓
-   ↓       Workspace
-Try again
-    ↓
-Benchmark evidence
-```
+## Organic image-intent cluster
+First focused acquisition cluster targets high-intent image jobs rather than mass thin SEO pages.
 
-Strategic differentiator:
-**Decision intelligence + verification + original evidence.**
+Commits:
+- product photography: 176e77f05b0b86383b93b71ab2ae3e4f35208d9b
+- portrait/reference fidelity: 2708f51090b2b79060f17b920879068e4e267614
+- poster/text: a226332e424ecb4a46809d432dc13850373f5864
+- YouTube thumbnail: ecabde21cc74649da4f2461ff2939b08042cde1f
+- image buyer guide integration: 7840b4961528501d50d27df1107fe539763906cb
+- sitemap: 0b5d1d9b453ffdfaebc366777bf1036a12d203db
 
-The portal should increasingly feel like one connected product, not a collection of pages.
+These pages use the loop:
+**Define → Choose → Generate → Verify**
 
-Example:
-**Create product photo → recommended image AI → ready prompt → workflow → checks → benchmark evidence**
+Event: image_intent_to_prompt_lab.
 
-## 13. Prompt ecosystem
-
-Current:
-- `/prompts/`
-- `/prompt-builder/`
-- `/prompt-lab/`
-- `/prompt-evaluator/`
-- `/prompt-compare/`
-
-Unified concept: **Prompt Suite**
-
-1. Build → Prompt Builder
-2. Improve → Prompt Evaluator
-3. Compare → A/B Compare
-4. Cross-tool → Prompt Lab
-
-Prompt Suite commit:
-- `e03e5225b7013b68136312c7a6f26cb54d273678`
-
-Do not add random prompt utilities without evidence.
-
-## 14. Workflows
-
-Hub: `/workflows/`
-
-Key workflows:
-- Research → sourced brief
-- Meeting notes → actions
-- Research → presentation
-- Image creation → usable asset
-- Coding → verified change
-- Requirement → test coverage
-- AI-generated PR → production-risk audit
-- Scattered project context → durable AI rules
-
-Pages include:
-- `/workflows/research-to-brief/`
-- `/workflows/meeting-notes-to-actions/`
-- `/workflows/jira-story-to-test-cases/`
-- `/workflows/ai-pr-regression-audit/`
-- `/workflows/persistent-ai-context/`
-- `/guides/ai-presentations/`
-
-Workflow Generator:
-- `/workflow-generator/`
-
-## 15. Use cases and organic acquisition
-
-Hub:
-- `/use-cases/`
-
-Navigation update:
-- Use Cases is now a primary homepage navigation item and footer link.
-- Homepage includes a visible **Browse by outcome** launcher with six task categories.
-- The Use Cases hub is organized into scannable anchored groups: Create images, Research & documents, Code & build, Present & communicate, Automate work, and Meetings & productivity.
-- Popular complete paths are surfaced before the full category catalog.
-- Preserve this outcome-first structure; do not return to one long undifferentiated card list.
-
-Existing use cases include website/app building, research, presentations, image generation, PDF summaries, meetings, coding/debugging, automation, video, QA/test coverage.
-
-### AI Product Photography conversion funnel
-
-`/use-cases/ai-product-photography/` is now an action-first, revenue-ready vertical rather than a static article. It supports four jobs:
-- clean studio product shot
-- lifestyle product scene
-- background replacement
-- social advertising creative
-
-Each selection returns:
-- editorial best-fit tool and a free starting option
-- honest limitations/evidence boundaries
-- job-specific copy-ready prompt and recommended dimensions
-- four-step workflow
-- product-image quality checklist
-- tracked routes to the recommended tool, Prompt Lab, image comparison and Result Judge
-- contextual newsletter signup
-
-Files:
-- `use-cases/ai-product-photography/index.html`
-- `product-photo-funnel.js`
-- `product-photo-funnel.css`
-
-This is the first complete acquisition-to-action vertical. Preserve its trust language: recommendations are editorial task-fit guidance, not measured benchmark winners, and ordinary outbound links must not be described as affiliate links until affiliate relationships exist.
-
-High-intent image acquisition cluster:
-- `/use-cases/ai-product-photography/`
-- `/use-cases/ai-portraits-reference-fidelity/`
-- `/use-cases/ai-poster-text/`
-- `/use-cases/ai-youtube-thumbnail/`
-
-Creation commits:
-- Product photography: `176e77f05b0b86383b93b71ab2ae3e4f35208d9b`
-- Portrait fidelity: `2708f51090b2b79060f17b920879068e4e267614`
-- Poster text: `a226332e424ecb4a46809d432dc13850373f5864`
-- YouTube thumbnail: `ecabde21cc74649da4f2461ff2939b08042cde1f`
-
-Image buyer guide connected to this cluster:
-- `7840b4961528501d50d27df1107fe539763906cb`
-
-Sitemap cluster update:
-- `0b5d1d9b453ffdfaebc366777bf1036a12d203db`
-
-Organic philosophy:
+Organic strategy:
 **Own specific AI tasks in search, then convert search traffic into product users.**
 
-Do not mass-produce thin SEO pages.
+Do not create dozens of pages until data shows which intent converts.
 
-## 16. Benchmark Lab
-
+## Benchmarks
 Image benchmark protocol:
-- `/benchmarks/ai-image-generation/`
+- /benchmarks/ai-image-generation/
 
-Commit:
-- `954ef553083219d4a5d42d5eb25c29c168f315fd`
+Commit: 954ef553083219d4a5d42d5eb25c29c168f315fd
 
 Planned tools:
 - ChatGPT Image
@@ -522,13 +298,10 @@ Dimensions:
 - revision control
 - cleanup burden
 
-Critical evidence boundary:
-**No benchmark winner or measured result has been published because controlled provider runs have not yet been completed.**
+Critical state: **actual benchmark runs have NOT been performed.** No winner or benchmark score may be claimed until controlled runs and evidence exist.
 
-Never fabricate benchmark outputs.
-
-For a real benchmark preserve:
-- generated output
+Need preserve when runs occur:
+- outputs
 - exact prompt
 - tool/model/version
 - settings
@@ -537,121 +310,38 @@ For a real benchmark preserve:
 - failure notes
 - evaluation evidence
 
-Benchmark hub status commit:
-- `f35d7bc77482f88f56f5151c711652e26eab83cf`
+Benchmark hub commit: f35d7bc77482f88f56f5151c711652e26eab83cf.
+Prompt Lab bridge: b1071576fecae98f7ec21f5669579d874db85bf5.
+Image guide bridge: a22b51c7f25f6d91cbdd328a49c25a918cf39174.
+Sitemap: b5b303c42f7dd48974c19488d530d1c657920cae.
 
-Prompt Lab evidence bridge:
-- `b1071576fecae98f7ec21f5669579d874db85bf5`
+## Analytics
+Custom first-party analytics use Supabase.
 
-Image guide bridge:
-- `a22b51c7f25f6d91cbdd328a49c25a918cf39174`
-
-## 17. Buyer guides / comparisons
-
-Existing:
-- `/compare/`
-- `/best/ai-research-tools/`
-- `/best/ai-image-generators/`
-- `/best/ai-coding-tools/`
-- `/best/ai-video-tools/`
-- `/best/ai-coding-assistants-for-test-engineers/`
-- `/best/ai-tools-for-qa-automation/`
-- `/comparisons/chatgpt-vs-claude-vs-gemini-qa/`
-
-Principle:
-Buyer guides should be decision-first:
-- summary
-- tradeoffs
-- practical trial
-- internal route to workflow/prompt
-- evidence boundary
-- newsletter
-
-## 18. Tools
-
-Hub: `/tools/`
-
-Internal pages include:
-- Cursor
-- GitHub Copilot
-- Claude Code
-- Perplexity
-- NotebookLM
-- Midjourney
-- ChatGPT
-- Claude
-- Gemini
-
-Homepage uses recognizable favicons/logos for selected tools.
-
-Logo commits:
-- `544c9cc52149dbcf17521c13be1f22907568aa32`
-- `6fc2192b0615ef9ce9a9eec1c230fb6e9e437a53`
-
-## 19. Other utilities
-
-Current:
-- `/ai-stack-builder/`
-- `/replace-ai-tool/`
-- `/ai-cost-calculator/`
-- `/workspace/`
-- `/workflow-generator/`
-- `/verify-ai-output/`
-
-Commercial assessment:
-- AI Stack Builder: strong commercial intent
-- Replacement Finder: strong commercial intent
-- Cost Calculator: supporting utility
-- Workspace: retention foundation but currently shallow
-- Result Judge: strategic differentiation
-
-Workspace:
-- localStorage
-- no account required
-- noindex
-
-Authentication decision:
-**Delay accounts/Supabase Auth until repeat behavior justifies it.**
-
-## 20. Analytics — current architecture
-
-Custom first-party analytics uses Supabase.
-
-Audience context added:
-- device class
+Privacy-conscious context collected:
+- anonymous browser/device ID
+- session/page activity
+- coarse device class
 - OS
 - browser language
-- acquisition/referrer source
-- UTM source
-- UTM medium
-- UTM campaign
+- acquisition/referrer
+- UTM source/medium/campaign
+- new/return behavior
 - landing path
 - engagement
-- session exit
-- voluntarily entered task/search intent with basic redaction
+- voluntarily submitted search/task intent after basic redaction
 
-Do not intentionally collect/infer sensitive demographics such as race, religion, political views, exact address, etc.
+Do not intentionally collect/infer sensitive demographics such as age, gender, ethnicity, income, religion, political views, exact address, or precise location.
 
-Basic free-text redaction handles obvious email, phone and U.S. SSN-like patterns, but it is not comprehensive DLP.
+analytics.js audience-context commit: d07f39601d36eca459e143f4c606beaa0cde03ea.
 
-Audience analytics commit:
-- `d07f39601d36eca459e143f4c606beaa0cde03ea`
+Redaction currently covers basic email, phone, and US SSN-like patterns but is not comprehensive DLP.
 
-Intent capture:
-- Decision Engine: `0053a649444c43cea3a7eb8f24c226d8afc3efbe`
-- Prompt Builder: `28499ba6bd4eb49d23b8f7757a61dc7c7b8751d7`
-
-Engagement/exit tracking:
-- `4b35a25511751100846f1f4774b3cd1e5851d212`
-
-Server allowlist expansion:
-- `55ae44994678c8cfca53101ac340fbf5e1c928c8`
-- image intent event later added in `50556f4a2d99bb61beb942df7b1997a3d68f05dc`
+Supabase views:
+- public.internal_audience_intelligence
+- public.internal_intent_funnel
 
 Relevant events include:
-- page_view
-- return_pageview
-- session_start
 - search
 - tool_finder_result
 - prompt_builder_generate
@@ -659,180 +349,124 @@ Relevant events include:
 - prompt_lab_compare
 - prompt_lab_copy
 - recommendation_click
-- engaged_session
-- session_exit
 - output_verifier_run
 - output_verifier_correction_copy
+- engaged_session
+- session_exit
 - outbound_click
 - image_intent_to_prompt_lab
 - benchmark bridge events
 
-Supabase views:
-- `public.internal_audience_intelligence`
-- `public.internal_intent_funnel`
+track-event deployed ACTIVE; known version at prior checkpoint: 12; verify_jwt=false for public analytics endpoint.
 
-Disclosure page:
-- `fe64f09e9ddc62dfa4620a38dcbc1058b8a98992`
+## Analytics snapshot from prior checkpoint
+A 30-day query showed:
+- page_view 518
+- return_pageview 471
+- session_start 42
+- search 17
+- tool_finder_result 4
+- prompt_builder_generate 4
+- prompt_builder_copy 3
+- outbound_click 3
+- prompt_evaluator_run 2
+- benchmark_to_comparison 2
+- tool_click 2
+- workflow_open 1
+- comparison_open 1
 
-## 21. Analytics snapshot used for roadmap decisions
+Search terms included:
+- image 6
+- coding 3
+- presentation 3
+- ai agents 1
+- meeting 1
+- tools 1
+- research 1
 
-A prior 30-day query showed:
-- page_view: 518
-- return_pageview: 471
-- session_start: 42
-- search: 17
-- tool_finder_result: 4
-- prompt_builder_generate: 4
-- prompt_builder_copy: 3
-- outbound_click: 3
-- prompt_evaluator_run: 2
-- benchmark_to_comparison: 2
-- tool_click: 2
-- several other low-volume actions
+At that checkpoint:
+- observed sessions: 45
+- anonymous browser/device IDs: 28
+- apparent single-page/no-action sessions: 31
+- repeat users across multiple sessions: 2
+- Result Judge runs: 0
+- prompt generations: 4
+- prompt copies: 3
 
-Tracked search terms:
-- image: 6
-- coding: 3
-- presentation: 3
-- AI agents: 1
-- meeting: 1
-- tools: 1
-- research: 1
-- one empty query
+Do NOT call 31/45 a definitive bounce rate. Instrumentation cannot perfectly distinguish engaged reading, bots, testing and abandonment.
 
-Observed sessions: 45
-Anonymous browser/device IDs: 28
-Repeat IDs with multiple sessions: 2
-Result Judge runs in that snapshot: 0
-Prompt generations: 4
-Prompt copies: 3
+The unusually high pageview/session depth may contain internal testing, bots/crawlers or repeated instrumentation. Analytics quality/bot/internal filtering remains a priority.
 
-Interpretation:
-- sample is small
-- anonymous ID ≠ guaranteed unique human
-- page-view depth looked unusually high and may include internal testing/bots/repeated instrumentation
-- do not call the single-page number a definitive bounce rate
-- image intent was the strongest visible first-party cluster
-- do not over-invest in retention/auth or Result Judge V3 yet
+Strongest directional interest cluster at that checkpoint:
+**Images → Prompts → Tool discovery → Use cases/workflows → Research/benchmarks**
 
-A recent 7-day-style query also produced approximately:
-- 28 anonymous users/devices
-- 45 sessions
-- 518 page views
-- 46 tracked actions
+Do not overinterpret tiny samples.
 
-Again: do not treat these as clean human-only metrics until bot/internal-test filtering is improved.
-
-## 22. Newsletter
-
+## Newsletter
 Tables:
-- `newsletter_subscribers`
-- `newsletter_campaigns`
-- `newsletter_sends`
+- newsletter_subscribers
+- newsletter_campaigns
+- newsletter_sends
 
 Functions:
-- `newsletter-signup` — public
-- `newsletter-unsubscribe` — public
-- `send-newsletter` — authenticated
+- newsletter-signup (verify_jwt=false)
+- newsletter-unsubscribe (verify_jwt=false)
+- send-newsletter (verify_jwt=true)
 
-Resend secrets are configured server-side.
+Resend domain configured and verified. Sender:
+Discover AI Now <newsletter@discoverainow.com>
 
-Never expose or commit API keys/secrets.
+Secrets are stored outside the repo. Never expose or commit them.
 
-No weekly cron was intentionally enabled at the captured state.
+No weekly cron intentionally yet.
 
-## 23. Supabase event function
-
-`track-event` was deployed ACTIVE, version 12 at the captured state.
-
-Known function ID:
-`cda1e7f0-0516-46d2-8f88-3ed235982108`
-
-Public analytics endpoint configuration retained `verify_jwt=false`.
-
-## 24. Tutorials
-
-`/tutorials/` prefers official vendor learning sources such as:
-- OpenAI Academy
-- Anthropic docs
-- Gemini prompting resources
-- Midjourney docs
-- Runway Academy
-- Cursor Learn
-- GitHub Copilot docs
-
-Future direction:
-Organize around user outcomes/tasks rather than becoming a vendor-link directory.
-
-## 25. Monetization
-
-Best model:
+## Monetization
+Preferred model:
 **Need → recommendation → workflow → tool → contextual affiliate conversion**
 
-Natural commercial moments:
+Best commercial moments:
 - tool choice
 - replacement decision
 - stack decision
 
-Potential future B2B:
+Future B2B concept:
 **AI Stack Audit for Teams**
 
 Avoid:
 - early display-ad clutter
-- fake rankings
-- sponsored benchmark winners
-- affiliate economics controlling recommendations
+- pay-to-win rankings
+- sponsored influence over benchmark results
+- fake benchmark scores
 - generic scraped directories
 - generic daily AI news
 
-## 26. Things explicitly not to build / not to prioritize now
-
-Do not prioritize:
+## Deliberate non-priorities
+Do not prioritize yet:
 - Workspace V2
-- authentication/Supabase Auth
-- Result Judge V3
-- paid semantic LLM analysis without usage evidence
-- another standalone utility
-- mass thin SEO pages
-- AI authorship/content detector
+- user accounts/authentication
+- Result Judge V3 / paid semantic LLM analysis
+- more standalone utilities
+- mass SEO page generation
+- generic AI detector/content-authorship checker
 
-The AI detector idea was explicitly rejected earlier. Do not reintroduce it unless the product owner revisits the decision.
+The AI detector idea was explicitly rejected for now.
 
-## 27. Responsive/readability safeguards
+## Testing state
+A regression review was started after the latest Tool Finder/Prompt Builder UX changes.
 
-Dark-mode light-hover cards now use a scoped dark foreground palette (titles, secondary copy and category labels), including homepage tool, tutorial, workflow, buyer, utility and logo cards. Keyboard focus uses the same readable light surface with a visible outline. Preserve this pairing when adding hover styles.
-
-Responsive/readability work:
-- `641990eb502e07e86244412d75b449ab2b63d3dd`
-- `bca21a6f09edaeee62294e510d0d13fc817abedf`
-
-These addressed:
-- mobile horizontal cropping
-- Prompt Lab compression
-- small form/comparison fonts
-- responsive Prompt Lab card layouts
-- wrapping/width protections
-
-Do not regress these fixes.
-
-## 28. QA/testing status at handoff
-
-A regression/testing pass was started after the latest Tool Finder and Prompt Builder changes.
-
-Code inspection covered at least:
-- homepage / Decision Engine
+Code inspected:
+- homepage/app.js
 - Tool Finder
 - Prompt Builder
 - Prompt Lab
 - Result Judge
 
-At the point this context was created, a complete browser-level end-to-end regression report had **not yet been completed**.
+Structural wiring looked generally correct in that inspection. The broader regression pass was not completed before the conversation moved on.
 
-Important next QA path:
-
+Required test journey:
 **Homepage task → Tool Finder → recommendation → Prompt Builder → copy prompt → Result Judge → corrective prompt**
 
-Then cover:
+Also test:
 - Workflow Generator
 - Prompt Evaluator
 - Prompt A/B Compare
@@ -840,85 +474,82 @@ Then cover:
 - Replacement Finder
 - Cost Calculator
 - newsletter signup
-- mobile/responsive behavior
-- broken links
+- dark mode
+- responsive/mobile
+- broken/dead links
 - empty inputs
-- copy buttons
-- reset buttons
+- copy/reset buttons
 - analytics events
 
-When a reproducible defect is found, fix it directly in the repository and record:
-- test
-- expected
-- actual
-- root cause
-- fix
-- regression result
+Fix reproducible defects directly rather than only reporting them.
 
-Do not claim browser/E2E validation when only static code inspection was performed.
+## Current roadmap / what to do next
+1. **Finish full regression testing before building new features.**
+2. Fix benchmark hub placeholder # actions.
+3. Improve analytics quality: bot/internal-test filtering and real-vs-engaged visitor distinction.
+4. Test the new action-first Tool Finder and Prompt Builder in production behavior.
+5. Simplify Result Judge UX next if testing is clean.
+6. Simplify Prompt Lab progressively; keep evidence/trust labels.
+7. Make the end-to-end journey feel connected: task → recommendation → prompt → workflow → verify.
+8. Connect image Tool Finder recommendations to image benchmark protocol with “protocol published / results pending” wording.
+9. Perform real image benchmark runs before publishing benchmark conclusions.
+10. Build a private funnel/dashboard after analytics reliability improves.
+11. Let observed usage choose the next vertical.
+12. Retention/Workspace/auth later, after repeat behavior is demonstrated.
+13. Add contextual monetization only at proven high-intent decision moments.
 
-## 29. Immediate roadmap
+## Important files
+Core:
+- index.html
+- styles.css
+- content.css
+- app.js
+- analytics.js
+- newsletter.js
+- tool-finder.js
+- prompt-builder.js
+- prompt-lab.js
+- output-verifier.js
+- workflow-generator.js
+- robots.txt
+- sitemap.xml
 
-Current recommended sequence:
+Hubs/utilities:
+- tools/index.html
+- prompts/index.html
+- workflows/index.html
+- compare/index.html
+- tutorials/index.html
+- tool-finder/index.html
+- prompt-builder/index.html
+- prompt-lab/index.html
+- use-cases/index.html
+- benchmarks/index.html
+- verify-ai-output/index.html
+- workflow-generator/index.html
+- ai-stack-builder/index.html
+- replace-ai-tool/index.html
+- ai-cost-calculator/index.html
+- workspace/index.html
+- prompt-evaluator/index.html
+- prompt-compare/index.html
 
-1. **Finish regression testing before adding new features.**
-2. Fix any defects discovered in the connected core journey.
-3. Fix benchmark hub placeholder `#` actions.
-4. Improve analytics quality:
-   - internal/test traffic filtering
-   - bot filtering where feasible
-   - genuine visitor vs engaged visitor vs conversion reporting
-5. Simplify Prompt Lab interaction/results without losing capability.
-6. Simplify Result Judge into a fast, visual verification flow.
-7. Make Decision Engine result more compact/visual if production behavior supports it.
-8. Connect image Tool Finder recommendations to benchmark protocol with honest “protocol/results pending” wording.
-9. Perform real controlled image benchmark runs; never fake them.
-10. Build a small private analytics/funnel view after data quality improves.
-11. Let observed behavior choose the next vertical.
-12. Add retention/Workspace/auth only after repeat behavior appears.
-13. Add monetization at proven high-intent decision moments.
+Supabase functions:
+- newsletter-signup
+- newsletter-unsubscribe
+- send-newsletter
+- track-event
+- ingest-content
+- public-feed
+- content-opportunities
 
-## 30. Core success criterion
-
-A completely new visitor should be able to:
-
-- understand the product in ~5 seconds
-- begin a task in ~10 seconds
-- receive useful direction quickly
-- move naturally from tool choice → prompt → workflow → verification
-- get deeper explanation only when requested
-
-The product should increasingly feel like:
-
-**“Tell us what you want AI to do. We’ll help you choose it, prompt it, use it and check it.”**
-
-## 31. Cross-chat continuation protocol
-
-This file is the durable handoff between ChatGPT conversations. A new project chat should begin with:
-
-> Read `PROJECT_CONTEXT.md` from `asif-tamboli/discoverainow`, inspect the current repository state, and continue from the newest verified state. Repository state newer than this document overrides this document.
-
-After a meaningful implementation session, update this file with:
-- shipped product/UX changes
-- important commit SHAs
-- analytics findings that changed priorities
-- new known defects or resolved defects
-- decisions not to build something
-- current next action
-
-Do not rely on a private ChatGPT conversation URL as the project source of truth.
-
-## 32. Important working rule for future ChatGPT sessions
-
+## Continuation instructions for future ChatGPT sessions
 When continuing this project:
-- read this file first
-- inspect the current repository before editing
-- treat newer repository state as authoritative
-- preserve current theme unless explicitly asked to redesign
-- make requested implementation directly when tooling permits
-- minimize unnecessary clarification
-- never expose secrets
-- never fabricate live usage, benchmark results, provider behavior, or test results
-- distinguish static code review from actual runtime/browser testing
-- prefer improving the connected core journey over adding another feature
-- avoid repeating text CTAs inside fully clickable cards; use a small decorative chevron only when a visual click cue helps, while preserving distinct functional actions such as Copy, Compare or Open Tool
+1. Read this file first.
+2. Inspect current repo state before assuming an older commit still represents production.
+3. Treat newer dated repo changes and explicit user decisions as authoritative.
+4. Do not revert the action-first design without explicit reason.
+5. When the user says “implement”, prefer making the repo change directly through available GitHub/Supabase tools rather than merely describing it.
+6. Never fabricate benchmark evidence or claim deterministic tools are live LLM reasoning.
+7. Prefer fixing/consolidating existing product paths over adding another feature.
+8. Keep the product explanation simple: **tell us the task → get the AI → get the prompt → verify the result.**
