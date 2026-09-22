@@ -273,6 +273,8 @@ Prompt Lab should be simplified visually next, but do not destroy the existing c
 
 ## 10. AI Result Judge V2
 
+September 22 UX update: homepage outcome cards now link to matching Use Cases category anchors instead of selecting a single workflow. Result Judge retains its deterministic review engine, with side-by-side request/result inputs (stacked on mobile), optional output-type settings, expandable checks and prompt preview, a protected example action, and a revise/recheck action that preserves inputs. The text-only limitation is explicit. Short requests that yield no reviewable requirements no longer imply full coverage. No paid API or new service was added.
+
 Path: **/verify-ai-output/**
 
 Core question:

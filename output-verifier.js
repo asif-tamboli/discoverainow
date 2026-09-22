@@ -55,14 +55,33 @@ INSTRUCTIONS:
   e.preventDefault(); const out=$('ovOutput').value.trim(), req=$('ovSource').value.trim(), type=$('ovType').value; if(!out)return;
   const sig=signals(out,type,!!req), cov=req?coverage(req,out):[];
   const gaps=cov.filter(x=>x.status!=='Likely addressed').length;
+  $('ovCopyStatus').textContent='';
   $('ovRisk').innerHTML='<strong>'+(req?(gaps?gaps+' requirement area'+(gaps===1?'':'s')+' need review':'No obvious requirement coverage gaps detected'):(sig.length?'Review signals detected':'Structural review only'))+'</strong><p>'+(req?'This is a deterministic text-overlap review, not proof of semantic correctness. Treat “likely addressed” as a review cue, then verify the actual meaning and evidence.':'No original requirement was supplied, so requirement coverage cannot be assessed.')+(sig.length?' Signals: '+esc(sig.join(' · ')):'')+'</p>';
   $('ovCoverage').innerHTML=req?'<div class="judge-section-head"><span class="section-kicker">Requirement coverage</span><h3>Requirement → result</h3></div>'+cov.map((x,i)=>'<div class="judge-row"><span>'+String(i+1).padStart(2,'0')+'</span><p>'+esc(x.text)+'</p><strong data-status="'+x.status.toLowerCase().replace(/\s+/g,'-')+'">'+x.status+'</strong></div>').join(''):'';
   $('ovChecks').innerHTML='<div class="judge-section-head"><span class="section-kicker">Human verification</span><h3>Checks that still matter</h3></div>'+sets[type].map((x,i)=>'<label><input type="checkbox"><span><strong>'+String(i+1).padStart(2,'0')+' · '+x[0]+'</strong><small>'+x[1]+'</small></span></label>').join('');
   const cp=corrective(type,req,out,cov,sig); $('ovCorrectionText').textContent=cp; $('ovCorrection').hidden=false;
-  $('outputVerifierResult').hidden=false; $('outputVerifierResult').scrollIntoView({behavior:'smooth',block:'start'});
+  if(req&&!cov.length){
+    $('ovRisk').innerHTML='<strong>More requirement detail needed</strong><p>The request is too short to split into reviewable requirements. Add specific expectations; no coverage conclusion can be drawn.</p>';
+  }
+  if(!cov.length) $('ovCoverage').textContent='Add specific requirements to compare them with the result.';
+  $('outputVerifierResult').hidden=false;
+  $('ovResultHeading').focus({preventScroll:true});
+  $('outputVerifierResult').scrollIntoView({behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
   window.dainTrack?.('output_verifier_run',{type,signals:sig.length,has_source:!!req,requirements:cov.length,gaps});
  });
- $('ovCopyCorrection').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('ovCorrectionText').innerText);$('ovCopyCorrection').textContent='Copied';setTimeout(()=>$('ovCopyCorrection').textContent='Copy corrective prompt',1200);window.dainTrack?.('output_verifier_correction_copy',{type:$('ovType').value});}catch{}});
- $('ovCopy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('ovRisk').innerText+'\n\n'+$('ovCoverage').innerText+'\n\n'+$('ovChecks').innerText);$('ovCopy').textContent='Copied';setTimeout(()=>$('ovCopy').textContent='Copy review',1200);window.dainTrack?.('output_verifier_copy',{type:$('ovType').value});}catch{}});
- $('ovReset').addEventListener('click',()=>{$('outputVerifierForm').reset();$('outputVerifierResult').hidden=true;$('ovCorrection').hidden=true;$('ovOutput').focus();});
+ $('ovCopyCorrection').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('ovCorrectionText').textContent);$('ovCopyCorrection').textContent='Copied';setTimeout(()=>$('ovCopyCorrection').textContent='Copy corrective prompt',1200);window.dainTrack?.('output_verifier_correction_copy',{type:$('ovType').value});}catch{$('ovCopyStatus').textContent='Clipboard unavailable. Expand the prompt preview and copy it manually.'}});
+ $('ovCopy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('ovRisk').innerText+'\n\n'+$('ovCoverage').innerText+'\n\n'+$('ovChecks').innerText);$('ovCopy').textContent='Copied';setTimeout(()=>$('ovCopy').textContent='Copy review',1200);window.dainTrack?.('output_verifier_copy',{type:$('ovType').value});}catch{$('ovCopyStatus').textContent='Clipboard unavailable. Select the review text and copy it manually.'}});
+ $('ovExample').addEventListener('click',()=>{
+   if($('ovSource').value.trim()||$('ovOutput').value.trim()){ if(!window.confirm('Replace your current inputs with an example?')) return; }
+   $('outputVerifierResult').hidden=true;
+   $('ovType').value='writing';
+   $('ovSource').value='Write a project update email. Include the launch date of October 15. List unresolved accessibility issues.';
+   $('ovOutput').value='Subject: Project update\nOur launch date is October 15. The team is preparing for release.';
+   $('ovOutput').focus();
+ });
+ $('ovRevise').addEventListener('click',()=>{
+   $('outputVerifierResult').hidden=true;
+   $('ovOutput').focus(); $('ovOutput').select();
+ });
+ $('ovReset').addEventListener('click',()=>{$('outputVerifierForm').reset();$('outputVerifierResult').hidden=true;$('ovCorrection').hidden=true;$('ovCopyStatus').textContent='';$('ovSource').focus();});
 })();

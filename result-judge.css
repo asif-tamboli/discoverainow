@@ -1,0 +1,19 @@
+.result-judge-page .directory-shell{max-width:1080px}
+.result-judge-page .utility-shell{padding-top:8px}
+.judge-form-heading{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.judge-form-heading h2{font-size:20px;margin:0}
+.judge-inputs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.judge-inputs>div{min-width:0}
+.judge-inputs label small{font-weight:400;color:var(--muted)}
+.result-judge-page textarea{font-size:16px;line-height:1.6}
+.judge-hint{font-size:13px;line-height:1.5;color:var(--muted);margin:8px 0}
+.judge-options,.judge-detail{border-top:1px solid var(--line);padding:16px 0}
+.judge-options summary,.judge-detail summary{cursor:pointer;font-size:14px;font-weight:700;padding:4px 0}
+.judge-options>div{max-width:420px;margin-top:16px}
+.judge-detail .judge-section-head{display:none}
+.result-judge-page .judge-correction{margin:18px 0}
+.result-judge-page .judge-correction>button:first-of-type{background:var(--text);color:var(--bg);font-size:14px;min-height:44px}
+.result-judge-page button{min-height:44px}
+.result-judge-page :is(button,summary,a):focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.result-judge-page .utility-result{scroll-margin-top:80px}
+@media(max-width:650px){.judge-inputs{grid-template-columns:1fr}.judge-form-heading{align-items:flex-start;flex-direction:column}.judge-inputs textarea{min-height:150px}}
